@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.driveExample.Drive;
 
 public class SpinAuto extends SequentialCommandGroup {
   private static final double drivePercent = 0.5;
