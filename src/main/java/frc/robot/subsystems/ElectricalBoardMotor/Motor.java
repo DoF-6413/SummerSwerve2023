@@ -7,6 +7,7 @@ package frc.robot.subsystems.ElectricalBoardMotor;
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElectricalBoardMotorConstants;
 
@@ -27,6 +28,7 @@ public class Motor extends SubsystemBase {
 
   public void spinPercent(double percent){
     io.setVoltage(percent * 12.0);
+    SmartDashboard.putNumber("joystick", percent);
   }
 
   public void stop(){

@@ -9,6 +9,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveWithFlywheelAuto;
 import frc.robot.commands.SpinAuto;
 import frc.robot.subsystems.ElectricalBoardMotor.Motor;
@@ -39,54 +40,53 @@ public class RobotContainer {
   // Subsystems
   // private final Drive drive;
   // private final Flywheel flywheel;
-  private final Motor motor;
+  private final Motor motor = new Motor(new MotorIOSparkMax());
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
-  private final LoggedDashboardNumber flywheelSpeedInput = new LoggedDashboardNumber("Flywheel Speed", 1500.0);
+  // private final LoggedDashboardNumber flywheelSpeedInput = new LoggedDashboardNumber("Flywheel Speed", 1500.0);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    switch (Constants.currentMode) {
-      // Real robot, instantiate hardware IO implementations
-      case REAL:
-      motor = new Motor(new MotorIOSparkMax());
-        // drive = new Drive(new DriveIOSparkMax());
-        // flywheel = new Flywheel(new FlywheelIOSparkMax());
-        // drive = new Drive(new DriveIOFalcon500());
-        // flywheel = new Flywheel(new FlywheelIOFalcon500());
-        break;
+    // switch (Constants.currentMode) {
+    //   // Real robot, instantiate hardware IO implementations
+    //   case REAL:
+    //   motor = new Motor(new MotorIOSparkMax());
+    //     // drive = new Drive(new DriveIOSparkMax());
+    //     // flywheel = new Flywheel(new FlywheelIOSparkMax());
+    //     // drive = new Drive(new DriveIOFalcon500());
+    //     // flywheel = new Flywheel(new FlywheelIOFalcon500());
+    //     break;
 
-      // Sim robot, instantiate physics sim IO implementations
-      case SIM:
-        // drive = new Drive(new DriveIOSim());
-        // flywheel = new Flywheel(new FlywheelIOSim());
-      motor = new Motor(new MotorIO() {});
-        break;
+    //   // Sim robot, instantiate physics sim IO implementations
+    //   case SIM:
+    //     // drive = new Drive(new DriveIOSim());
+    //     // flywheel = new Flywheel(new FlywheelIOSim());
+    //   motor = new Motor(new MotorIO() {});
+    //     break;
 
-      // Replayed robot, disable IO implementations
-      default:
-      motor = new Motor(new MotorIOSparkMax());
-        // drive = new Drive(new DriveIO() {
-        // });
-        // flywheel = new Flywheel(new FlywheelIO() {
-        // });
-        break;
-    }
-    // Set up auto routines
-    autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
-    // autoChooser.addOption("Spin", new SpinAuto(drive));
-    // autoChooser.addOption("Drive With Flywheel", new DriveWithFlywheelAuto(drive, flywheel));
-
-    // Configure the button bindings
+    //   // Replayed robot, disable IO implementations
+    //   default:
+    //     // drive = new Drive(new DriveIO() {
+      //     // });
+      //     // flywheel = new Flywheel(new FlywheelIO() {
+        //     // });
+        //     break;
+        // }
+        // Set up auto routines
+        autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
+        // autoChooser.addOption("Spin", new SpinAuto(drive));
+        // autoChooser.addOption("Drive With Flywheel", new DriveWithFlywheelAuto(drive, flywheel));
+        
+        // Configure the button bindings
     configureButtonBindings();
   }
-
+  
   /**
    * Use this method to define your button->command mappings. Buttons can be
    * created by instantiating a {@link GenericHID} or one of its subclasses
@@ -98,8 +98,9 @@ public class RobotContainer {
     //     new RunCommand(() -> drive.driveArcade(-controller.getLeftY(), controller.getLeftX()), drive));
     // controller.a()
     //     .whileTrue(new StartEndCommand(() -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
+    motor.setDefaultCommand(
+           new RunCommand(()-> motor.spinPercent(-controller.getLeftY()), motor));
 
-    motor.setDefaultCommand(new RunCommand(()-> motor.spinPercent(-controller.getLeftY()), motor));
   }
 
   /**
