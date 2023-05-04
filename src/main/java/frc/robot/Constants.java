@@ -14,7 +14,17 @@ package frc.robot;
  * It is advised to statically import this class (or one of its inner classes)
  * wherever the constants are needed, to reduce verbosity.
  */
-public final class Constants {
+
+/** Lengths are measured in Radians and Meters by Default Unless Stated Otherwise */
+public final class Constants {  
+
+  /** ElectricalB Board Motor Constants (Neo Motor) */
+  public static class ElectricalBoardMotorConstants {
+    public static final int kMotorCANID = 1;
+    public static final double kMotorDiameter = 0.008;
+    public static final double kGearRatio = 1;
+  }
+
   public static final Mode currentMode = Mode.REAL;
 
   public static enum Mode {

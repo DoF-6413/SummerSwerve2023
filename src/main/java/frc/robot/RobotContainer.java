@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveWithFlywheelAuto;
 import frc.robot.commands.SpinAuto;
+import frc.robot.subsystems.ElectricalBoardMotor.Motor;
+import frc.robot.subsystems.ElectricalBoardMotor.MotorIO;
+import frc.robot.subsystems.ElectricalBoardMotor.MotorIOSparkMax;
 import frc.robot.subsystems.driveExample.*;
 import frc.robot.subsystems.driveExample.DriveIO;
 import frc.robot.subsystems.driveExample.DriveIOSim;
@@ -34,8 +37,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
  */
 public class RobotContainer {
   // Subsystems
-  private final Drive drive;
-  private final Flywheel flywheel;
+  // private final Drive drive;
+  // private final Flywheel flywheel;
+  private final Motor motor;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -51,31 +55,33 @@ public class RobotContainer {
     switch (Constants.currentMode) {
       // Real robot, instantiate hardware IO implementations
       case REAL:
-        drive = new Drive(new DriveIOSparkMax());
-        flywheel = new Flywheel(new FlywheelIOSparkMax());
+      motor = new Motor(new MotorIOSparkMax());
+        // drive = new Drive(new DriveIOSparkMax());
+        // flywheel = new Flywheel(new FlywheelIOSparkMax());
         // drive = new Drive(new DriveIOFalcon500());
         // flywheel = new Flywheel(new FlywheelIOFalcon500());
         break;
 
       // Sim robot, instantiate physics sim IO implementations
       case SIM:
-        drive = new Drive(new DriveIOSim());
-        flywheel = new Flywheel(new FlywheelIOSim());
+        // drive = new Drive(new DriveIOSim());
+        // flywheel = new Flywheel(new FlywheelIOSim());
+      motor = new Motor(new MotorIO() {});
         break;
 
       // Replayed robot, disable IO implementations
       default:
-        drive = new Drive(new DriveIO() {
-        });
-        flywheel = new Flywheel(new FlywheelIO() {
-        });
+      motor = new Motor(new MotorIOSparkMax());
+        // drive = new Drive(new DriveIO() {
+        // });
+        // flywheel = new Flywheel(new FlywheelIO() {
+        // });
         break;
     }
-
     // Set up auto routines
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
-    autoChooser.addOption("Spin", new SpinAuto(drive));
-    autoChooser.addOption("Drive With Flywheel", new DriveWithFlywheelAuto(drive, flywheel));
+    // autoChooser.addOption("Spin", new SpinAuto(drive));
+    // autoChooser.addOption("Drive With Flywheel", new DriveWithFlywheelAuto(drive, flywheel));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -88,10 +94,12 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    drive.setDefaultCommand(
-        new RunCommand(() -> drive.driveArcade(-controller.getLeftY(), controller.getLeftX()), drive));
-    controller.a()
-        .whileTrue(new StartEndCommand(() -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
+    // drive.setDefaultCommand(
+    //     new RunCommand(() -> drive.driveArcade(-controller.getLeftY(), controller.getLeftX()), drive));
+    // controller.a()
+    //     .whileTrue(new StartEndCommand(() -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
+
+    motor.setDefaultCommand(new RunCommand(()-> motor.spinPercent(-controller.getLeftY()), motor));
   }
 
   /**

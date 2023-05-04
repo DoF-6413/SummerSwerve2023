@@ -9,15 +9,15 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.util.Units;
+import frc.robot.Constants.ElectricalBoardMotorConstants;
 
 /** Add your docs here. */
 public class MotorIOSparkMax implements MotorIO {
     private final CANSparkMax electricalBoardMotor;
-    private final RelativeEncoder electricalBoardEncoder;
-    private final double gearRatio = 1;
+    private final RelativeEncoder electricalBoardEncoder;  
 
     public MotorIOSparkMax(){
-        electricalBoardMotor = new CANSparkMax(0, MotorType.kBrushless);
+        electricalBoardMotor = new CANSparkMax(ElectricalBoardMotorConstants.kMotorCANID, MotorType.kBrushless);
         electricalBoardEncoder =electricalBoardMotor.getEncoder();
 
         electricalBoardMotor.restoreFactoryDefaults();
@@ -32,8 +32,10 @@ public class MotorIOSparkMax implements MotorIO {
 
         @Override
         public void updateInputs(MotorIOInputs inputs) {
-            inputs.motorPositionRad = Units.rotationsToRadians(electricalBoardEncoder.getPosition()/ gearRatio);
-            inputs.motorVelocityRadPerSec = Units.rotationsToRadians(electricalBoardEncoder.getVelocity()/ gearRatio);
+            inputs.motorPositionRad = Units.rotationsToRadians(electricalBoardEncoder.getPosition()/ ElectricalBoardMotorConstants.kGearRatio);
+            inputs.motorVelocityRadPerSec = Units.rotationsToRadians(electricalBoardEncoder.getVelocity()/ ElectricalBoardMotorConstants.kGearRatio);
+            inputs.motorCurrentAmps = electricalBoardMotor.getOutputCurrent();
+            inputs.motorAppliedVolts = electricalBoardMotor.getAppliedOutput();               
         }
       
         @Override

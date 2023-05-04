@@ -7,6 +7,9 @@ public interface MotorIO {
   public static class MotorIOInputs {
     public double motorPositionRad = 0.0;
     public double motorVelocityRadPerSec = 0.0;
+    
+    public double motorCurrentAmps = 0.0;
+    public double motorAppliedVolts = 0.0;
   }
 
   /** Updates the set of loggable inputs. */
