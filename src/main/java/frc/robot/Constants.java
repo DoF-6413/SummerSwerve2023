@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other
@@ -27,4 +30,14 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
+ // drive constanst
+  public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(3.0);
+ //wheel radius in meters
+  
+  //how many swerve modules we have
+  private double characterizationVolts = 0.0;
+  public static final double loopPeriodSecs = 0.02;
+   //TODO:change to real values
+  
+    
 }
