@@ -55,6 +55,7 @@ public class Drive extends SubsystemBase {
    moduleIO frModuleIO,
    moduleIO blModuleIO,
    moduleIO brModuleIO) {
+    //TODO:fix this
   
     System.out.println("[Init] Creating Drive");
     this.gyroIO = gyroIO;
@@ -77,7 +78,7 @@ public class Drive extends SubsystemBase {
     odometry.update(new Rotation2d(-inputs.gyroYawRad), getLeftPositionMeters(), getRightPositionMeters());
     Logger.getInstance().recordOutput("Odometry", getPose());
   }
-
+//TODO:continue the periodic
   /** Run open loop at the specified percentage. */
   public void drivePercent(double leftPercent, double rightPercent) {
     io.setVoltage(leftPercent * 12.0, rightPercent * 12.0);

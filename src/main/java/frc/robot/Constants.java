@@ -37,7 +37,7 @@ public final class Constants {
   //how many swerve modules we have
   private double characterizationVolts = 0.0;
   public static final double loopPeriodSecs = 0.02;
-   //TODO:change to real values
+   //TODO:Change non real values to real one's(I use "placeholders")
   
     
 }

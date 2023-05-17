@@ -71,6 +71,7 @@ public class RobotContainer {
         });
         break;
     }
+    //TODO:fix this error
 
     // Set up auto routines
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
