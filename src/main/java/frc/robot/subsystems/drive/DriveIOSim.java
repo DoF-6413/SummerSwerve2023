@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotGearing;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotMotor;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim.KitbotWheelSize;
+import frc.robot.Constants;
 
 public class DriveIOSim implements DriveIO {
   private DifferentialDrivetrainSim sim = DifferentialDrivetrainSim.createKitbotSim(KitbotMotor.kDualCIMPerSide,
@@ -13,10 +14,10 @@ public class DriveIOSim implements DriveIO {
   @Override
   public void updateInputs(DriveIOInputs inputs) {
     sim.update(0.02);
-    inputs.leftPositionRad = sim.getLeftPositionMeters() / Drive.WHEEL_RADIUS_METERS;
-    inputs.leftVelocityRadPerSec = sim.getLeftVelocityMetersPerSecond() / Drive.WHEEL_RADIUS_METERS;
-    inputs.rightPositionRad = sim.getRightPositionMeters() / Drive.WHEEL_RADIUS_METERS;
-    inputs.rightVelocityRadPerSec = sim.getRightVelocityMetersPerSecond() / Drive.WHEEL_RADIUS_METERS;
+    inputs.leftPositionRad = sim.getLeftPositionMeters() / Constants.WHEEL_RADIUS_METERS;
+    inputs.leftVelocityRadPerSec = sim.getLeftVelocityMetersPerSecond() / Constants.WHEEL_RADIUS_METERS;
+    inputs.rightPositionRad = sim.getRightPositionMeters() / Constants.WHEEL_RADIUS_METERS;
+    inputs.rightVelocityRadPerSec = sim.getRightVelocityMetersPerSecond() / Constants.WHEEL_RADIUS_METERS;
     inputs.gyroYawRad = sim.getHeading().getRadians() * -1;
   }
 
