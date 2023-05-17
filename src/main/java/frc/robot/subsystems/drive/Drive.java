@@ -4,21 +4,68 @@ import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Twist2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Drive extends SubsystemBase {
-  public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(3.0);
 
   private final DriveIO io;
+  private final GyroIO gyroIO;
   private final DriveIOInputsAutoLogged inputs = new DriveIOInputsAutoLogged();
   private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(new Rotation2d(), 0.0, 0.0);
+  private double MaxAngularSpeed;
+  private SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics();
+  // TODO:write the offsets of the weeels in meters
+  private boolean ischaracterizing = false;
+  // TODO:lern what is characterization
+  private ChassisSpeeds setpoint = new ChassisSpeeds();
+  private static final Module[] modules = new Module[4];
+  
+  private SwerveModuleState[] lastSetpointStates = new SwerveModuleState[] {
+      new SwerveModuleState(),
+      new SwerveModuleState(),
+      new SwerveModuleState(),
+      new SwerveModuleState()
+  };
+  private static final double maxLinearSpeed =(20);
+  //meters  
+  private static final double trackWidthX = (3);
+  //meters
+  private static final double trackWidthY =(3);
+//meters
+  private boolean isBrakemode = false;
+  private Timer lastMovementTimer = new Timer();
+  private double[] lastModulePositionsMeters = new double[] {0.0, 0.0, 0.0, 0.0};
+  private Rotation2d lastGyroYaw = new Rotation2d();
+  private Twist2d fieldVelocity = new Twist2d();
+
+
 
   /** Creates a new Drive. */
-  public Drive(DriveIO io) {
-    this.io = io;
+  public Drive(
+  GyroIO gyroIO,
+   moduleIO flModuleIO,
+   moduleIO frModuleIO,
+   moduleIO blModuleIO,
+   moduleIO brModuleIO) {
+  
+    System.out.println("[Init] Creating Drive");
+    this.gyroIO = gyroIO;
+    modules[0] = new Module(flModuleIO, 0);
+    modules[1] = new Module(frModuleIO, 1);
+    modules[2] = new Module(blModuleIO, 2);
+    modules[3] = new Module(brModuleIO, 3);
+    lastMovementTimer.start();
+    for (var module : modules) {
+      module.setBrakeMode(false);
+    }
   }
 
   @Override
@@ -54,21 +101,21 @@ public class Drive extends SubsystemBase {
 
   /** Returns the position of the left wheels in meters. */
   public double getLeftPositionMeters() {
-    return inputs.leftPositionRad * WHEEL_RADIUS_METERS;
+    return inputs.leftPositionRad * Constants.WHEEL_RADIUS_METERS;
   }
 
   /** Returns the position of the right wheels in meters. */
   public double getRightPositionMeters() {
-    return inputs.rightPositionRad * WHEEL_RADIUS_METERS;
+    return inputs.rightPositionRad * Constants.WHEEL_RADIUS_METERS;
   }
 
   /** Returns the velocity of the left wheels in meters/second. */
   public double getLeftVelocityMeters() {
-    return inputs.leftVelocityRadPerSec * WHEEL_RADIUS_METERS;
+    return inputs.leftVelocityRadPerSec * Constants.WHEEL_RADIUS_METERS;
   }
 
   /** Returns the velocity of the right wheels in meters/second. */
   public double getRightVelocityMeters() {
-    return inputs.rightVelocityRadPerSec * WHEEL_RADIUS_METERS;
+    return inputs.rightVelocityRadPerSec * Constants.WHEEL_RADIUS_METERS;
   }
 }
