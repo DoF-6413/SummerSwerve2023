@@ -22,7 +22,7 @@ public interface moduleIO {
 
 
   /** Updates the set of loggable inputs. */
-  public default void updateInputs(moduleIO inputs) {
+  public default void updateInputs(ModuleIOInputsAutoLogged inputs) {
   }
 
   /** Run open loop at the specified voltage. */

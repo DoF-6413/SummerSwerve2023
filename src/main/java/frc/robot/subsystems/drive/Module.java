@@ -15,7 +15,7 @@ import org.littletonrobotics.junction.Logger;
 public class Module {
  private final moduleIO io;
  
- private final moduleIO inputs;
+  private final ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
  private final int index;
 
  private static final double wheelRadius = 1.75;
@@ -30,7 +30,7 @@ public class Module {
       new PIDController(0.0, 0.0, 0.0, Constants.loopPeriodSecs);
   //TODO;change to the real values
 
-  final Module(moduleIO io, int index) {
+  Module(moduleIO io, int index) {
     System.out.println("[Init] Creating Module " + Integer.toString(index));
     this.io = io;
     this.index = index;
@@ -38,11 +38,36 @@ public class Module {
     turnFeedback.enableContinuousInput(-Math.PI, Math.PI);
   }
   public void periodic(){
+  io.updateInputs(inputs);
+  }
+
+  public SwerveModuleState runSetpoint(SwerveModuleState state) {
+    // Optimize state based on current angle
+    var optimizedState = SwerveModuleState.optimize(state,getAngle());
+
+    // Run turn controller
+    io.setTurnVoltage(
+        turnFeedback.calculate(getAngle().getRadians(), optimizedState.angle.getRadians()));
+
+    // Update velocity based on turn error
+    optimizedState.speedMetersPerSecond *= Math.cos(turnFeedback.getPositionError());
+
+    // Run drive controller
+    double velocityRadPerSec = optimizedState.speedMetersPerSecond / Constants.WHEEL_RADIUS_METERS;
+    io.setDriveVoltage(
+        driveFeedforward.calculate(velocityRadPerSec)
+            + driveFeedback.calculate(inputs.driveVelocityRadPerSec, velocityRadPerSec));
+
+    return optimizedState;
   }
     /** Sets whether brake mode is enabled. */
     public void setBrakeMode(boolean enabled) {
       io.setDriveBrakeMode(enabled);
       io.setTurnBrakeMode(enabled);
+    }
+
+    public Rotation2d getAngle() {
+      return new Rotation2d(MathUtil.angleModulus(inputs.turnAbsolutePositionRad));
     }
   //TODO:continue this
    

@@ -17,7 +17,7 @@ import frc.robot.Constants;
 public class Drive extends SubsystemBase {
 
   private final DriveIO io;
-  private final GyroIO gyroIO;
+  private final GyroIO m_gyroIO;
   private final DriveIOInputsAutoLogged inputs = new DriveIOInputsAutoLogged();
   private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(new Rotation2d(), 0.0, 0.0);
   private double MaxAngularSpeed;
@@ -49,16 +49,13 @@ public class Drive extends SubsystemBase {
 
 
   /** Creates a new Drive. */
-  public Drive(
-  GyroIO gyroIO,
-   moduleIO flModuleIO,
-   moduleIO frModuleIO,
-   moduleIO blModuleIO,
-   moduleIO brModuleIO) {
+  public Drive(GyroIO gyroIO,moduleIO flModuleIO,moduleIO frModuleIO,moduleIO blModuleIO,moduleIO brModuleIO) {
     //TODO:fix this
+
+m_gyroIO = gyroIO;
   
     System.out.println("[Init] Creating Drive");
-    this.gyroIO = gyroIO;
+ 
     modules[0] = new Module(flModuleIO, 0);
     modules[1] = new Module(frModuleIO, 1);
     modules[2] = new Module(blModuleIO, 2);
@@ -68,6 +65,8 @@ public class Drive extends SubsystemBase {
       module.setBrakeMode(false);
     }
   }
+
+  
 
   @Override
   public void periodic() {
