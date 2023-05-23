@@ -13,13 +13,18 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.drive.GyroIO.GyroIOInputs;
+
 
 public class Drive extends SubsystemBase {
 
-  private final DriveIO io;
+  private final moduleIO iofl;
+  private final moduleIO iofr;
+  private final moduleIO iobl;
+  private final moduleIO iobr;
   private final GyroIO m_gyroIO;
-  private final DriveIOInputsAutoLogged inputs = new DriveIOInputsAutoLogged();
-  private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(new Rotation2d(), 0.0, 0.0);
+  private final GyroIOInputs gyroIOInputs = new GyroIOInputs();
+  private final ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();;
   private double MaxAngularSpeed;
   private SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics();
   // TODO:write the offsets of the weeels in meters
@@ -53,6 +58,11 @@ public class Drive extends SubsystemBase {
     //TODO:fix this
 
 m_gyroIO = gyroIO;
+
+iofl = flModuleIO;
+iofr = frModuleIO;
+iobr = brModuleIO;
+iobl = blModuleIO; 
   
     System.out.println("[Init] Creating Drive");
  
@@ -70,52 +80,51 @@ m_gyroIO = gyroIO;
 
   @Override
   public void periodic() {
-    io.updateInputs(inputs);
+
+    m_gyroIO.updateInputs(gyroIOInputs);
+    Logger.getInstance().processInputs("Drive/Gyro", gyroIOInputs);
+    for (var module : modules) {
+      module.periodic();
+    }
+    iobl.updateInputs(inputs);
+    iobr.updateInputs(inputs);
+    iofl.updateInputs(inputs);
+    iofr.updateInputs(inputs);
     Logger.getInstance().processInputs("Drive", inputs);
 
     // Update odometry and log the new pose
-    odometry.update(new Rotation2d(-inputs.gyroYawRad), getLeftPositionMeters(), getRightPositionMeters());
+    odometry.update(new Rotation2d(-Math.toDegrees(gyroIOInputs.yawPositionRad)), getLeftPositionMeters(), getRightPositionMeters());
     Logger.getInstance().recordOutput("Odometry", getPose());
   }
 //TODO:continue the periodic
   /** Run open loop at the specified percentage. */
   public void drivePercent(double leftPercent, double rightPercent) {
-    io.setVoltage(leftPercent * 12.0, rightPercent * 12.0);
+  //io(leftPercent * 12.0, rightPercent * 12.0);
   }
 
   /** Run open loop based on stick positions. */
   public void driveArcade(double xSpeed, double zRotation) {
     var speeds = DifferentialDrive.arcadeDriveIK(xSpeed, zRotation, true);
-    io.setVoltage(speeds.left * 12.0, speeds.right * 12.0);
+    //io.setVoltage(speeds.left * 12.0, speeds.right * 12.0);
   }
 
   /** Stops the drive. */
   public void stop() {
-    io.setVoltage(0.0, 0.0);
+    iobl.setDriveVoltage(0);
+    iobr.setDriveVoltage(0);
+    iofl.setDriveVoltage(0);
+    iofr.setDriveVoltage(0);
   }
 
   /** Returns the current odometry pose in meters. */
   public Pose2d getPose() {
     return odometry.getPoseMeters();
   }
+  public double getLeftPositionMeters() {
+
+
+  }
 
   /** Returns the position of the left wheels in meters. */
-  public double getLeftPositionMeters() {
-    return inputs.leftPositionRad * Constants.WHEEL_RADIUS_METERS;
-  }
-
-  /** Returns the position of the right wheels in meters. */
-  public double getRightPositionMeters() {
-    return inputs.rightPositionRad * Constants.WHEEL_RADIUS_METERS;
-  }
-
-  /** Returns the velocity of the left wheels in meters/second. */
-  public double getLeftVelocityMeters() {
-    return inputs.leftVelocityRadPerSec * Constants.WHEEL_RADIUS_METERS;
-  }
-
-  /** Returns the velocity of the right wheels in meters/second. */
-  public double getRightVelocityMeters() {
-    return inputs.rightVelocityRadPerSec * Constants.WHEEL_RADIUS_METERS;
-  }
+  
 }
