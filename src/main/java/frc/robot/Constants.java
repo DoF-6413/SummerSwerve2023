@@ -78,6 +78,22 @@ public final class Constants {
 
     public static final int CANConfigTimeout = 500;
     public static final double loopPeriodSecs = 0.02;
+
+    // Under this to switch to coast when disabling 
+    public static final double coastThresholdMetersPerSec = 0.05;
+    // Under this speed for this length of time to switch to coast
+    public static final double coastThresholdSec = 6.0; 
+    // Threshold to detect falls
+    public static final double ledsFallenAngleDegrees = 60.0;
+
+    public static final double maxLinearSpeed = 0;
+    public static final double trackWidthX = 0;
+    public static final double trackWidthY = 0; 
+
+    private static final boolean isBrakemode = false;
+
+    public static boolean ischaracterizing = false;
+
   }
   // drive constanst
   // wheel radius in meters
