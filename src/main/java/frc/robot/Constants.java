@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.CAN;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -30,14 +31,59 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
- // drive constanst
-  public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(3.0);
- //wheel radius in meters
-  
-  //how many swerve modules we have
+
+  public static class DrivetrainConstants {
+
+    public enum DriveMotor {
+      frontLeft(0), // TODO:update value
+      frontRight(1), // TODO:update value
+      backLeft(2), // TODO:update value
+      backRight(3); // TODO:update value
+
+      public final int CAN_ID;
+
+      DriveMotor(int value) {
+        CAN_ID = value;
+      }
+
+    }
+
+    public enum TurnMotor {
+      frontLeft(4), // TODO:update value
+      frontRight(5), // TODO:update value
+      backLeft(6), // TODO:update value
+      backRight(7); // TODO:update value
+
+      public final int CAN_ID;
+
+      TurnMotor(int value) {
+        CAN_ID = value;
+      }
+    }
+
+    // Wheel Facts
+    public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(3.0);
+
+    // PID Tuning for Drive Motors on Swerve Drive
+    public static final double driveKp = 0.0;
+    public static final double driveKd = 0.0;
+    public static final double driveKs = 0.2;
+    public static final double driveKv = 0.2;
+
+    // PID Tuning for Turn Motors on Swerve Drive
+    public static final double turnKp = 0.0;
+    public static final double turnKd = 0.0;
+    public static final double turnKs = 0.2;
+    public static final double turnKv = 0.2;
+
+    public static final int CANConfigTimeout = 500;
+    public static final double loopPeriodSecs = 0.02;
+  }
+  // drive constanst
+  // wheel radius in meters
+
+  // how many swerve modules we have
   private double characterizationVolts = 0.0;
-  public static final double loopPeriodSecs = 0.02;
-   //TODO:Change non real values to real one's(I use "placeholders")
-  
-    
+  // TODO:Change non real values to real one's(I use "placeholders")
+
 }

@@ -13,7 +13,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.drive.GyroIO.GyroIOInputs;
+import frc.robot.subsystems.gyro.GyroIO;
+import frc.robot.subsystems.gyro.GyroIO.GyroIOInputs;
 
 
 public class Drive extends SubsystemBase {
