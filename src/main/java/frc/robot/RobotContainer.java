@@ -12,10 +12,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveWithFlywheelAuto;
 import frc.robot.commands.SpinAuto;
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.drive.ModuleIOSparkMax;
 import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOSim;
 import frc.robot.subsystems.flywheel.FlywheelIOSparkMax;
+import frc.robot.subsystems.gyro.Gyro;
+import frc.robot.subsystems.gyro.GyroIONavX;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -33,6 +36,7 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final Flywheel flywheel;
+  private final Gyro gyro;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -48,7 +52,8 @@ public class RobotContainer {
     switch (Constants.currentMode) {
       // Real robot, instantiate hardware IO implementations
       case REAL:
-        drive = new Drive(new DriveIOSparkMax());
+        gyro = new Gyro(new GyroIONavX());
+        drive = new Drive(new ModuleIOSparkMax(0), new ModuleIOSparkMax(1), new ModuleIOSparkMax(2), new ModuleIOSparkMax(3), gyro);
         flywheel = new Flywheel(new FlywheelIOSparkMax());
         // drive = new Drive(new DriveIOFalcon500());
         // flywheel = new Flywheel(new FlywheelIOFalcon500());
@@ -56,14 +61,16 @@ public class RobotContainer {
 
       // Sim robot, instantiate physics sim IO implementations
       case SIM:
-        drive = new Drive(new DriveIOSim());
+        // drive = new Drive(new DriveIOSim());
+        gyro = new Gyro(new GyroIONavX());
+        drive = new Drive(new ModuleIOSparkMax(0), new ModuleIOSparkMax(1), new ModuleIOSparkMax(2), new ModuleIOSparkMax(3), gyro);
         flywheel = new Flywheel(new FlywheelIOSim());
         break;
 
       // Replayed robot, disable IO implementations
       default:
-        drive = new Drive(new DriveIO() {
-        });
+        gyro = new Gyro(new GyroIONavX());
+        drive = new Drive(new ModuleIOSparkMax(0), new ModuleIOSparkMax(1), new ModuleIOSparkMax(2), new ModuleIOSparkMax(3), gyro);
         flywheel = new Flywheel(new FlywheelIO() {
         });
         break;
@@ -72,8 +79,8 @@ public class RobotContainer {
 
     // Set up auto routines
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
-    autoChooser.addOption("Spin", new SpinAuto(drive));
-    autoChooser.addOption("Drive With Flywheel", new DriveWithFlywheelAuto(drive, flywheel));
+    // autoChooser.addOption("Spin", new SpinAuto(drive));
+    // autoChooser.addOption("Drive With Flywheel", new DriveWithFlywheelAuto(drive, flywheel));
 
     // Configure the button bindings
     configureButtonBindings();
