@@ -36,7 +36,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
-  private final Flywheel flywheel;
+  // private final Flywheel flywheel;
   private final Gyro gyro;
 
   // Controller
@@ -55,7 +55,7 @@ public class RobotContainer {
       case REAL:
         gyro = new Gyro(new GyroIONavX());
         drive = new Drive(new ModuleIOSparkMax(0), new ModuleIOSparkMax(1), new ModuleIOSparkMax(2), new ModuleIOSparkMax(3), gyro);
-        flywheel = new Flywheel(new FlywheelIOSparkMax());
+        // flywheel = new Flywheel(new FlywheelIOSparkMax());
         // drive = new Drive(new DriveIOFalcon500());
         // flywheel = new Flywheel(new FlywheelIOFalcon500());
         break;
@@ -65,15 +65,15 @@ public class RobotContainer {
         // drive = new Drive(new DriveIOSim());
         gyro = new Gyro(new GyroIONavX());
         drive = new Drive(new ModuleIOSim(), new ModuleIOSim(), new ModuleIOSim(), new ModuleIOSim(), gyro);
-        flywheel = new Flywheel(new FlywheelIOSim());
+        // flywheel = new Flywheel(new FlywheelIOSim());
         break;
 
       // Replayed robot, disable IO implementations
       default:
         gyro = new Gyro(new GyroIONavX());
         drive = new Drive(new ModuleIOSparkMax(0), new ModuleIOSparkMax(1), new ModuleIOSparkMax(2), new ModuleIOSparkMax(3), gyro);
-        flywheel = new Flywheel(new FlywheelIO() {
-        });
+        // flywheel = new Flywheel(new FlywheelIO() {
+        // });
         break;
     }
     //TODO:fix this error
@@ -96,8 +96,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     drive.setDefaultCommand(
         new RunCommand(() -> drive.driveArcade(-controller.getLeftY(), controller.getLeftX()), drive));
-    controller.a()
-        .whileTrue(new StartEndCommand(() -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
+    // controller.a()
+    //     .whileTrue(new StartEndCommand(() -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
   }
 
   /**
