@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotController;
+import frc.robot.Constants;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.DrivetrainConstants.DriveMotor;
 import frc.robot.Constants.DrivetrainConstants.TurnMotor;
@@ -70,8 +71,8 @@ public class ModuleIOSparkMax implements moduleIO {
     driveSparkMax.burnFlash();
     turnSparkMax.burnFlash();
 
-    driveSparkMax.setCANTimeout(DrivetrainConstants.CANConfigTimeout);
-    turnSparkMax.setCANTimeout(DrivetrainConstants.CANConfigTimeout);
+    driveSparkMax.setCANTimeout(Constants.CANConfigTimeout);
+    turnSparkMax.setCANTimeout(Constants.CANConfigTimeout);
 
     driveEncoder = driveSparkMax.getEncoder();
     turnRelativeEncoder = turnSparkMax.getEncoder();

@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.CAN;
+import edu.wpi.first.wpilibj.RobotBase;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -19,8 +20,6 @@ import edu.wpi.first.wpilibj.CAN;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static final Mode currentMode = Mode.REAL;
-
   public static enum Mode {
     /** Running on a real robot. */
     REAL,
@@ -32,6 +31,24 @@ public final class Constants {
     REPLAY
   }
 
+  public static Mode getMode(){
+    if(RobotBase.isReal()){
+      return Mode.REAL;
+    } else if(RobotBase.isSimulation()){
+      return Mode.SIM;
+    } else {
+      return Mode.REPLAY;
+    }
+  }
+  
+  public static final int CANConfigTimeout = 500;
+  public static final double loopPeriodSecs = 0.02;
+
+  public static class OperatorConstants {
+    public static final int DriveController = 0;
+  }
+
+  // TODO:Change non real values to real one's(I use "placeholders")
   public static class DrivetrainConstants {
 
     public enum DriveMotor {
@@ -76,8 +93,6 @@ public final class Constants {
     public static final double turnKs = 0.2;
     public static final double turnKv = 0.2;
 
-    public static final int CANConfigTimeout = 500;
-    public static final double loopPeriodSecs = 0.02;
 
     // Under this to switch to coast when disabling 
     public static final double coastThresholdMetersPerSec = 0.05;
@@ -100,6 +115,5 @@ public final class Constants {
 
   // how many swerve modules we have
   private double characterizationVolts = 0.0;
-  // TODO:Change non real values to real one's(I use "placeholders")
 
 }

@@ -9,8 +9,8 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardNumber;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.DriveWithFlywheelAuto;
-import frc.robot.commands.SpinAuto;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
@@ -40,7 +40,7 @@ public class RobotContainer {
   private final Gyro gyro;
 
   // Controller
-  private final CommandXboxController controller = new CommandXboxController(0);
+  private final CommandXboxController controller = new CommandXboxController(OperatorConstants.DriveController);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
@@ -50,9 +50,10 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    switch (Constants.currentMode) {
+    switch (Constants.getMode()) {
       // Real robot, instantiate hardware IO implementations
       case REAL:
+      System.out.println("Robot Current Mode; REAL");
         gyro = new Gyro(new GyroIONavX());
         drive = new Drive(new ModuleIOSparkMax(0), new ModuleIOSparkMax(1), new ModuleIOSparkMax(2), new ModuleIOSparkMax(3), gyro);
         // flywheel = new Flywheel(new FlywheelIOSparkMax());
@@ -62,6 +63,7 @@ public class RobotContainer {
 
       // Sim robot, instantiate physics sim IO implementations
       case SIM:
+      System.out.println("Robot Current Mode; SIM");
         // drive = new Drive(new DriveIOSim());
         gyro = new Gyro(new GyroIONavX());
         drive = new Drive(new ModuleIOSim(), new ModuleIOSim(), new ModuleIOSim(), new ModuleIOSim(), gyro);
@@ -70,10 +72,10 @@ public class RobotContainer {
 
       // Replayed robot, disable IO implementations
       default:
+      System.out.println("Robot Current Mode; default");
         gyro = new Gyro(new GyroIONavX());
-        drive = new Drive(new ModuleIOSparkMax(0), new ModuleIOSparkMax(1), new ModuleIOSparkMax(2), new ModuleIOSparkMax(3), gyro);
-        // flywheel = new Flywheel(new FlywheelIO() {
-        // });
+        drive = new Drive(new ModuleIOSparkMax(0), new ModuleIOSparkMax(1), new ModuleIOSparkMax(2), new ModuleIOSparkMax(3), gyro); //TODO: Make Like line bellow
+        // flywheel = new Flywheel(new FlywheelIO() {});
         break;
     }
     //TODO:fix this error
@@ -95,7 +97,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     drive.setDefaultCommand(
-        new RunCommand(() -> drive.driveArcade(-controller.getLeftY(), controller.getLeftX()), drive));
+        new DefaultDriveCommand(drive, gyro, null, null, null));
     // controller.a()
     //     .whileTrue(new StartEndCommand(() -> flywheel.runVelocity(flywheelSpeedInput.get()), flywheel::stop, flywheel));
   }

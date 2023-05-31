@@ -19,8 +19,8 @@ public class Module {
   private final int index;
 
   private SimpleMotorFeedforward driveFeedforward = new SimpleMotorFeedforward(0.0, 0.0);
-  private final PIDController driveFeedback = new PIDController(0.0, 0.0, 0.0, DrivetrainConstants.loopPeriodSecs);
-  private final PIDController turnFeedback = new PIDController(0.0, 0.0, 0.0, DrivetrainConstants.loopPeriodSecs);
+  private final PIDController driveFeedback = new PIDController(0.0, 0.0, 0.0, Constants.loopPeriodSecs);
+  private final PIDController turnFeedback = new PIDController(0.0, 0.0, 0.0, Constants.loopPeriodSecs);
   // TODO;change to the real values
 
   Module(moduleIO io, int index) {
