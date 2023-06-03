@@ -12,6 +12,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** Add your docs here. */
 public interface VisionIO {
@@ -28,6 +29,8 @@ public interface VisionIO {
         public double targetYaw = 0.0;
         public double targetPitch = 0.0;
         public double targetArea = 0.0;
+
+    
     }
 
     public default void updateInputs(VisionIOInputsAutoLogged inputs){

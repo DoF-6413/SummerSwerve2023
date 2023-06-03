@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -17,16 +18,19 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.subsystems.gyro.Gyro;
 import frc.robot.subsystems.gyro.GyroIO;
 import frc.robot.subsystems.gyro.GyroIO.GyroIOInputs;
+import frc.robot.subsystems.vision.VisionIOSim;
 
 public class Drive extends SubsystemBase {
 
   private final ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
+  private final VisionIOSim visionIOSim = new VisionIOSim();
   private static final Module[] modules = new Module[4];
   private final Gyro gyro;
 
@@ -62,7 +66,9 @@ public class Drive extends SubsystemBase {
     lastMovementTimer.start();
     for (var module : modules) {
       module.setBrakeMode(false);
+      
     }
+    
   }
 
   @Override
@@ -124,7 +130,6 @@ public class Drive extends SubsystemBase {
       measuredStates[i] = modules[i].getState();
     }
     Logger.getInstance().recordOutput("SwerveStates/Measured", measuredStates);
-
     // Update odometry
     SwerveModulePosition[] wheelDeltas = new SwerveModulePosition[4];
     for (int i = 0; i < 4; i++) {
@@ -156,6 +161,7 @@ public class Drive extends SubsystemBase {
             gyro.isConnected()
                 ? gyro.getYawVelocity()
                 : chassisSpeeds.omegaRadiansPerSecond);
+    
   }
 
   // TODO:continue the periodic
