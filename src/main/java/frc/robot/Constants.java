@@ -7,7 +7,9 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.CAN;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -39,6 +41,10 @@ public final class Constants {
     } else {
       return Mode.REPLAY;
     }
+  }
+
+  public static Alliance getAlliance() {
+    return DriverStation.getAlliance();
   }
   
   public static final int CANConfigTimeout = 500;
@@ -79,7 +85,7 @@ public final class Constants {
     }
 
     // Wheel Facts
-    public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(3.0);
+    public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.5);
 
     // PID Tuning for Drive Motors on Swerve Drive
     public static final double driveKp = 0.0;

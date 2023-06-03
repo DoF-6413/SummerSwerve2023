@@ -209,4 +209,13 @@ public class Drive extends SubsystemBase {
     };
   }
 
+  public SwerveModulePosition[] getSwerveModulePositions() {
+    return new SwerveModulePosition[] {
+      modules[0].getPosition(),
+      modules[1].getPosition(),
+      modules[2].getPosition(),
+      modules[3].getPosition()
+    };
+  }
+
 }
