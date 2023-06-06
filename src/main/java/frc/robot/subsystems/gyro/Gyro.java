@@ -37,6 +37,10 @@ public class Gyro extends SubsystemBase {
         return new Rotation2d(gyroInputs.yawPositionRad);
     }
 
+    public void setYaw(double radians){
+        gyroInputs.yawPositionRad = radians;
+    }
+
     /** Returns the current yaw velocity (Z rotation) in radians per second. */
     public double getYawVelocity() {
         return gyroInputs.yawVelocityRadPerSec;

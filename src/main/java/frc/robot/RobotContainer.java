@@ -15,6 +15,7 @@ import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
 import frc.robot.subsystems.gyro.Gyro;
 import frc.robot.subsystems.gyro.GyroIONavX;
+import frc.robot.subsystems.gyro.GyroIOSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -54,7 +55,7 @@ public class RobotContainer {
       case SIM:
       System.out.println("Robot Current Mode; SIM");
         // drive = new Drive(new DriveIOSim());
-        gyro = new Gyro(new GyroIONavX());
+        gyro = new Gyro(new GyroIOSim());
         drive = new Drive(new ModuleIOSim(), new ModuleIOSim(), new ModuleIOSim(), new ModuleIOSim(), gyro);
         // flywheel = new Flywheel(new FlywheelIOSim());
         break;

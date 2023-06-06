@@ -27,6 +27,7 @@ public class GyroIONavX implements GyroIO {
     inputs.rollPositionRad = Units.degreesToRadians(gyro.getRoll());
     inputs.pitchPositionRad = Units.degreesToRadians(gyro.getPitch()) ;
     inputs.yawPositionRad = Units.degreesToRadians(gyro.getYaw());
+    inputs.rate = gyro.getRate();
     inputs.pitchVelocityRadPerSec = gyro.getDisplacementY();
     inputs.yawVelocityRadPerSec = gyro.getDisplacementZ();
     inputs.rollVelocityRadPerSec = gyro.getDisplacementX();
