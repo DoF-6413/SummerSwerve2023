@@ -4,7 +4,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -119,6 +122,13 @@ public final class Constants {
   // drive constanst
   // wheel radius in meters
 
+  public static class VisionConstants {
+    //TODO: Update Transform to Correct Values and Make Universal for Multiple Cameras
+    public static final Transform3d cameraOnRobot = new Transform3d( 
+      new Translation3d(0.06, 0.18,-1.1176),
+      new Rotation3d(0,0,2.95));
+      
+  }
   // how many swerve modules we have
   private double characterizationVolts = 0.0;
 

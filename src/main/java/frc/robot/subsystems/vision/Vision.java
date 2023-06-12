@@ -5,6 +5,7 @@
 package frc.robot.subsystems.vision;
 
 import org.littletonrobotics.junction.Logger;
+import org.photonvision.targeting.PhotonPipelineResult;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -21,6 +22,10 @@ public class Vision extends SubsystemBase{
     public void periodic() { 
         visionIO.updateInputs(inputs);
         Logger.getInstance().processInputs("Vision", inputs);
+    }
+
+    public PhotonPipelineResult getResults(){
+        return inputs.photonPipelineResult;
     }
 
 

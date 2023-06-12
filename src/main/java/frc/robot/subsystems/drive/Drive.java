@@ -35,7 +35,9 @@ public class Drive extends SubsystemBase {
   private final Gyro gyro;
 
   private double maxAngularSpeed;
-  private SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(getModuleTranslations());
+
+  //TODO: Ensure this is where we want to store and access SwerveDriveKinematics
+  public SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(getModuleTranslations());
 
   private ChassisSpeeds setpoint = new ChassisSpeeds();
   private SwerveModuleState[] lastSetpointStates = new SwerveModuleState[] {

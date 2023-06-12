@@ -12,6 +12,7 @@ import edu.wpi.first.math.util.Units;
 
 /** Add your docs here. */
 public class GyroIOSim implements GyroIO{
+    //TODO: Is the gyro sim working how a gyro sim should work (reference https://github.com/DoF-6413/chargedUp/blob/103-actualize-aux-controller/chargedUp/src/main/java/frc/robot/SimulationDevices/NavXWrapper.java)
     private SimDevice simGyro;
     private SimDouble simAngle = null;
     private SimDouble simRate = null;

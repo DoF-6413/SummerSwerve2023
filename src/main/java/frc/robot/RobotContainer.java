@@ -8,17 +8,25 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
 import frc.robot.subsystems.gyro.Gyro;
+import frc.robot.subsystems.gyro.GyroIO;
 import frc.robot.subsystems.gyro.GyroIONavX;
 import frc.robot.subsystems.gyro.GyroIOSim;
+import frc.robot.subsystems.pose.Pose;
+import frc.robot.subsystems.vision.Vision;
+import frc.robot.subsystems.vision.VisionIO;
+import frc.robot.subsystems.vision.VisionIOArduCam;
+import frc.robot.subsystems.vision.VisionIOSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.subsystems.drive.moduleIO;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -32,6 +40,8 @@ public class RobotContainer {
   private final Drive drive;
   // private final Flywheel flywheel;
   private final Gyro gyro;
+  private final Vision vision;
+  private final Pose pose;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(OperatorConstants.DriveController);
@@ -49,6 +59,8 @@ public class RobotContainer {
       System.out.println("Robot Current Mode; REAL");
         gyro = new Gyro(new GyroIONavX());
         drive = new Drive(new ModuleIOSparkMax(0), new ModuleIOSparkMax(1), new ModuleIOSparkMax(2), new ModuleIOSparkMax(3), gyro);
+        vision = new Vision(new VisionIOArduCam());
+        pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
         break;
 
       // Sim robot, instantiate physics sim IO implementations
@@ -57,15 +69,20 @@ public class RobotContainer {
         // drive = new Drive(new DriveIOSim());
         gyro = new Gyro(new GyroIOSim());
         drive = new Drive(new ModuleIOSim(), new ModuleIOSim(), new ModuleIOSim(), new ModuleIOSim(), gyro);
+        vision = new Vision(new VisionIOSim());
+        pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
+
         // flywheel = new Flywheel(new FlywheelIOSim());
         break;
 
       // Replayed robot, disable IO implementations
       default:
       System.out.println("Robot Current Mode; default");
-        gyro = new Gyro(new GyroIONavX());
-        drive = new Drive(new ModuleIOSparkMax(0), new ModuleIOSparkMax(1), new ModuleIOSparkMax(2), new ModuleIOSparkMax(3), gyro); //TODO: Make Like line bellow
-        // flywheel = new Flywheel(new FlywheelIO() {});
+      // flywheel = new Flywheel(new FlywheelIO() {});
+        gyro = new Gyro(new GyroIO(){});
+        drive = new Drive(new moduleIO() {}, new moduleIO() {}, new moduleIO() {}, new moduleIO() {}, gyro);
+        vision = new Vision(new VisionIO() {});
+        pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
         break;
     }
 
