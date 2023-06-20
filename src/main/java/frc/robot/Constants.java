@@ -61,10 +61,10 @@ public final class Constants {
   public static class DrivetrainConstants {
 
     public enum DriveMotor {
-      frontLeft(0), // TODO:update value
-      frontRight(1), // TODO:update value
-      backLeft(2), // TODO:update value
-      backRight(3); // TODO:update value
+      frontLeft(10),
+      frontRight(13), 
+      backLeft(7), 
+      backRight(4); 
 
       public final int CAN_ID;
 
@@ -75,10 +75,10 @@ public final class Constants {
     }
 
     public enum TurnMotor {
-      frontLeft(4), // TODO:update value
-      frontRight(5), // TODO:update value
-      backLeft(6), // TODO:update value
-      backRight(7); // TODO:update value
+      frontLeft(9), 
+      frontRight(12), 
+      backLeft(6), 
+      backRight(3); 
 
       public final int CAN_ID;
 
@@ -104,15 +104,15 @@ public final class Constants {
 
 
     // Under this to switch to coast when disabling 
-    public static final double coastThresholdMetersPerSec = 0.05;
+    public static final double coastThresholdMetersPerSec = 0.05; 
     // Under this speed for this length of time to switch to coast
     public static final double coastThresholdSec = 6.0; 
     // Threshold to detect falls
     public static final double ledsFallenAngleDegrees = 60.0;
 
-    public static final double maxLinearSpeed = 0;
-    public static final double trackWidthX = 0;
-    public static final double trackWidthY = 0; 
+    public static final double maxLinearSpeed = 4.5; //meters/sec 
+    public static final double trackWidthX = 21.5; //21 from center of wheel to center of other wheel but 22 from encoder to encoder 
+    public static final double trackWidthY = 21.5; //21 from center of wheel to center of other wheel but 22 from encoder to encoder
 
     private static final boolean isBrakemode = false;
 

@@ -101,7 +101,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     drive.setDefaultCommand(
-        new DefaultDriveCommand(drive, gyro, null, null, null));
+        new DefaultDriveCommand(drive, gyro, ()-> controller.getLeftX(), ()-> controller.getLeftY(), ()-> controller.getRightX()));
   }
 
   /**
