@@ -97,8 +97,8 @@ public final class Constants {
     public static final double driveKv = 0.2;
 
     // PID Tuning for Turn Motors on Swerve Drive
-    public static final double turnKp = 0.0;
-    public static final double turnKd = 0.0;
+    public static final double turnKp = 1.0;
+    public static final double turnKd = 0.1;
     public static final double turnKs = 0.2;
     public static final double turnKv = 0.2;
 

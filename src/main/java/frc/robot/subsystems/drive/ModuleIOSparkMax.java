@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems.drive;
 
+import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -28,13 +30,13 @@ public class ModuleIOSparkMax implements moduleIO {
 
   private final RelativeEncoder driveEncoder;
   private final RelativeEncoder turnRelativeEncoder;
-  private final AnalogInput turnAbsoluteEncoder;
+  private final CANCoder turnAbsoluteEncoder;
 
   private final double driveAfterEncoderReduction = (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0);
   private final double turnAfterEncoderReduction = 150.0 / 7.0;
 
   private final boolean isTurnMotorInverted = true;
-  private final Rotation2d absoluteEncoderOffset;
+  private final double absoluteEncoderOffset;
 
   public ModuleIOSparkMax(int index) {
     System.out.println("[Init] Creating ModuleIOSparkMax " + Integer.toString(index));
@@ -43,26 +45,26 @@ public class ModuleIOSparkMax implements moduleIO {
       case 0:
         driveSparkMax = new CANSparkMax(DriveMotor.frontLeft.CAN_ID, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(TurnMotor.frontLeft.CAN_ID, MotorType.kBrushless);
-        turnAbsoluteEncoder = new AnalogInput(0);
-        absoluteEncoderOffset = new Rotation2d(-0.036);
+        turnAbsoluteEncoder = new CANCoder(0);//TODO: UPDATE CAN IDS
+        absoluteEncoderOffset = -0.036;
         break;
       case 1:
         driveSparkMax = new CANSparkMax(DriveMotor.frontRight.CAN_ID, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(TurnMotor.frontRight.CAN_ID, MotorType.kBrushless);
-        turnAbsoluteEncoder = new AnalogInput(1);
-        absoluteEncoderOffset = new Rotation2d(1.0185);
+        turnAbsoluteEncoder = new CANCoder(1);//TODO: UPDATE CAN IDS
+        absoluteEncoderOffset = 1.0185;
         break;
       case 2:
         driveSparkMax = new CANSparkMax(DriveMotor.backLeft.CAN_ID, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(TurnMotor.backLeft.CAN_ID, MotorType.kBrushless);
-        turnAbsoluteEncoder = new AnalogInput(2);
-        absoluteEncoderOffset = new Rotation2d(1.0705);
+        turnAbsoluteEncoder = new CANCoder(2);//TODO: UPDATE CAN IDS
+        absoluteEncoderOffset = 1.0705;
         break;
       case 3:
         driveSparkMax = new CANSparkMax(DriveMotor.backRight.CAN_ID, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(TurnMotor.backRight.CAN_ID, MotorType.kBrushless);
-        turnAbsoluteEncoder = new AnalogInput(3);
-        absoluteEncoderOffset = new Rotation2d(0.7465);
+        turnAbsoluteEncoder = new CANCoder(3);//TODO: UPDATE CAN IDS
+        absoluteEncoderOffset = 0.7465;
         break;
       default:
         throw new RuntimeException("Invalid module index for ModuleIOSparkMax");
@@ -118,11 +120,8 @@ public class ModuleIOSparkMax implements moduleIO {
 
     inputs.turnAbsolutePositionRad = MathUtil.angleModulus(
         new Rotation2d(
-            turnAbsoluteEncoder.getVoltage()
-                / RobotController.getVoltage5V()
-                * 2.0
-                * Math.PI)
-            .minus(absoluteEncoderOffset)
+            turnAbsoluteEncoder.getAbsolutePosition()
+            - absoluteEncoderOffset)
             .getRadians());
     inputs.turnPositionRad = 
         Units.rotationsToRadians(turnRelativeEncoder.getPosition())
