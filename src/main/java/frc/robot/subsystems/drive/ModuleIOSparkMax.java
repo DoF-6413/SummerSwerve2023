@@ -19,6 +19,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.DrivetrainConstants.DriveMotor;
@@ -37,10 +38,10 @@ public class ModuleIOSparkMax implements moduleIO {
 
   private final boolean isTurnMotorInverted = true;
   private final double absoluteEncoderOffset;
-
+  private final int nancy;
   public ModuleIOSparkMax(int index) {
     System.out.println("[Init] Creating ModuleIOSparkMax " + Integer.toString(index));
-
+      this.nancy = index;
     switch (index) {
       case 0:
         driveSparkMax = new CANSparkMax(DriveMotor.frontLeft.CAN_ID, MotorType.kBrushless);
@@ -109,6 +110,7 @@ public class ModuleIOSparkMax implements moduleIO {
   }
 
   public void updateInputs(ModuleIOInputs inputs) {
+    
     inputs.drivePositionRad = 
         Units.rotationsToRadians(driveEncoder.getPosition()) / driveAfterEncoderReduction;
     inputs.driveVelocityRadPerSec =
@@ -123,6 +125,8 @@ public class ModuleIOSparkMax implements moduleIO {
             turnAbsoluteEncoder.getAbsolutePosition()
             - absoluteEncoderOffset)
             .getRadians());
+            SmartDashboard.putNumber("absolute encoder" + nancy, turnAbsoluteEncoder.getAbsolutePosition());
+            SmartDashboard.putNumber("absolute encoder" + nancy, turnAbsoluteEncoder.getAbsolutePosition() + absoluteEncoderOffset);
     inputs.turnPositionRad = 
         Units.rotationsToRadians(turnRelativeEncoder.getPosition())
             / turnAfterEncoderReduction;

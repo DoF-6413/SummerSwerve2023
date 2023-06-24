@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.subsystems.drive.moduleIO;
@@ -33,6 +34,8 @@ public class Module {
 
   public void periodic() {
     io.updateInputs(inputs);
+    System.out.println("hiiiiiiiii");
+    SmartDashboard.putString("HI", "HIII");
     driveFeedback.setPID((DrivetrainConstants.driveKp), (0.0), (DrivetrainConstants.driveKd));
     turnFeedback.setPID((DrivetrainConstants.turnKp), (0.0), (DrivetrainConstants.turnKd));
     driveFeedforward = new SimpleMotorFeedforward(DrivetrainConstants.driveKs, DrivetrainConstants.driveKv);
