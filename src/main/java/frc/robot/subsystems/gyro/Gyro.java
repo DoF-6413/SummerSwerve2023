@@ -34,7 +34,7 @@ public class Gyro extends SubsystemBase {
     }
 
     public Rotation2d getYaw() {
-        System.out.println(Math.toDegrees(gyroInputs.yawPositionRad));
+        // System.out.println(Math.toDegrees(gyroInputs.yawPositionRad));
         return new Rotation2d(gyroInputs.yawPositionRad);
     }
 

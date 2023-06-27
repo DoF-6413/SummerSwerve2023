@@ -76,9 +76,14 @@ public class Drive extends SubsystemBase {
   @Override
   public void periodic() {
 
-    for (var module : modules) {
-      module.periodic();
+    // for (var module : modules) {
+    //   module.periodic();
+    // }
+
+    for(int i = 0; i < 4; i++){
+      modules[i].periodic();
     }
+    
 
     Logger.getInstance().processInputs("Drive", inputs);
     swerveKinematics = new SwerveDriveKinematics(getModuleTranslations());

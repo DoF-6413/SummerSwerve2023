@@ -85,7 +85,7 @@ public class RobotContainer {
         pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
         break;
     }
-// hello wizards 🧙
+
     // Set up auto routines
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
 
@@ -101,7 +101,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     drive.setDefaultCommand(
-        new DefaultDriveCommand(drive, gyro, ()-> controller.getLeftX(), ()-> controller.getLeftY(), ()-> controller.getRightX()));
+        new DefaultDriveCommand(drive, gyro,()->controller.getLeftX(), ()->controller.getLeftY(), ()->controller.getRightX()));
   }
 
   /**

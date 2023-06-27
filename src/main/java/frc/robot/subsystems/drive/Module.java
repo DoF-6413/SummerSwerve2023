@@ -34,8 +34,6 @@ public class Module {
 
   public void periodic() {
     io.updateInputs(inputs);
-    System.out.println("hiiiiiiiii");
-    SmartDashboard.putString("HI", "HIII");
     driveFeedback.setPID((DrivetrainConstants.driveKp), (0.0), (DrivetrainConstants.driveKd));
     turnFeedback.setPID((DrivetrainConstants.turnKp), (0.0), (DrivetrainConstants.turnKd));
     driveFeedforward = new SimpleMotorFeedforward(DrivetrainConstants.driveKs, DrivetrainConstants.driveKv);

@@ -23,6 +23,7 @@ public interface moduleIO {
 
   /** Updates the set of loggable inputs. */
   public default void updateInputs(ModuleIOInputsAutoLogged inputs) {
+    // System.out.println("Printing from ModuleIO");
   }
 
   /** Run open loop at the specified voltage. */
