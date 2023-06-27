@@ -111,7 +111,6 @@ public class ModuleIOSparkMax implements moduleIO {
 
   @Override
   public void updateInputs(ModuleIOInputsAutoLogged inputs) {
-    System.out.println("CALLING UPDATE INPUTS IRL");
     inputs.drivePositionRad = 
         Units.rotationsToRadians(driveEncoder.getPosition()) / driveAfterEncoderReduction;
     inputs.driveVelocityRadPerSec =
@@ -123,11 +122,12 @@ public class ModuleIOSparkMax implements moduleIO {
 
     inputs.turnAbsolutePositionRad = MathUtil.angleModulus(
         new Rotation2d(
-            turnAbsoluteEncoder.getAbsolutePosition()
-            - absoluteEncoderOffset)
+            Math.toRadians(turnAbsoluteEncoder.getAbsolutePosition()
+            - absoluteEncoderOffset))
             .getRadians());
-            SmartDashboard.putNumber("absolute encoder" + nancy, turnAbsoluteEncoder.getAbsolutePosition());
-            SmartDashboard.putNumber("absolute encoder with offset" + nancy, turnAbsoluteEncoder.getAbsolutePosition() + absoluteEncoderOffset);
+
+            SmartDashboard.putNumber("absolute encoder" + nancy, Math.toRadians(turnAbsoluteEncoder.getAbsolutePosition()));
+            SmartDashboard.putNumber("absolute encoder with offset" + nancy, Math.toRadians(turnAbsoluteEncoder.getAbsolutePosition() + absoluteEncoderOffset));
     inputs.turnPositionRad = 
         Units.rotationsToRadians(turnRelativeEncoder.getPosition())
             / turnAfterEncoderReduction;
