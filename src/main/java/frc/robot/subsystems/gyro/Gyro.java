@@ -7,6 +7,7 @@ package frc.robot.subsystems.gyro;
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /** Add your docs here. */
@@ -20,6 +21,8 @@ public class Gyro extends SubsystemBase {
 
     public void periodic() {
         gyroIO.updateInputs(gyroInputs);
+        SmartDashboard.putNumber("gyroyaw" ,gyroInputs.yawPositionRad);
+        SmartDashboard.putNumber("gyropitch", gyroInputs.pitchPositionRad);
         Logger.getInstance().processInputs("Gyro", gyroInputs);
     }
 
@@ -34,7 +37,6 @@ public class Gyro extends SubsystemBase {
     }
 
     public Rotation2d getYaw() {
-        // System.out.println(Math.toDegrees(gyroInputs.yawPositionRad));
         return new Rotation2d(gyroInputs.yawPositionRad);
     }
 
