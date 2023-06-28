@@ -16,17 +16,19 @@ public class GyroIONavX implements GyroIO {
 
     public GyroIONavX() {
         gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
+        gyro.setAngleAdjustment(90);
         gyro.calibrate();
         gyro.zeroYaw();
         gyro.reset();
         gyro.resetDisplacement();
+        // gyro.
     }
 
     public void updateInputs(GyroIOInputs inputs) {
     inputs.connected = gyro.isConnected();
     inputs.rollPositionRad = Units.degreesToRadians(gyro.getRoll());
     inputs.pitchPositionRad = Units.degreesToRadians(gyro.getPitch()) ;
-    inputs.yawPositionRad = Units.degreesToRadians(gyro.getYaw());
+    inputs.yawPositionRad = Units.degreesToRadians(gyro.getAngle());
     inputs.rate = gyro.getRate();
     inputs.pitchVelocityRadPerSec = gyro.getDisplacementY();
     inputs.yawVelocityRadPerSec = gyro.getDisplacementZ();
