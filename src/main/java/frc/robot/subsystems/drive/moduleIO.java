@@ -3,8 +3,8 @@ package frc.robot.subsystems.drive;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface moduleIO {
+  
   @AutoLog
-
   public static class ModuleIOInputs {
     public double drivePositionRad = 0.0;
     public double driveVelocityRadPerSec = 0.0;
@@ -22,7 +22,7 @@ public interface moduleIO {
 
 
   /** Updates the set of loggable inputs. */
-  public default void updateInputs(ModuleIOInputsAutoLogged inputs) {
+  public default void updateInputs(ModuleIOInputs inputs) {
     // System.out.println("Printing from ModuleIO");
   }
 

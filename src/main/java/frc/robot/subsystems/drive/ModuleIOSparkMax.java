@@ -110,7 +110,7 @@ public class ModuleIOSparkMax implements moduleIO {
   }
 
   @Override
-  public void updateInputs(ModuleIOInputsAutoLogged inputs) {
+  public void updateInputs(ModuleIOInputs inputs) {
     inputs.drivePositionRad = 
         Units.rotationsToRadians(driveEncoder.getPosition()) / driveAfterEncoderReduction;
     inputs.driveVelocityRadPerSec =

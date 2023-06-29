@@ -85,7 +85,7 @@ public class Drive extends SubsystemBase {
     }
     
 
-    Logger.getInstance().processInputs("Drive", inputs);
+    // Logger.getInstance().processInputs("Drive", inputs);
     swerveKinematics = new SwerveDriveKinematics(getModuleTranslations());
     maxAngularSpeed = DrivetrainConstants.maxLinearSpeed
         / Arrays.stream(getModuleTranslations())

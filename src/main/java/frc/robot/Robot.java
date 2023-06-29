@@ -7,8 +7,11 @@ package frc.robot;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.Mode;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -51,10 +54,11 @@ public class Robot extends LoggedRobot {
       }
       
     //   //TODO: Set up data receivers & replay source 
-    //   if (isReal()) {
-    //     logger.addDataReceiver(new WPILOGWriter("/media/sda1/")); // Log to a USB stick
-    //   logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
-    // } else {
+      if (isReal()) {
+        logger.addDataReceiver(new WPILOGWriter("/media/sda1/")); // Log to a USB stick
+      logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
+    } 
+    // else {
     //   setUseTiming(false); // Run as fast as possible
     //   String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the user)
     //   logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
@@ -65,7 +69,9 @@ public class Robot extends LoggedRobot {
     // Logger.getInstance().disableDeterministicTimestamps()
 
     // Start AdvantageKit logger
+    setUseTiming(Constants.getMode() == Mode.REAL);
     logger.start();
+    
 
     // Initialize auto chooser
     chooser.addDefaultOption("Default Auto", defaultAuto);

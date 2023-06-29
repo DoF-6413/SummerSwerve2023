@@ -22,6 +22,8 @@ public class ModuleIOSim implements moduleIO {
   public ModuleIOSim() {
     System.out.println("[Init] Creating ModuleIOSim");
   }
+
+  @Override
   public void updateInputs(ModuleIOInputs inputs) {
     driveSim.update(Constants.loopPeriodSecs);
     turnSim.update(Constants.loopPeriodSecs);
