@@ -54,7 +54,7 @@ public class Robot extends LoggedRobot {
       }
       
     //   //TODO: Set up data receivers & replay source 
-      if (isReal()) {
+      if (isReal()||isSimulation()) {
         logger.addDataReceiver(new WPILOGWriter("/media/sda1/")); // Log to a USB stick
       logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
     } 
@@ -69,7 +69,7 @@ public class Robot extends LoggedRobot {
     // Logger.getInstance().disableDeterministicTimestamps()
 
     // Start AdvantageKit logger
-    setUseTiming(Constants.getMode() == Mode.REAL);
+    setUseTiming(Constants.getMode() == Mode.REAL|| Constants.getMode() == Mode.SIM);
     logger.start();
     
 

@@ -8,6 +8,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.Constants;
 import frc.robot.Constants.DrivetrainConstants;
+import frc.robot.Constants.DrivetrainConstants.TurnMotor;
 
 /** Add your docs here. */
 public class ModuleIOSim implements moduleIO {
@@ -52,6 +53,18 @@ public class ModuleIOSim implements moduleIO {
     inputs.turnAppliedVolts = turnAppliedVolts;
     inputs.turnCurrentAmps = new double[] {Math.abs(turnSim.getCurrentDrawAmps())};
     inputs.turnTempCelcius = new double[] {};
+  }
+
+  public void setDriveVoltage(double volts) {
+    driveSim.setInput(volts);
+  }
+
+  public void setTurnVoltage(double volts) {
+    turnSim.setInput(volts);
+  }
+
+  public double getAbsolutePosition(){
+return Math.toDegrees(turnAbsolutePositionRad);
   }
 
 }
