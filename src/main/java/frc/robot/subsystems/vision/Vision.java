@@ -7,6 +7,7 @@ package frc.robot.subsystems.vision;
 import org.littletonrobotics.junction.Logger;
 import org.photonvision.targeting.PhotonPipelineResult;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /** Add your docs here. */
@@ -20,6 +21,8 @@ public class Vision extends SubsystemBase{
     }
 
     public void periodic() { 
+        // SmartDashboard.putBoolean("get x ", inputs.photonPipelineResult.hasTargets());
+        SmartDashboard.putNumber("get x ", inputs.targetX);
         visionIO.updateInputs(inputs);
         Logger.getInstance().processInputs("Vision", inputs);
     }

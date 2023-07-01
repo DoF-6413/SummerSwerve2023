@@ -9,11 +9,11 @@ import org.photonvision.PhotonCamera;
 //https://github.dev/DoF-6413/chargedUp/blob/103-actualize-aux-controller/chargedUp/src/main/java/frc/robot/subsystems/VisionSubsystem.java
 /** Add your docs here. */
 public class VisionIOArduCam implements VisionIO{
-    private static PhotonCamera camera = new PhotonCamera("FrontCamera");
+    private static PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
 
     public VisionIOArduCam(){
     }
-
+    
     public void updateInputs(VisionIOInputs inputs){
         inputs.photonPipelineResult = camera.getLatestResult();
         inputs.hasTargets = inputs.photonPipelineResult.hasTargets();
