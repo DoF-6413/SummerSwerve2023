@@ -5,6 +5,7 @@
 package frc.robot.subsystems.vision;
 
 import org.littletonrobotics.junction.Logger;
+import org.photonvision.SimVisionSystem;
 import org.photonvision.targeting.PhotonPipelineResult;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,6 +27,10 @@ public class Vision extends SubsystemBase{
 
     public PhotonPipelineResult getResults(){
         return inputs.photonPipelineResult;
+    }
+
+    public SimVisionSystem getSimVision(){
+        return inputs.simVision;
     }
 
 

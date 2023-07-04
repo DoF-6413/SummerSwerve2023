@@ -82,7 +82,6 @@ public class Pose extends SubsystemBase {
         //TODO: Make ALL Smartdashboard -> "logged" value
         field2d.setRobotPose(getCurrentPose2d());
         poseEstimator.updateWithTime(Timer.getFPGATimestamp(),  new Rotation2d(getRotation().getRadians() + drive.getTwist().dtheta), drive.getSwerveModulePositions());
-        System.out.println(drive.getTwist().dtheta);
         photonPipelineResult = vision.getResults();
         resultsTimestamp = photonPipelineResult.getTimestampSeconds();
 
@@ -117,6 +116,10 @@ public class Pose extends SubsystemBase {
                     e.printStackTrace();
                 }
             }
+        }
+
+        if(Constants.getMode() == Mode.SIM && vision.getSimVision() != null){
+            vision.getSimVision().processFrame(getCurrentPose2d());
         }
     
     //     Translation2d linearFieldVelocity =

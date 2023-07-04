@@ -7,6 +7,7 @@ package frc.robot.subsystems.vision;
 import org.littletonrobotics.junction.AutoLog;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
+import org.photonvision.SimVisionSystem;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -29,6 +30,7 @@ public interface VisionIO {
         public double targetYaw = 0.0;
         public double targetPitch = 0.0;
         public double targetArea = 0.0;
+        public SimVisionSystem simVision = null;
 
     
     }
