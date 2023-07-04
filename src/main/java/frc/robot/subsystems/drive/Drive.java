@@ -33,8 +33,10 @@ public class Drive extends SubsystemBase {
   private final VisionIOSim visionIOSim = new VisionIOSim();
   private static final Module[] modules = new Module[4];
   private final Gyro gyro;
+  private Twist2d twist;
 
   private double maxAngularSpeed;
+  private ChassisSpeeds velChassisSpeed;
 
   //TODO: Ensure this is where we want to store and access SwerveDriveKinematics
   public SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(getModuleTranslations());
@@ -53,7 +55,6 @@ public class Drive extends SubsystemBase {
   // PoseEstimator(VecBuilder.fill(0.003, 0.003, 0.002));
   private double[] lastModulePositionsMeters = new double[] { 0.0, 0.0, 0.0, 0.0 };
   private Rotation2d lastGyroYaw = new Rotation2d();
-  private Twist2d fieldVelocity = new Twist2d();
 
   /** Creates a new Drive. */
   public Drive(moduleIO flModuleIO, moduleIO frModuleIO, moduleIO blModuleIO, moduleIO brModuleIO, Gyro gyro) {
@@ -147,7 +148,7 @@ public class Drive extends SubsystemBase {
       lastModulePositionsMeters[i] = modules[i].getPositionMeters();
     }
 
-    var twist = swerveKinematics.toTwist2d(wheelDeltas);
+    twist = swerveKinematics.toTwist2d(wheelDeltas);
     var gyroYaw = new Rotation2d(gyro.getYaw().getRadians());
     if (gyro.isConnected()) {
       twist = new Twist2d(twist.dx, twist.dy, gyroYaw.minus(lastGyroYaw).getRadians());
@@ -156,22 +157,28 @@ public class Drive extends SubsystemBase {
     // poseEstimator.addDriveData(Timer.getFPGATimestamp(), twist);
     // Logger.getInstance().recordOutput("Odometry/Robot", getPose());
 
-    // Update field velocity
-    ChassisSpeeds chassisSpeeds = swerveKinematics.toChassisSpeeds(measuredStates);
-    Translation2d linearFieldVelocity =
-        new Translation2d(chassisSpeeds.vxMetersPerSecond, chassisSpeeds.vyMetersPerSecond)
-            .rotateBy(gyro.getYaw());  // TODO: change this to pose estimator get rotation 
-    fieldVelocity =
-        new Twist2d(
-            linearFieldVelocity.getX(),
-            linearFieldVelocity.getY(),
-            gyro.isConnected()
-                ? gyro.getYawVelocity()
-                : chassisSpeeds.omegaRadiansPerSecond);
-    
+    // // Update field velocity
+    // ChassisSpeeds chassisSpeeds = swerveKinematics.toChassisSpeeds(measuredStates);
+
+    // velChassisSpeed = chassisSpeeds;    
   }
 
+  // public double getvxMetersPerSec(){
+  //   return velChassisSpeed.vxMetersPerSecond;
+  // }
+
+  // public double getvyMetersPerSec(){
+  //   return velChassisSpeed.vyMetersPerSecond;
+  // }
+
+  // public double getOmegaRadPerSec(){
+  //   return velChassisSpeed.omegaRadiansPerSecond;
+  // }
   // TODO:continue the periodic
+
+  public Twist2d getTwist(){
+    return twist;
+  }
 
   public void runVelocity(ChassisSpeeds speeds) {
     DrivetrainConstants.ischaracterizing = false;
@@ -200,10 +207,6 @@ public class Drive extends SubsystemBase {
   // returns max angular speed in radians per second
   public double getMaxAngularSpeedRadPerSec() {
     return maxAngularSpeed;
-  }
-
-  public Twist2d getFieldVelocity() {
-    return fieldVelocity;
   }
 
   /** Returns an array of module translations. */

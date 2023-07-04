@@ -16,7 +16,10 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
@@ -78,11 +81,8 @@ public class Pose extends SubsystemBase {
         //TODO: Split into different functions/ put into respective subsysems (leave neccessary things here)
         //TODO: Make ALL Smartdashboard -> "logged" value
         field2d.setRobotPose(getCurrentPose2d());
-        poseEstimator.updateWithTime(Timer.getFPGATimestamp(), gyro.getYaw(), drive.getSwerveModulePositions());
-
-        poseEstimator.updateWithTime(Timer.getFPGATimestamp(),
-                gyro.getYaw(), drive.getSwerveModulePositions());
-
+        poseEstimator.updateWithTime(Timer.getFPGATimestamp(),  new Rotation2d(getRotation().getRadians() + drive.getTwist().dtheta), drive.getSwerveModulePositions());
+        System.out.println(drive.getTwist().dtheta);
         photonPipelineResult = vision.getResults();
         resultsTimestamp = photonPipelineResult.getTimestampSeconds();
 
@@ -118,6 +118,21 @@ public class Pose extends SubsystemBase {
                 }
             }
         }
+    
+    //     Translation2d linearFieldVelocity =
+    //     new Translation2d(drive.getvxMetersPerSec(), drive.getvyMetersPerSec())
+    //         .rotateBy(getRotation());  // TODO: change this to pose estimator get rotation 
+    
+    // Twist2d fieldVelocity =
+    //     new Twist2d(
+    //         linearFieldVelocity.getX(),
+    //         linearFieldVelocity.getY(),
+    //         gyro.isConnected()
+    //             ? gyro.getYawVelocity()
+    //             : drive.getOmegaRadPerSec());
+
+
+                
     }
 
     public Pose2d getCurrentPose2d() {
@@ -132,5 +147,9 @@ public class Pose extends SubsystemBase {
         if (Constants.getMode() == Mode.SIM) {
             field2d.setRobotPose(poseEstimator.getEstimatedPosition());
         }
+    }
+
+    public Rotation2d getRotation(){
+        return poseEstimator.getEstimatedPosition().getRotation();
     }
 }

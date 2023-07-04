@@ -67,7 +67,7 @@ public class RobotContainer {
       case SIM:
       System.out.println("Robot Current Mode; SIM");
         // drive = new Drive(new DriveIOSim());
-        gyro = new Gyro(new GyroIOSim());
+        gyro = new Gyro(new GyroIO() {});
         drive = new Drive(new ModuleIOSim(), new ModuleIOSim(), new ModuleIOSim(), new ModuleIOSim(), gyro);
         vision = new Vision(new VisionIOSim());
         pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
