@@ -113,7 +113,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //return autoChooser.get();
-    return new AutoDriver(drive, gyro, pose, Trajectories.test);
+    // return autoChooser.get();
+    return new AutoDriver(drive, gyro, pose, Trajectories.test, false);
   }
 }
