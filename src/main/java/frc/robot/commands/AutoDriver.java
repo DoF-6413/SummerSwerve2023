@@ -25,16 +25,22 @@ import frc.robot.subsystems.pose.Pose;
 public class AutoDriver extends CommandBase {
   private final Drive drivetrainSubsystem;
   private final Gyro gyroSubsystem;
-  List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("FullAuto", new PathConstraints(4, 3));
+  private final PathPlannerTrajectory pathGroup;
+  private final SwerveAutoBuilder autoBuilder;
+  
   /** Creates a new AutoDriver. */
   public AutoDriver(Drive drive, 
-  Gyro gyro, Pose pose, Trajectory trajectory) {
+  Gyro gyro, Pose pose, PathPlannerTrajectory trajectory) {
+    //Everything here 
     HashMap<String, Command> eventMap = new HashMap<>();
     eventMap.put("marker1", new PrintCommand("Passed marker 1"));
-
+    //To here should be passed in as an argument to autoDriver
+    drivetrainSubsystem = drive;
+    gyroSubsystem = gyro;
+    pathGroup = trajectory;
     // Use addRequirements() here to declare subsystem dependencies.
     // Create the AutoBuilder. This only needs to be created once when robot code starts, not every time you want to create an auto command. A good place to put this is in RobotContainer along with your subsystems.
-    SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
+     autoBuilder = new SwerveAutoBuilder(
         pose::getCurrentPose2d, // Pose2d supplier
         pose::resetPose, // Pose2d consumer, used to reset odometry at the beginning of auto
         drive.swerveKinematics, // SwerveDriveKinematics
@@ -45,16 +51,20 @@ public class AutoDriver extends CommandBase {
         true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
         drive // The drive subsystem. Used to properly set the requirements of path following commands
     );
+    
   }
-
+  
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
-
+  
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
-
+  public void execute() {
+    //Takes autoBuilder in the class and runs with the pathGroup
+    autoBuilder.fullAuto(pathGroup);
+  }
+  
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}
@@ -65,6 +75,3 @@ public class AutoDriver extends CommandBase {
     return false;
   }
 }
-
-
-Command fullAuto = autoBuilder.fullAuto(pathGroup);

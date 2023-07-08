@@ -229,7 +229,7 @@ public class Drive extends SubsystemBase {
   public void useModuleStates(SwerveModuleState[] states){
     //Declare a var where you coerce states to chasis speed type
     //Pass into run velocity
-
-  }
+    swerveKinematics.toChassisSpeeds(states);
+    }
 
 }

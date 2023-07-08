@@ -16,6 +16,7 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.numbers.N3;
@@ -68,7 +69,7 @@ public class Pose extends SubsystemBase {
         this.vision = vision;
 
         poseEstimator = new SwerveDrivePoseEstimator(kinematics, gyro.getYaw(), this.drive.getSwerveModulePositions(),
-                new Pose2d());
+                new Pose2d(5,5,new Rotation2d()));
 
     }
 

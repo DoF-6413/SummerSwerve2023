@@ -6,6 +6,8 @@ package frc.robot;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.DrivetrainConstants;
@@ -27,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.drive.moduleIO;
+import frc.robot.commands.AutoDriver;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -110,6 +113,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return autoChooser.get();
+    //return autoChooser.get();
+    return new AutoDriver(drive, gyro, pose, Trajectories.test);
   }
 }
