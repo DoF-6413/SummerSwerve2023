@@ -9,10 +9,12 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.QuickAuto;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
@@ -114,6 +116,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // return autoChooser.get();
-    return new AutoDriver(drive, gyro, pose, Trajectories.test, false);
+    return new QuickAuto(drive, gyro, new Timer(), 10);
   }
 }
