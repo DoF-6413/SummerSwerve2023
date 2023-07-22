@@ -18,12 +18,11 @@ public class QuickAuto extends CommandBase {
   double m_time;
 
   /** Creates a new QuickAuto. */
-  public QuickAuto(Drive drive, Gyro gyro,Timer timer, double time) {
+  public QuickAuto(Drive drive, Gyro gyro, double time) {
     // Use addRequirements() here to declare subsystem dependencies.
     drivetrainSubsystem = drive;
     gyroSubsystem = gyro;
-    m_timer = timer;
-    
+    m_time = time;
 
   }
 
@@ -32,18 +31,22 @@ public class QuickAuto extends CommandBase {
   public void initialize() {
     m_timer = new Timer();
     m_timer.start();
+    gyroSubsystem.updateHeading();
+    new DefaultDriveCommand(drivetrainSubsystem, gyroSubsystem, ()->0.5, ()-> 0, ()-> 0).schedule();
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    new DefaultDriveCommand(drivetrainSubsystem, gyroSubsystem, ()->0.5, ()-> 0, ()-> 0).schedule();
+    System.out.println("running");
+    // new DefaultDriveCommand(drivetrainSubsystem, gyroSubsystem, ()->0.5, ()-> 0, ()-> 0).schedule();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("end running");
     new DefaultDriveCommand(drivetrainSubsystem, gyroSubsystem, ()-> 0, ()-> 0, ()-> 0).schedule();
   }
 

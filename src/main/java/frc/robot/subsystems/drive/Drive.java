@@ -68,7 +68,7 @@ public class Drive extends SubsystemBase {
     modules[3] = new Module(brModuleIO, 3);
     lastMovementTimer.start();
     for (var module : modules) {
-      module.setBrakeMode(false);
+      module.setBrakeMode(true);
       
     }
     

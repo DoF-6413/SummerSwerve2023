@@ -62,4 +62,8 @@ public class Gyro extends SubsystemBase {
     public boolean isConnected() {
         return gyroInputs.connected;
     }
+
+    public void updateHeading() {
+        gyroIO.updateHeading();
+    }
 }
