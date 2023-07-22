@@ -8,9 +8,11 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.pathplanner.lib.PathPlannerTrajectory;
 
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DefaultDriveCommand;
@@ -32,6 +34,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.drive.moduleIO;
 import frc.robot.commands.AutoDriver;
+import frc.robot.Trajectories;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -53,21 +56,22 @@ public class RobotContainer {
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
-
+  
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
+  public SendableChooser<Command> m_Chooser = new SendableChooser<>();
   public RobotContainer() {
     switch (Constants.getMode()) {
       // Real robot, instantiate hardware IO implementations
       case REAL:
       System.out.println("Robot Current Mode; REAL");
-        gyro = new Gyro(new GyroIONavX());
-        drive = new Drive(new ModuleIOSparkMax(0), new ModuleIOSparkMax(1), new ModuleIOSparkMax(2), new ModuleIOSparkMax(3), gyro);
-        vision = new Vision(new VisionIOArduCam());
-        pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
-        break;
-
+      gyro = new Gyro(new GyroIONavX());
+      drive = new Drive(new ModuleIOSparkMax(0), new ModuleIOSparkMax(1), new ModuleIOSparkMax(2), new ModuleIOSparkMax(3), gyro);
+      vision = new Vision(new VisionIOArduCam());
+      pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
+      break;
+      
       // Sim robot, instantiate physics sim IO implementations
       case SIM:
       System.out.println("Robot Current Mode; SIM");
@@ -79,21 +83,24 @@ public class RobotContainer {
 
         // flywheel = new Flywheel(new FlywheelIOSim());
         break;
-
-      // Replayed robot, disable IO implementations
-      default:
-      System.out.println("Robot Current Mode; default");
-      // flywheel = new Flywheel(new FlywheelIO() {});
+        
+        // Replayed robot, disable IO implementations
+        default:
+        System.out.println("Robot Current Mode; default");
+        // flywheel = new Flywheel(new FlywheelIO() {});
         gyro = new Gyro(new GyroIO(){});
         drive = new Drive(new moduleIO() {}, new moduleIO() {}, new moduleIO() {}, new moduleIO() {}, gyro);
         vision = new Vision(new VisionIO() {});
         pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
         break;
-    }
-
-    // Set up auto routines
-    autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
-
+        
+        m_Chooser.addOption("FullAuto", new AutoDriver(drive, 
+        gyro, pose, Trajectories.test, true));
+      }
+      
+      // Set up auto routines
+      autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
+      
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -106,18 +113,20 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     drive.setDefaultCommand(
-        new DefaultDriveCommand(drive, gyro,()->-controller.getLeftY(), ()->-controller.getLeftX(), ()->-controller.getRightX()));
+      new DefaultDriveCommand(drive, gyro,()->-controller.getLeftY(), ()->-controller.getLeftX(), ()->-controller.getRightX()));
 
-     controller.a().onTrue(new InstantCommand(()-> gyro.updateHeading(), gyro));
-  }
-
+      controller.a().onTrue(new InstantCommand(()-> gyro.updateHeading(), gyro));
+    }
+    
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // return autoChooser.get();
-    return new QuickAuto(drive, gyro, 4);
+     return autoChooser.get();
+    // return new QuickAuto(drive, gyro, 4);
+    
+    
   }
 }

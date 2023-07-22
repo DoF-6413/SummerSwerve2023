@@ -47,25 +47,25 @@ public class ModuleIOSparkMax implements moduleIO {
         driveSparkMax = new CANSparkMax(DriveMotor.frontLeft.CAN_ID, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(TurnMotor.frontLeft.CAN_ID, MotorType.kBrushless);
         turnAbsoluteEncoder = new CANCoder(8);//TODO: UPDATE CAN IDS
-        absoluteEncoderOffset = -267.6269 + 180;
+        absoluteEncoderOffset = -269.3459;
         break;
       case 1:
         driveSparkMax = new CANSparkMax(DriveMotor.frontRight.CAN_ID, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(TurnMotor.frontRight.CAN_ID, MotorType.kBrushless);
         turnAbsoluteEncoder = new CANCoder(11);//TODO: UPDATE CAN IDS
-        absoluteEncoderOffset = -269.7363 + 180;
+        absoluteEncoderOffset = -269.7363;
         break;
       case 2:
         driveSparkMax = new CANSparkMax(DriveMotor.backLeft.CAN_ID, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(TurnMotor.backLeft.CAN_ID, MotorType.kBrushless);
         turnAbsoluteEncoder = new CANCoder(5);//TODO: UPDATE CAN IDS
-        absoluteEncoderOffset = -356.0449;
+        absoluteEncoderOffset = 0.3199;
         break;
       case 3:
         driveSparkMax = new CANSparkMax(DriveMotor.backRight.CAN_ID, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(TurnMotor.backRight.CAN_ID, MotorType.kBrushless);
         turnAbsoluteEncoder = new CANCoder(2);//TODO: UPDATE CAN IDS
-        absoluteEncoderOffset = -177.6269;
+        absoluteEncoderOffset = -224.2829;
         break;
       default:
         throw new RuntimeException("Invalid module index for ModuleIOSparkMax");
