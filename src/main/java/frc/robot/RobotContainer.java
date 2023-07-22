@@ -118,6 +118,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // return autoChooser.get();
-    return new QuickAuto(drive, gyro, 3);
+    return new QuickAuto(drive, gyro, 4);
   }
 }
