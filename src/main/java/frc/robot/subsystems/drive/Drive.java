@@ -1,6 +1,7 @@
 package frc.robot.subsystems.drive;
 
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 import org.littletonrobotics.junction.Logger;
 
@@ -67,7 +68,7 @@ public class Drive extends SubsystemBase {
     modules[3] = new Module(brModuleIO, 3);
     lastMovementTimer.start();
     for (var module : modules) {
-      module.setBrakeMode(false);
+      module.setBrakeMode(true);
       
     }
     
@@ -224,5 +225,11 @@ public class Drive extends SubsystemBase {
       modules[3].getPosition()
     };
   }
+
+  public void useModuleStates(SwerveModuleState[] states){
+    //Declare a var where you coerce states to chasis speed type
+    //Pass into run velocity
+    swerveKinematics.toChassisSpeeds(states);
+    }
 
 }

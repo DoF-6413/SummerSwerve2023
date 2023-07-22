@@ -6,11 +6,15 @@ package frc.robot;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.QuickAuto;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
@@ -27,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.drive.moduleIO;
+import frc.robot.commands.AutoDriver;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -101,7 +106,9 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     drive.setDefaultCommand(
-        new DefaultDriveCommand(drive, gyro,()->controller.getLeftX(), ()->controller.getLeftY(), ()->controller.getRightX()));
+        new DefaultDriveCommand(drive, gyro,()->-controller.getLeftY(), ()->-controller.getLeftX(), ()->-controller.getRightX()));
+
+     controller.a().onTrue(new InstantCommand(()-> gyro.updateHeading(), gyro));
   }
 
   /**
@@ -110,6 +117,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return autoChooser.get();
+    // return autoChooser.get();
+    return new QuickAuto(drive, gyro, 3);
   }
 }
