@@ -94,10 +94,9 @@ public class RobotContainer {
         pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
         break;
         
-        m_Chooser.addOption("FullAuto", new AutoDriver(drive, 
-        gyro, pose, Trajectories.test, true));
       }
       
+      m_Chooser.addOption("FullAuto", new AutoDriver(drive, gyro, pose, Trajectories.test, true));
       // Set up auto routines
       autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
       

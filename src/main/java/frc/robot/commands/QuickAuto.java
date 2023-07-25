@@ -23,7 +23,6 @@ public class QuickAuto extends CommandBase {
     drivetrainSubsystem = drive;
     gyroSubsystem = gyro;
     m_time = time;
-
   }
 
   // Called when the command is initially scheduled.
@@ -33,7 +32,6 @@ public class QuickAuto extends CommandBase {
     m_timer.start();
     gyroSubsystem.updateHeading();
     new DefaultDriveCommand(drivetrainSubsystem, gyroSubsystem, ()->0.5, ()-> 0, ()-> 0).schedule();
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
