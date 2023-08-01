@@ -93,6 +93,8 @@ public class RobotContainer {
 
     // Set up auto routines
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
+    autoChooser.addOption("4 Second Auto", new QuickAuto(drive, gyro, 4));
+    autoChooser.addOption("3 Second Balance", new QuickAuto(drive, gyro, 3));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -106,7 +108,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     drive.setDefaultCommand(
-        new DefaultDriveCommand(drive, gyro,()->-controller.getLeftY(), ()->-controller.getLeftX(), ()->-controller.getRightX()));
+        new DefaultDriveCommand(drive, gyro,()->-controller.getLeftY(), ()->-controller.getLeftX(), ()->controller.getRightX() * 0.99));
 
      controller.a().onTrue(new InstantCommand(()-> gyro.updateHeading(), gyro));
   }
@@ -118,6 +120,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // return autoChooser.get();
-    return new QuickAuto(drive, gyro, 3);
+    return autoChooser.get();
   }
 }

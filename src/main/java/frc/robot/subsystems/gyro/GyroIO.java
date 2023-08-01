@@ -18,6 +18,7 @@ public interface GyroIO {
     public double rollPositionRad = 0.0;
     public double pitchPositionRad = 0.0;
     public double yawPositionRad = 0.0;
+    public double anglePositionRad = 0.0;
     public double rate = 0.0;
     public double rollVelocityRadPerSec = 0.0;
     public double pitchVelocityRadPerSec = 0.0;
