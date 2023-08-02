@@ -38,10 +38,6 @@ private final DigitalInput rightLimitSwitch;
       leftElevatorMotor.configStatorCurrentLimit(currentLimitConfig);
       rightElevatorMotor.configStatorCurrentLimit(currentLimitConfig);
     
-    leftElevatorMotor.configSelectedFeedbackCoefficient(ElevatorConstants.kElevatorPositionConversionFactor);
-    rightElevatorMotor.configSelectedFeedbackCoefficient(ElevatorConstants.kElevatorPositionConversionFactor);
-    
-    
     leftLimitSwitch = new DigitalInput(0);
     rightLimitSwitch = new DigitalInput(1);
   }
