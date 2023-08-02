@@ -6,6 +6,8 @@ package frc.robot;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.util.sendable.Sendable;
@@ -13,6 +15,10 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+<<<<<<< Updated upstream
+=======
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+>>>>>>> Stashed changes
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DefaultDriveCommand;
@@ -50,16 +56,20 @@ public class RobotContainer {
   private final Gyro gyro;
   private final Vision vision;
   private final Pose pose;
-
+  
   // Controller
   private final CommandXboxController controller = new CommandXboxController(OperatorConstants.DriveController);
-
+  
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
   
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
+<<<<<<< Updated upstream
+=======
+  public static final PathPlannerTrajectory test = PathPlanner.loadPath("FullAuto", new PathConstraints(4, 3));
+>>>>>>> Stashed changes
   public SendableChooser<Command> m_Chooser = new SendableChooser<>();
   public RobotContainer() {
     switch (Constants.getMode()) {
@@ -93,6 +103,7 @@ public class RobotContainer {
         vision = new Vision(new VisionIO() {});
         pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
         break;
+<<<<<<< Updated upstream
         
       }
       
@@ -100,6 +111,17 @@ public class RobotContainer {
       // Set up auto routines
       autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
       
+=======
+
+      }
+      
+      m_Chooser.addOption("FullAuto", new AutoDriver(drive, gyro, pose, test, true));
+      SmartDashboard.putData(m_Chooser);
+
+    // Set up auto routines
+   autoChooser.addDefaultOption("Do Nothing", new AutoDriver(drive, gyro, pose, null, false));
+
+>>>>>>> Stashed changes
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -122,10 +144,17 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
+<<<<<<< Updated upstream
   public Command getAutonomousCommand() {
      return autoChooser.get();
     // return new QuickAuto(drive, gyro, 4);
     
+=======
+  public Command getAutonomousCommand() { 
+    return autoChooser.get();
+    //return new QuickAuto(drive, gyro, 4);
+
+>>>>>>> Stashed changes
     
   }
 }

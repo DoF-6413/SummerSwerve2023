@@ -87,7 +87,7 @@ public class AutoDriver extends CommandBase {
   @Override
   public void execute() {
     //Takes autoBuilder in the class and runs with the pathGroup
-    System.out.println("AutoDriver Running gg");
+    System.out.println("AutoDriver Running GG");
     autoBuilder.fullAuto(pathGroup);
     }
   
