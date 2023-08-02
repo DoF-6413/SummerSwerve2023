@@ -13,7 +13,8 @@ public interface ElevatorIO {
     public static class ElevatorIOInputs{
         public double elevatorPositionRad = 0.0;
         public double elevatorVelocityRadPerSec = 0.0;
-        public boolean limitSwitchPress 
+        public boolean limitSwitchPressed = false;
+        public double elevatorAppliedVolts = 0.0;
         public double[] elevatorCurrentAmps = new double[] {};
         public double[] elevatorTempCelcius = new double[] {};
 

@@ -36,10 +36,10 @@ public final class Constants {
     REPLAY
   }
 
-  public static Mode getMode(){
-    if(RobotBase.isReal()){
+  public static Mode getMode() {
+    if (RobotBase.isReal()) {
       return Mode.REAL;
-    } else if(RobotBase.isSimulation()){
+    } else if (RobotBase.isSimulation()) {
       return Mode.SIM;
     } else {
       return Mode.REPLAY;
@@ -49,7 +49,7 @@ public final class Constants {
   public static Alliance getAlliance() {
     return DriverStation.getAlliance();
   }
-  
+
   public static final int CANConfigTimeout = 500;
   public static final double loopPeriodSecs = 0.02;
 
@@ -62,9 +62,9 @@ public final class Constants {
 
     public enum DriveMotor {
       frontLeft(10),
-      frontRight(13), 
-      backLeft(7), 
-      backRight(4); 
+      frontRight(13),
+      backLeft(7),
+      backRight(4);
 
       public final int CAN_ID;
 
@@ -75,10 +75,10 @@ public final class Constants {
     }
 
     public enum TurnMotor {
-      frontLeft(9), 
-      frontRight(12), 
-      backLeft(6), 
-      backRight(3); 
+      frontLeft(9),
+      frontRight(12),
+      backLeft(6),
+      backRight(3);
 
       public final int CAN_ID;
 
@@ -102,17 +102,18 @@ public final class Constants {
     public static final double turnKs = 0.2;
     public static final double turnKv = 0.2;
 
-
-    // Under this to switch to coast when disabling 
-    public static final double coastThresholdMetersPerSec = 0.05; 
+    // Under this to switch to coast when disabling
+    public static final double coastThresholdMetersPerSec = 0.05;
     // Under this speed for this length of time to switch to coast
-    public static final double coastThresholdSec = 6.0; 
+    public static final double coastThresholdSec = 6.0;
     // Threshold to detect falls
     public static final double ledsFallenAngleDegrees = 60.0;
 
-    public static final double maxLinearSpeed = 4.5; //meters/sec 
-    public static final double trackWidthX = 21.5; //21 from center of wheel to center of other wheel but 22 from encoder to encoder 
-    public static final double trackWidthY = 21.5; //21 from center of wheel to center of other wheel but 22 from encoder to encoder
+    public static final double maxLinearSpeed = 4.5; // meters/sec
+    public static final double trackWidthX = 21.5; // 21 from center of wheel to center of other wheel but 22 from
+                                                   // encoder to encoder
+    public static final double trackWidthY = 21.5; // 21 from center of wheel to center of other wheel but 22 from
+                                                   // encoder to encoder
 
     private static final boolean isBrakemode = false;
 
@@ -123,13 +124,39 @@ public final class Constants {
   // wheel radius in meters
 
   public static class VisionConstants {
-    //TODO: Update Transform to Correct Values and Make Universal for Multiple Cameras
-    public static final Transform3d cameraOnRobot = new Transform3d( 
-      new Translation3d(0.06, 0.18,-1.1176),
-      new Rotation3d(0,0,2.95));
-      
+    // TODO: Update Transform to Correct Values and Make Universal for Multiple
+    // Cameras
+    public static final Transform3d cameraOnRobot = new Transform3d(
+        new Translation3d(0.06, 0.18, -1.1176),
+        new Rotation3d(0, 0, 2.95));
+
   }
+
   // how many swerve modules we have
   private double characterizationVolts = 0.0;
 
+public static class ElevatorConstants{
+  public enum ElevatorMotor {
+      Left(10),
+      Right(13); 
+    
+
+      public final int CAN_ID;
+
+      ElevatorMotor(int value) {
+        CAN_ID = value;
+      }
+
+}
+public final static double elevatorConversionFactor = 0.0;
+public final static double gearRatio = 7;
+public final static double falconTicks = 2048;
+public final static boolean leftMotorInverted = true;
+public final static boolean rightMotorInverted = false;
+//Elevetor Current Limit
+public static final boolean kIsElevatorCurrentLimitEnabled = true;
+public static final double kElevatorContinuousCurrent = 40;
+public static final double kElevatorPeakCurrent = 60;
+public static final double kElevatorMaxTimeAtPeak = 5.0;
+}
 }
