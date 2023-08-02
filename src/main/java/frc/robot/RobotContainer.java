@@ -4,15 +4,22 @@
 
 package frc.robot;
 
+import java.util.List;
+
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.FollowPathWithEvents;
 
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DefaultDriveCommand;
@@ -30,6 +37,7 @@ import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOArduCam;
 import frc.robot.subsystems.vision.VisionIOSim;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.drive.moduleIO;
@@ -60,6 +68,7 @@ public class RobotContainer {
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
+  
   public SendableChooser<Command> m_Chooser = new SendableChooser<>();
   public RobotContainer() {
     switch (Constants.getMode()) {
@@ -75,9 +84,9 @@ public class RobotContainer {
       // Sim robot, instantiate physics sim IO implementations
       case SIM:
       System.out.println("Robot Current Mode; SIM");
-        // drive = new Drive(new DriveIOSim());
-        gyro = new Gyro(new GyroIOSim());
-        drive = new Drive(new ModuleIOSim(), new ModuleIOSim(), new ModuleIOSim(), new ModuleIOSim(), gyro);
+      // drive = new Drive(new DriveIOSim());
+      gyro = new Gyro(new GyroIOSim());
+      drive = new Drive(new ModuleIOSim(), new ModuleIOSim(), new ModuleIOSim(), new ModuleIOSim(), gyro);
         vision = new Vision(new VisionIOSim());
         pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
 
@@ -94,15 +103,27 @@ public class RobotContainer {
         pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
         break;
         
-        m_Chooser.addOption("FullAuto", new AutoDriver(drive, 
-        gyro, pose, Trajectories.test, true));
       }
       
+      Command testCommand = new AutoDriver(drive, gyro, pose, Trajectories.test, true);
+      autoChooser.addOption("test path", testCommand);
       // Set up auto routines
       autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
+      // autoChooser.addOption("FullAuto", new AutoDriver(drive, gyro, pose, Trajectories.test, true));
+      // SmartDashboard.putData(m_Chooser);
+      Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
       
-    // Configure the button bindings
-    configureButtonBindings();
+      
+      
+      // List<PathPlannerTrajectory> m_Chooser =
+      //   PathPlanner.loadPathGroup("FullAuto", null);
+      //   Command m_ChooserCommand =
+      //   Commands.sequence(
+        //     new FollowPathWithEvents(getAutonomousCommand(), null, null)
+        //   );
+        
+        // Configure the button bindings
+        configureButtonBindings();
   }
 
   /**
@@ -125,7 +146,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
      return autoChooser.get();
-    // return new QuickAuto(drive, gyro, 4);
+    //  return new QuickAuto(drive, gyro, 4);
     
     
   }

@@ -134,4 +134,8 @@ public class Pose extends SubsystemBase {
             field2d.setRobotPose(poseEstimator.getEstimatedPosition());
         }
     }
+
+    public Pose2d getInitialPose() {
+        return null;
+    }
 }
