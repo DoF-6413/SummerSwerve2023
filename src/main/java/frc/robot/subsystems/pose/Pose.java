@@ -88,7 +88,9 @@ public class Pose extends SubsystemBase {
         resultsTimestamp = photonPipelineResult.getTimestampSeconds();
 
         SmartDashboard.putNumber("photonTime", photonPipelineResult.getTimestampSeconds());
+        //this
         SmartDashboard.putNumber("FPGA TIme", Timer.getFPGATimestamp());
+        //logg this on smartdashboard
 
         if (resultsTimestamp != previousPipelineTimestamp && vision.doesHaveTargets()) {
             previousPipelineTimestamp = resultsTimestamp;
@@ -109,7 +111,9 @@ public class Pose extends SubsystemBase {
                     Pose3d visionMeasurement = camPose.transformBy(VisionConstants.cameraOnRobot);
 
                     SmartDashboard.putString("visionmeasure", visionMeasurement.toPose2d().toString());
+                    //this
                     SmartDashboard.putNumber("timestamp", resultsTimestamp);
+                    //this
                     poseEstimator.addVisionMeasurement(visionMeasurement.toPose2d(),
                             Timer.getFPGATimestamp(),
                             visionMeasurementStdDevs);
@@ -123,6 +127,7 @@ public class Pose extends SubsystemBase {
 
     public Pose2d getCurrentPose2d() {
         return poseEstimator.getEstimatedPosition();
+        //this
     }
 
     public void resetPose(Pose2d currentPose2d) {

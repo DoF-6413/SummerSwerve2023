@@ -58,10 +58,10 @@ public class RobotContainer {
   private final Gyro gyro;
   private final Vision vision;
   private final Pose pose;
-
+  
   // Controller
   private final CommandXboxController controller = new CommandXboxController(OperatorConstants.DriveController);
-
+  
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
   
@@ -114,12 +114,7 @@ public class RobotContainer {
       
       
       
-      // List<PathPlannerTrajectory> m_Chooser =
-      //   PathPlanner.loadPathGroup("FullAuto", null);
-      //   Command m_ChooserCommand =
-      //   Commands.sequence(
-        //     new FollowPathWithEvents(getAutonomousCommand(), null, null)
-        //   );
+     
         
         // Configure the button bindings
         configureButtonBindings();
@@ -143,10 +138,11 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
+
   public Command getAutonomousCommand() {
      return autoChooser.get();
     //  return new QuickAuto(drive, gyro, 4);
-    
+
     
   }
 }
