@@ -4,16 +4,65 @@
 
 package frc.robot.commands.Autos;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.gyro.Gyro;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class BalanceAuto extends SequentialCommandGroup {
+public class BalanceAuto extends CommandBase {
+  public final Drive driveTrainSubsystem;
+  public final Gyro gyroSubsystem;
+  public Timer m_timer;
+  double m_time; 
+    
   /** Creates a new BalanceAuto. */
-  public BalanceAuto() {
+  public BalanceAuto(Drive drive, Gyro gyro, double time) {
+    driveTrainSubsystem = drive;
+    gyroSubsystem = gyro;
+    m_time = time;
+  }
+
+    @Override
+    public void initialize() {
+      m_timer = new Timer();
+      m_timer.start();
+      gyroSubsystem.updateHeading();
+      new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem, ()->0.5, ()-> 0, ()-> 0).schedule();
+      gyroSubsystem.getPitch();
+      gyroSubsystem.getYaw();
+      gyroSubsystem.getRoll(); 
+    }
+
+                                                                                                                                           
+    @Override
+    public void execute() {
+      /**
+       * Todo: define mount angle
+       * ToDo: create the balancer
+       * ToDo: define the dismount angle
+      */
+      System.out.println("running balance");
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+      System.out.println("end running");
+      new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem, ()-> 0, ()-> 0, ()-> 0).schedule();
+    }
+
+    @Override
+    public boolean isFinished() {
+      
+    return m_timer.get() >= m_time;
+  }
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands();
-  }
+    // addCommands();
+    
 }
+
