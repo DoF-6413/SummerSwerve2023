@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.elevator;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -22,7 +23,6 @@ private final TalonFX rightElevatorMotor;
 private final DigitalInput leftLimitSwitch;
 private final DigitalInput rightLimitSwitch;
 
-
   public ElevatorIOFalcon() {
     leftElevatorMotor = new TalonFX(ElevatorMotor.Left.CAN_ID);
     rightElevatorMotor = new TalonFX(ElevatorMotor.Right.CAN_ID);
@@ -35,6 +35,7 @@ private final DigitalInput rightLimitSwitch;
       ElevatorConstants.kElevatorContinuousCurrent,
       ElevatorConstants.kElevatorPeakCurrent,
       ElevatorConstants.kElevatorMaxTimeAtPeak);
+      rightElevatorMotor.follow(leftElevatorMotor);
       leftElevatorMotor.configStatorCurrentLimit(currentLimitConfig);
       rightElevatorMotor.configStatorCurrentLimit(currentLimitConfig);
     
@@ -42,7 +43,6 @@ private final DigitalInput rightLimitSwitch;
     rightLimitSwitch = new DigitalInput(1);
   }
 
-  @Override
   public void updateInputs(ElevatorIOInputs inputs) {
     inputs.elevatorPositionRad = 
       Units.rotationsToRadians(leftElevatorMotor.getSelectedSensorPosition()) / ElevatorConstants.gearRatio;
@@ -52,5 +52,9 @@ private final DigitalInput rightLimitSwitch;
     inputs.elevatorCurrentAmps = new double[] {leftElevatorMotor.getStatorCurrent()};
     inputs.elevatorTempCelcius = new double[] {leftElevatorMotor.getTemperature()};
     
+  }
+
+  public void setPercentSpeed(double percent) {
+    leftElevatorMotor.set(ControlMode.PercentOutput, percent);
   }
 }
