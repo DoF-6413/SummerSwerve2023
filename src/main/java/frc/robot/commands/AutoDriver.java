@@ -30,7 +30,7 @@ public class AutoDriver extends CommandBase {
   private final Gyro gyroSubsystem;
   private final PathPlannerTrajectory pathGroup;
   private final SwerveAutoBuilder autoBuilder;
-  private final Pose pose;
+  private final Pose poseSubsystem;
   private final boolean isFirstPath;
   
   /** Creates a new AutoDriver. */
@@ -42,10 +42,10 @@ public class AutoDriver extends CommandBase {
     //To here should be passed in as an argument to autoDriver
     drivetrainSubsystem = drive;
     gyroSubsystem = gyro;
-    this.pose = pose;
+    poseSubsystem = pose;
     pathGroup = trajectory;
     isFirstPath = firstPath;
-    addRequirements(drivetrainSubsystem, gyroSubsystem);
+    addRequirements(drivetrainSubsystem, gyroSubsystem, poseSubsystem);
     // Create the AutoBuilder. This only needs to be created once when robot code starts, not every time you want to create an auto command. A good place to put this is in RobotContainer along with your subsystems.
      autoBuilder = new SwerveAutoBuilder(
         pose::getCurrentPose2d, // Pose2d supplier
@@ -67,12 +67,12 @@ public class AutoDriver extends CommandBase {
     // Assuming this method is part of a drivetrain subsystem that provides the necessary methods
 
          // Reset odometry for the first path you run during auto
-        //  if(isFirstPath){
-        //      pose.reset(pathGroup.getInitialHolonomicPose());
-        //  }
+         if(isFirstPath){
+             poseSubsystem.resetPose(pathGroup.getInitialHolonomicPose());
+         }
        new PPSwerveControllerCommand(
            pathGroup, 
-           pose::getCurrentPose2d, // Pose supplier
+           poseSubsystem::getCurrentPose2d, // Pose supplier
            drivetrainSubsystem.swerveKinematics, // SwerveDriveKinematics
            new PIDController(0, 0, 0), // X controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
            new PIDController(0, 0, 0), // Y controller (usually the same values as X controller)
