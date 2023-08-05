@@ -54,7 +54,8 @@ public final class Constants {
   public static final double loopPeriodSecs = 0.02;
 
   public static class OperatorConstants {
-    public static final int DriveController = 0;
+    public static final int driveController = 0;
+    public static final int auxController = 1;
   }
 
   // TODO:Change non real values to real one's(I use "placeholders")
@@ -140,23 +141,32 @@ public static class ElevatorConstants{
       Left(10),
       Right(13); 
     
-
       public final int CAN_ID;
 
       ElevatorMotor(int value) {
         CAN_ID = value;
       }
+  }
 
-}
-public final static double elevatorConversionFactor = 0.0;
-public final static double gearRatio = 7;
-public final static double falconTicks = 2048;
-public final static boolean leftMotorInverted = true;
-public final static boolean rightMotorInverted = false;
-//Elevetor Current Limit
-public static final boolean kIsElevatorCurrentLimitEnabled = true;
-public static final double kElevatorContinuousCurrent = 40;
-public static final double kElevatorPeakCurrent = 60;
-public static final double kElevatorMaxTimeAtPeak = 5.0;
-}
+  public final static double elevatorConversionFactor = 0.0;
+  public final static double gearRatio = 7;
+  public final static double falconTicks = 2048;
+  public final static boolean leftMotorInverted = true;
+  public final static boolean rightMotorInverted = false;
+  //Elevetor Current Limit
+  public static final boolean kIsElevatorCurrentLimitEnabled = true;
+  public static final double kElevatorContinuousCurrent = 40;
+  public static final double kElevatorPeakCurrent = 60;
+  public static final double kElevatorMaxTimeAtPeak = 5.0;
+
+  public static final double shaftDiameterInches = 1.6;
+  public static final double elevatorAngleDegrees = 35;
+  public static final double elevatorStartingConfigLengthInches = 24.236;
+  public static final double elevatorFullExtensionInches = 72;
+  public static final double elevatorStartingConfigHeightInches = 22.729;
+  public static final double elevatorFullExtensionHeightInches = 48.498;
+  //TODO update to include end effector & actual mass
+  public static final double carriageMassPounds = 6.5;
+  public static final boolean simulateGravity = true;
+  }
 }

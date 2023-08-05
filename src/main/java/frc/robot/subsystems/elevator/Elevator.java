@@ -4,29 +4,60 @@
 
 package frc.robot.subsystems.elevator;
 
+import org.littletonrobotics.junction.Logger;
+
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ElevatorConstants;
+
 /** Add your docs here. */
-public class Elevator {
+public class Elevator extends SubsystemBase{
+    public static ElevatorIO elevatorIO;
+    public static ElevatorIOInputsAutoLogged elevatorInputs = new ElevatorIOInputsAutoLogged();
 
-    public boolean limitSwitchPressed(){
-        return false;
+    public Elevator(ElevatorIO io) {
+        System.out.println("[Init] Creating Elevator ");
+        elevatorIO = io;
+        
+      }
+
+      public void periodic() {
+        elevatorIO.updateInputs(elevatorInputs);
+        Logger.getInstance().processInputs("Elevator", elevatorInputs);
     }
 
+    public boolean isLimitSwitchPressed(){
+        return elevatorInputs.limitSwitchPressed;
+    }
+    /** extension of elevator (hypotenuse)
+     */
     public double getElevatorPositionMeters(){
-        return 0.0;
+        return elevatorInputs.elevatorPositionRad * Math.PI * Units.inchesToMeters(ElevatorConstants.shaftDiameterInches);
     } 
-    
+    /** height of end of elevator off the ground
+     */
     public double getElevatorHeightMeters(){
-        return 0.0;
+        return Math.sin(ElevatorConstants.elevatorAngleDegrees) * (getElevatorPositionMeters()) + Units.inchesToMeters(ElevatorConstants.elevatorStartingConfigHeightInches);
     }
     
-    public double elevatorVelocityMetersPerSec(){
-        return 0.0;
+    public double getElevatorVelocityMetersPerSec(){
+        return elevatorInputs.elevatorVelocityRadPerSec;
     }
 
-    public double elevatorPositionFeet(){
-        return 0.0;
+    /** extension in feet
+     */
+    public double getElevatorPositionFeet(){
+        return elevatorInputs.elevatorPositionRad * ElevatorConstants.shaftDiameterInches * Math.PI / 12;
+    }    
+    /** height off of the ground
+     */
+    public double getElevatorHeightFeet(){
+        return Units.metersToFeet(getElevatorHeightMeters());
     }    
 
-    public void setElevatorVoltageOutput(){
+    public void setElevatorPercentSpeed(double percent){
+        elevatorIO.setPercentSpeed(percent);
     }
 }

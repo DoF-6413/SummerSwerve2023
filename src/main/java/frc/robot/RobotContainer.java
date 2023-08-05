@@ -31,6 +31,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.drive.moduleIO;
+import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.subsystems.elevator.ElevatorIO;
+import frc.robot.subsystems.elevator.ElevatorIOFalcon;
+import frc.robot.subsystems.elevator.ElevatorIOSim;
 import frc.robot.commands.AutoDriver;
 
 /**
@@ -47,9 +51,11 @@ public class RobotContainer {
   private final Gyro gyro;
   private final Vision vision;
   private final Pose pose;
+  private final Elevator elevator;
 
   // Controller
-  private final CommandXboxController controller = new CommandXboxController(OperatorConstants.DriveController);
+  private final CommandXboxController driveController = new CommandXboxController(OperatorConstants.driveController);
+  private final CommandXboxController auxController = new CommandXboxController(OperatorConstants.auxController);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
@@ -66,6 +72,7 @@ public class RobotContainer {
         drive = new Drive(new ModuleIOSparkMax(0), new ModuleIOSparkMax(1), new ModuleIOSparkMax(2), new ModuleIOSparkMax(3), gyro);
         vision = new Vision(new VisionIOArduCam());
         pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
+        elevator = new Elevator(new ElevatorIOFalcon());
         break;
 
       // Sim robot, instantiate physics sim IO implementations
@@ -76,7 +83,7 @@ public class RobotContainer {
         drive = new Drive(new ModuleIOSim(), new ModuleIOSim(), new ModuleIOSim(), new ModuleIOSim(), gyro);
         vision = new Vision(new VisionIOSim());
         pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
-
+        elevator = new Elevator(new ElevatorIOSim());
         // flywheel = new Flywheel(new FlywheelIOSim());
         break;
 
@@ -84,10 +91,11 @@ public class RobotContainer {
       default:
       System.out.println("Robot Current Mode; default");
       // flywheel = new Flywheel(new FlywheelIO() {});
-        gyro = new Gyro(new GyroIO(){});
+        gyro = new Gyro(new GyroIO() {});
         drive = new Drive(new moduleIO() {}, new moduleIO() {}, new moduleIO() {}, new moduleIO() {}, gyro);
         vision = new Vision(new VisionIO() {});
         pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
+        elevator = new Elevator(new ElevatorIO() {});
         break;
     }
 
@@ -108,9 +116,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     drive.setDefaultCommand(
-        new DefaultDriveCommand(drive, gyro,()->-controller.getLeftY(), ()->-controller.getLeftX(), ()->controller.getRightX() * 0.99));
-
-     controller.a().onTrue(new InstantCommand(()-> gyro.updateHeading(), gyro));
+        new DefaultDriveCommand(drive, gyro,()->-driveController.getLeftY(), ()->-driveController.getLeftX(), ()->driveController.getRightX() * 0.99));
+    elevator.setDefaultCommand(new InstantCommand(()-> elevator.setElevatorPercentSpeed(-auxController.getLeftY()), elevator));
+     driveController.a().onTrue(new InstantCommand(()-> gyro.updateHeading(), gyro));
+    
   }
 
   /**
