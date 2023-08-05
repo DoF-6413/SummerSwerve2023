@@ -105,12 +105,7 @@ public class RobotContainer {
         
       }
       
-<<<<<<< HEAD
-      Command testCommand = new AutoDriver(drive, gyro, pose, Trajectories.test, true);
-      autoChooser.addOption("test path", testCommand);
-=======
       m_Chooser.addOption("FullAuto", new AutoDriver(drive, gyro, pose, Trajectories.test, true));
->>>>>>> 28712b4a84896d92a03e40b6d28ca01f23506140
       // Set up auto routines
       autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
       // autoChooser.addOption("FullAuto", new AutoDriver(drive, gyro, pose, Trajectories.test, true));
