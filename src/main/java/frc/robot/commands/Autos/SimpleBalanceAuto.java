@@ -1,5 +1,5 @@
-// TODO: Creates a Simple Balance Auto 
-// TODO: Create the class 
-// TODO: Add Imports
-// TODO: Declare Execute functionality
-    // TODO: Specify Steps for Execute Functionality
+// ToDo: Create the class 
+// ToDo: Add Imports
+// ToDo: Declare Execute functionality
+    // ToDo: Specify Steps for Execute Functionality
+// ToDo: Define the IsFinished Logic
