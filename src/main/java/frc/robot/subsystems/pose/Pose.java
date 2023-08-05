@@ -6,6 +6,7 @@ package frc.robot.subsystems.pose;
 
 import java.io.IOException;
 
+import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardInput;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -88,31 +89,37 @@ public class Pose extends SubsystemBase {
         resultsTimestamp = photonPipelineResult.getTimestampSeconds();
 
         SmartDashboard.putNumber("photonTime", photonPipelineResult.getTimestampSeconds());
+        Logger.getInstance().recordOutput("TimeStampSec", photonPipelineResult.getTimestampSeconds());
         SmartDashboard.putNumber("FPGA TIme", Timer.getFPGATimestamp());
-
+        Logger.getInstance().recordOutput("FPGA TIme", Timer.getFPGATimestamp());
+        
+        
         if (resultsTimestamp != previousPipelineTimestamp && vision.doesHaveTargets()) {
             previousPipelineTimestamp = resultsTimestamp;
             var target = photonPipelineResult.getBestTarget();
             var fiducialid = target.getFiducialId();
             if (target.getPoseAmbiguity() <= 0.2 && fiducialid >= 0 && fiducialid < 9) {
-
+                
                 AprilTagFieldLayout atfl;
                 try {
                     atfl = new AprilTagFieldLayout(AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField().getTags(),
-                            16.4592,
-                            8.2296);
+                    16.4592,
+                    8.2296);
                     Pose3d targetPose = atfl.getTagPose(fiducialid).get();
                     Transform3d camToTarget = target.getBestCameraToTarget();
                     Pose3d camPose = targetPose.transformBy(camToTarget.inverse());
-
+                    
                     // Make Universal for Multiple Cameras
                     Pose3d visionMeasurement = camPose.transformBy(VisionConstants.cameraOnRobot);
-
+                    
                     SmartDashboard.putString("visionmeasure", visionMeasurement.toPose2d().toString());
-                    SmartDashboard.putNumber("timestamp", resultsTimestamp);
+                    Logger.getInstance().recordOutput("visionmeasure", visionMeasurement.toPose2d().toString());
+                    SmartDashboard.putNumber("ResultTimeStamp", resultsTimestamp);
+                    Logger.getInstance().recordOutput("ResultTimeStamp", resultsTimestamp);
                     poseEstimator.addVisionMeasurement(visionMeasurement.toPose2d(),
-                            Timer.getFPGATimestamp(),
-                            visionMeasurementStdDevs);
+                    Timer.getFPGATimestamp(),
+                    visionMeasurementStdDevs);
+                    Logger.getInstance().recordOutput("CurrentPose2d",poseEstimator.getEstimatedPosition());
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

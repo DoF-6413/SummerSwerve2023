@@ -125,7 +125,7 @@ public final class Constants {
   public static class VisionConstants {
     //TODO: Update Transform to Correct Values and Make Universal for Multiple Cameras
     public static final Transform3d cameraOnRobot = new Transform3d( 
-      new Translation3d(0.06, 0.18,-1.1176),
+      new Translation3d(-0.25, -11.75,10.25),
       new Rotation3d(0,0,2.95));
       
   }
