@@ -24,6 +24,7 @@ import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.QuickAuto;
+import frc.robot.commands.Autos.BalanceAuto;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
@@ -140,9 +141,9 @@ public class RobotContainer {
    */
 
   public Command getAutonomousCommand() {
-     return autoChooser.get();
+    //  return autoChooser.get();
     //  return new QuickAuto(drive, gyro, 4);
-
+    return new BalanceAuto(drive, gyro, 15);
     
   }
 }

@@ -230,4 +230,7 @@ public class Drive extends SubsystemBase {
     swerveKinematics.toChassisSpeeds(states);
     }
 
+  public void setRaw(double driveValue, double turnValue) {
+   }
+
 }
