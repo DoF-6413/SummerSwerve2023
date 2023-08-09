@@ -229,8 +229,4 @@ public class Drive extends SubsystemBase {
     //Pass into run velocity
     swerveKinematics.toChassisSpeeds(states);
     }
-
-  public void setRaw(double driveValue, double turnValue) {
-   }
-
 }
