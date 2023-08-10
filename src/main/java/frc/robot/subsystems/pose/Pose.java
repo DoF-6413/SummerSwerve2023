@@ -19,7 +19,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
@@ -60,6 +62,7 @@ public class Pose extends SubsystemBase {
     private SwerveDrivePoseEstimator poseEstimator;
     public PhotonPipelineResult photonPipelineResult;
     public double resultsTimestamp;
+    
     private double previousPipelineTimestamp = 0;
 
     public Pose(Drive drive, Gyro gyro, Vision vision, SwerveDriveKinematics kinematics) {
@@ -70,7 +73,7 @@ public class Pose extends SubsystemBase {
         this.vision = vision;
 
         poseEstimator = new SwerveDrivePoseEstimator(kinematics, gyro.getYaw(), this.drive.getSwerveModulePositions(),
-                new Pose2d(5,5,new Rotation2d()));
+                new Pose2d(new Translation2d(),new Rotation2d()));
 
     }
 
@@ -81,9 +84,7 @@ public class Pose extends SubsystemBase {
         //TODO: Make ALL Smartdashboard -> "logged" value
         field2d.setRobotPose(getCurrentPose2d());
         poseEstimator.updateWithTime(Timer.getFPGATimestamp(), gyro.getYaw(), drive.getSwerveModulePositions());
-
-        poseEstimator.updateWithTime(Timer.getFPGATimestamp(),
-                gyro.getYaw(), drive.getSwerveModulePositions());
+        
 
         photonPipelineResult = vision.getResults();
         resultsTimestamp = photonPipelineResult.getTimestampSeconds();
@@ -92,13 +93,13 @@ public class Pose extends SubsystemBase {
         Logger.getInstance().recordOutput("TimeStampSec", photonPipelineResult.getTimestampSeconds());
         SmartDashboard.putNumber("FPGA TIme", Timer.getFPGATimestamp());
         Logger.getInstance().recordOutput("FPGA TIme", Timer.getFPGATimestamp());
-        
-        
+        Logger.getInstance().recordOutput("CurrentPose2d",poseEstimator.getEstimatedPosition());
+        Logger.getInstance().recordOutput("hastarget", vision.doesHaveTargets());        
         if (resultsTimestamp != previousPipelineTimestamp && vision.doesHaveTargets()) {
             previousPipelineTimestamp = resultsTimestamp;
             var target = photonPipelineResult.getBestTarget();
             var fiducialid = target.getFiducialId();
-            if (target.getPoseAmbiguity() <= 0.2 && fiducialid >= 0 && fiducialid < 9) {
+            if (target.getPoseAmbiguity() >= 0.5 && fiducialid >= 0 && fiducialid < 9) {
                 
                 AprilTagFieldLayout atfl;
                 try {
@@ -106,6 +107,7 @@ public class Pose extends SubsystemBase {
                     16.4592,
                     8.2296);
                     Pose3d targetPose = atfl.getTagPose(fiducialid).get();
+                    Logger.getInstance().recordOutput("targetPose", targetPose);
                     Transform3d camToTarget = target.getBestCameraToTarget();
                     Pose3d camPose = targetPose.transformBy(camToTarget.inverse());
                     
@@ -119,7 +121,7 @@ public class Pose extends SubsystemBase {
                     poseEstimator.addVisionMeasurement(visionMeasurement.toPose2d(),
                     Timer.getFPGATimestamp(),
                     visionMeasurementStdDevs);
-                    Logger.getInstance().recordOutput("CurrentPose2d",poseEstimator.getEstimatedPosition());
+                    
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

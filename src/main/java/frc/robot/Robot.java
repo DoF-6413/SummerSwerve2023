@@ -13,6 +13,11 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.Mode;
+import frc.robot.subsystems.vision.Vision;
+import frc.robot.subsystems.vision.VisionIO;
+import frc.robot.subsystems.vision.VisionIOArduCam;
+import frc.robot.subsystems.vision.VisionIOInputsAutoLogged;
+import frc.robot.subsystems.vision.VisionIO.VisionIOInputs;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,6 +29,8 @@ import frc.robot.Constants.Mode;
 public class Robot extends LoggedRobot {
   private RobotContainer robotContainer = new RobotContainer();
   private Command m_AutoCommand;
+  private VisionIOArduCam m_ArduCam;
+  private VisionIOInputsAutoLogged inputs = new VisionIOInputsAutoLogged();
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -79,6 +86,7 @@ public class Robot extends LoggedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    m_ArduCam.updateInputs(inputs);//TODO: this arducam is null so its causing a problem with updating the values of the pose so the pose doesn't actualize by the camera 
   }
 
   /** This function is called once when autonomous is enabled. */

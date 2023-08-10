@@ -11,7 +11,9 @@ import org.photonvision.PhotonCamera;
 public class VisionIOArduCam implements VisionIO{
     private static PhotonCamera camera = new PhotonCamera("FrontCamera");
 
+
     public VisionIOArduCam(){
+        
     }
 
     public void updateInputs(VisionIOInputs inputs){
