@@ -5,6 +5,7 @@
 package frc.robot.commands.Autos;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.QuickAuto;
@@ -19,12 +20,15 @@ public class BalanceAuto extends CommandBase {
   public final Gyro gyroSubsystem;
   public Timer m_timer;
   double m_time; 
-    
-  /** Creates a new BalanceAuto. */
+
+  private Command driveCommand;
+
+    /** Creates a new BalanceAuto. */
   public BalanceAuto(Drive drive, Gyro gyro, double time) {
     driveTrainSubsystem = drive;
     gyroSubsystem = gyro;
     m_time = time;
+    driveCommand = new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem, ()->0, ()->0, ()->0);
   }
 
     @Override
@@ -32,7 +36,7 @@ public class BalanceAuto extends CommandBase {
       m_timer = new Timer();
       m_timer.start();
       gyroSubsystem.updateHeading();
-      new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem, ()->0.5, ()-> 0, ()-> 0).schedule();
+      // new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem, ()->0.5, ()-> 0, ()-> 0).schedule();
       // gyroSubsystem.getPitch();
       // gyroSubsystem.getYaw();
       // gyroSubsystem.getRoll(); 
@@ -42,17 +46,14 @@ public class BalanceAuto extends CommandBase {
                                                                                                                                            
     @Override
     public void execute() {
-      if(gyroSubsystem.getRoll().getDegrees() > -10 && gyroSubsystem.getRoll().getDegrees() < 10) {
-        new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem, ()->0.5, ()-> 0, ()-> 0);
+      if(gyroSubsystem.getPitch().getRadians() > 0.035){
+        driveTrainSubsystem.setRaw(0.35, 0, 0);
       } 
-      else if(gyroSubsystem.getRoll().getRadians() > 0){
-        new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem, ()->0.35, ()-> 0, ()-> 0);
-      } 
-      else if (gyroSubsystem.getRoll().getRadians() < 0) {
-        new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem, ()->-0.35, ()-> 0, ()-> 0);
+      else if (gyroSubsystem.getPitch().getRadians() < -0.035) {
+        driveTrainSubsystem.setRaw(-0.35, 0, 0);      
       } 
       else {
-        new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem, ()->0, ()-> 0, ()-> 0);
+        driveTrainSubsystem.setRaw(0, 0, 0);    
       }
       
       /**
@@ -66,7 +67,7 @@ public class BalanceAuto extends CommandBase {
     @Override
     public void end(boolean interrupted) {
       System.out.println("end running");
-      new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem, ()-> 0, ()-> 0, ()-> 0).schedule();
+      driveCommand = new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem, ()->0, ()-> 0, ()-> 0);
     }
 
     @Override

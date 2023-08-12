@@ -177,6 +177,16 @@ public class Drive extends SubsystemBase {
     setpoint = speeds;
   }
 
+  public void setRaw(double x, double y, double rot) {
+    runVelocity(
+      ChassisSpeeds.fromFieldRelativeSpeeds(
+      x, 
+      y,
+      rot, 
+        gyro.getYaw())
+    );
+  }
+
   /** Stops the drive. */
   public void stop() {
     runVelocity(new ChassisSpeeds());
