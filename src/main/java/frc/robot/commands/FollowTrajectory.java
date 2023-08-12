@@ -5,7 +5,11 @@
 package frc.robot.commands;
 
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.auto.PIDConstants;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -31,13 +35,25 @@ public final PathPlannerTrajectory trajectory;
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    if(isFirstPath) {
+      poseSubsystem.resetPose(trajectory.getInitialHolonomicPose());
+    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Todo: this doesnt work yet add in values to get this working :]
-new PPSwerveControllerCommand(trajectory, null, null, null, null, null, null)
+new PPSwerveControllerCommand(
+  trajectory, 
+  poseSubsystem::getCurrentPose2d, 
+  new PIDController(0, 0, 0), 
+  new PIDController(0, 0, 0), 
+  new PIDController(0, 0, 0), 
+  drivetrainSubsystem::runVelocity,  
+  true, // 
+  drivetrainSubsystem,
+  poseSubsystem);
   }
 
   // Called once the command ends or is interrupted.

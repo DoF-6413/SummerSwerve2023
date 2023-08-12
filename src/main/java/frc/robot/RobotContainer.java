@@ -6,6 +6,7 @@ package frc.robot;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
+import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -50,6 +51,8 @@ public class RobotContainer {
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(OperatorConstants.DriveController);
+  PathPlannerTrajectory path1 = PathPlanner.loadPath("path1", null);
+  //Todo finish loading path and calling follow trajectory 
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
