@@ -16,6 +16,7 @@ public class VisionIOArduCam implements VisionIO{
         
     }
 
+    @Override
     public void updateInputs(VisionIOInputs inputs){
         inputs.photonPipelineResult = camera.getLatestResult();
         inputs.hasTargets = inputs.photonPipelineResult.hasTargets();

@@ -86,8 +86,7 @@ public class Robot extends LoggedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    m_ArduCam.updateInputs(inputs);//TODO: this arducam is null so its causing a problem with updating the values of the pose so the pose doesn't actualize by the camera 
-  }
+    }
 
   /** This function is called once when autonomous is enabled. */
   @Override
