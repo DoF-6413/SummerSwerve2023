@@ -8,11 +8,13 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.util.Units;
+
 import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.utils.units;
+import frc.robot.utils.units.*;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -88,7 +90,7 @@ public final class Constants {
     }
 
     // Wheel Facts
-    public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.5);
+    public static final double WHEEL_RADIUS_METERS = units.inchesToMeters(1.5);
 
     // PID Tuning for Drive Motors on Swerve Drive
     public static final double driveKp = 0.0;
