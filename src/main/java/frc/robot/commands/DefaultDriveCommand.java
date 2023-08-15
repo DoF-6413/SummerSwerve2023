@@ -50,13 +50,13 @@ public class DefaultDriveCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drivetrainSubsystem.runVelocity(
-      ChassisSpeeds.fromFieldRelativeSpeeds(
-        0, 
-        0, 
-        0, 
-        gyroSubsystem.getYaw())
-    );
+    // drivetrainSubsystem.runVelocity(
+    //   ChassisSpeeds.fromFieldRelativeSpeeds(
+    //     0, 
+    //     0, 
+    //     0, 
+    //     gyroSubsystem.getYaw())
+    // );
   }
 
   // Returns true when the command should end.

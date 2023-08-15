@@ -13,6 +13,9 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.Mode;
+import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.gyro.Gyro;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,7 +27,9 @@ import frc.robot.Constants.Mode;
 public class Robot extends LoggedRobot {
   private RobotContainer robotContainer = new RobotContainer();
   private Command m_AutoCommand;
-
+  private final Drive drive;
+  // private final Flywheel flywheel;
+  private final Gyro gyro;
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -71,7 +76,8 @@ public class Robot extends LoggedRobot {
     logger.start();
     
 
-  
+    gyro = new Gyro(new GyroIONavX());
+    
   
   }
 
@@ -96,9 +102,13 @@ public class Robot extends LoggedRobot {
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
+    
     if (m_AutoCommand != null) {
     m_AutoCommand.cancel();
     }
+    drive.setDefaultCommand(
+      new DefaultDriveCommand(drive, gyro,()->-controller.getLeftY(), ()->-controller.getLeftX(), ()->controller.getRightX() * 0.99));
+
   }
 
   /** This function is called periodically during operator control. */
