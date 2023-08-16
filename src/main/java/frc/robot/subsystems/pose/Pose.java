@@ -109,7 +109,7 @@ public class Pose extends SubsystemBase {
                     Pose3d targetPose = atfl.getTagPose(fiducialid).get();
                     Logger.getInstance().recordOutput("targetPose", targetPose);
                     Transform3d camToTarget = target.getBestCameraToTarget();
-                    Pose3d camPose = targetPose.transformBy(camToTarget.inverse());
+                    Pose3d camPose = targetPose.transformBy(camToTarget);
                     
                     // Make Universal for Multiple Cameras
                     Pose3d visionMeasurement = camPose.transformBy(VisionConstants.cameraOnRobot);
@@ -120,6 +120,8 @@ public class Pose extends SubsystemBase {
                     poseEstimator.addVisionMeasurement(visionMeasurement.toPose2d(),
                     Timer.getFPGATimestamp(),
                     visionMeasurementStdDevs);
+                    
+                    
                     
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
