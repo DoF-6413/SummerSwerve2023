@@ -44,15 +44,15 @@ public class BalanceAuto extends CommandBase {
                                                                                                                                            
     @Override
     public void execute() {
-      // if(gyroSubsystem.getRoll().getRadians() > 0.0){
-      //   driveTrainSubsystem.setRaw(0.35, 0.0, 0.0);
-      // } 
-      // else if (gyroSubsystem.getRoll().getRadians() < 0.0) {
-        driveTrainSubsystem.runVelocity(new ChassisSpeeds(-0.5, 0.0, 0.0));  
-      // } 
-      // else {
-      //   driveTrainSubsystem.setRaw(0.0, 0.0, 0.0);    
-      // }
+      if(gyroSubsystem.getRoll().getRadians() > 0.1){
+        driveTrainSubsystem.setRaw(0.2, 0.0, 0.0);
+      } 
+      else if (gyroSubsystem.getRoll().getRadians() < -0.1) {
+        driveTrainSubsystem.setRaw(-0.2, 0.0, 0.0);  
+      } 
+      else {
+        driveTrainSubsystem.setRaw(0.0, 0.0, 0.0);    
+      }
       
       /**
        * ToDo: 

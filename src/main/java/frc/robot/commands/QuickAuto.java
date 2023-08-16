@@ -38,7 +38,7 @@ public class QuickAuto extends CommandBase {
   @Override
   public void execute() {
     System.out.println("running");
-    // new DefaultDriveCommand(drivetrainSubsystem, gyroSubsystem, ()->0.5, ()-> 0, ()-> 0).schedule();
+    new DefaultDriveCommand(drivetrainSubsystem, gyroSubsystem, ()->0.5, ()-> 0, ()-> 0).schedule();
   }
 
   // Called once the command ends or is interrupted.

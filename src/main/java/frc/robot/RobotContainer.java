@@ -129,7 +129,9 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-  
+    drive.setDefaultCommand(
+      new DefaultDriveCommand(drive, gyro,()->-controller.getLeftY(), ()->-controller.getLeftX(), ()->controller.getRightX() * 0.99));
+      
      controller.a().onTrue(new InstantCommand(()-> gyro.updateHeading(), gyro));
 
      controller.b().onTrue(new BalanceAuto(drive, gyro, 5));
