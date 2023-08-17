@@ -6,8 +6,10 @@ package frc.robot;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
+import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.FollowPathWithEvents;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
@@ -15,6 +17,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.FollowTrajectory;
 import frc.robot.commands.QuickAuto;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.ModuleIOSim;
@@ -51,7 +54,7 @@ public class RobotContainer {
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(OperatorConstants.DriveController);
-  PathPlannerTrajectory path1 = PathPlanner.loadPath("path1", null);
+  PathPlannerTrajectory path1 = PathPlanner.loadPath("path1", new PathConstraints(.5, .5));
   //Todo finish loading path and calling follow trajectory 
 
   // Dashboard inputs
@@ -98,7 +101,8 @@ public class RobotContainer {
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("4 Second Auto", new QuickAuto(drive, gyro, 4));
     autoChooser.addOption("3 Second Balance", new QuickAuto(drive, gyro, 3));
-    autoChooser.addDefaultOption("FullAuto", new AutoDriver(drive, gyro, pose, Trajectories.test, true));
+    // autoChooser.addDefaultOption("FullAuto", new AutoDriver(drive, gyro, pose, Trajectories.test, true));
+    autoChooser.addDefaultOption("path1", new FollowTrajectory(drive, pose, path1, true));
 
     // Configure the button bindings
     configureButtonBindings();

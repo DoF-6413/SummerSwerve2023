@@ -40,20 +40,20 @@ public final PathPlannerTrajectory trajectory;
       poseSubsystem.resetPose(trajectory.getInitialHolonomicPose());
     }
   }
-
+  
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-new PPSwerveControllerCommand(
-  trajectory, 
-  poseSubsystem::getCurrentPose2d, 
-  new PIDController(0, 0, 0), 
-  new PIDController(0, 0, 0), 
-  new PIDController(0, 0, 0), 
-  drivetrainSubsystem::runVelocity,  
-  true, // 
-  drivetrainSubsystem,
-  poseSubsystem);
+    new PPSwerveControllerCommand(
+      trajectory, 
+      poseSubsystem::getCurrentPose2d, 
+      new PIDController(0, 0, 0), 
+      new PIDController(0, 0, 0), 
+      new PIDController(0, 0, 0), 
+      drivetrainSubsystem::runVelocity,  
+      true, 
+      drivetrainSubsystem,
+      poseSubsystem);
   }
 
   // Called once the command ends or is interrupted.
