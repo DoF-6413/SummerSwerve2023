@@ -38,13 +38,13 @@ public class DefaultDriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // drivetrainSubsystem.runVelocity(
-    //   ChassisSpeeds.fromFieldRelativeSpeeds(
-    //     translationalXSupplier.getAsDouble(), 
-    //     translationalYSupplier.getAsDouble(), 
-    //     rotationSupplier.getAsDouble(), 
-    //     gyroSubsystem.getYaw())
-    // );
+    drivetrainSubsystem.runVelocity(
+      ChassisSpeeds.fromFieldRelativeSpeeds(
+        translationalXSupplier.getAsDouble(), 
+        translationalYSupplier.getAsDouble(), 
+        rotationSupplier.getAsDouble(), 
+        gyroSubsystem.getYaw())
+    );
   }
 
   // Called once the command ends or is interrupted.

@@ -68,8 +68,8 @@ public class BalanceAuto extends CommandBase {
 
     @Override
     public boolean isFinished() {
-    // return m_timer.get() >= m_time;
-    return false;
+    return m_timer.get() >= m_time;
+    // return false;
   }
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
