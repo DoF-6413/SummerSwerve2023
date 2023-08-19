@@ -29,8 +29,6 @@ import frc.robot.subsystems.vision.VisionIO.VisionIOInputs;
 public class Robot extends LoggedRobot {
   private RobotContainer robotContainer = new RobotContainer();
   private Command m_AutoCommand;
-  private VisionIOArduCam m_ArduCam;
-  private VisionIOInputsAutoLogged inputs = new VisionIOInputsAutoLogged();
 
   /**
    * This function is run when the robot is first started up and should be used
