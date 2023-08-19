@@ -17,8 +17,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.FollowTrajectory;
+// import frc.robot.commands.FollowTrajectory;
 import frc.robot.commands.QuickAuto;
+import frc.robot.commands.jhoncena;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
@@ -35,7 +36,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.drive.moduleIO;
-import frc.robot.commands.AutoDriver;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -101,7 +101,7 @@ public class RobotContainer {
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("4 Second Auto", new QuickAuto(drive, gyro, 4));
     autoChooser.addOption("3 Second Balance", new QuickAuto(drive, gyro, 3));
-    autoChooser.addDefaultOption("path1", new FollowTrajectory(drive, pose, path1, true));
+    autoChooser.addDefaultOption("path1", new jhoncena(drive, pose, path1, true));
 
     // Configure the button bindings
     configureButtonBindings();
