@@ -100,7 +100,7 @@ public class Pose extends SubsystemBase {
             previousPipelineTimestamp = resultsTimestamp;
             var target = photonPipelineResult.getBestTarget();
             var fiducialid = target.getFiducialId();
-            if (target.getPoseAmbiguity() >= 0.5 && fiducialid >= 0 && fiducialid < 9) {
+            if (target.getPoseAmbiguity() >= 0.2 && fiducialid >= 0 && fiducialid < 9) {
                 
                 AprilTagFieldLayout atfl;
                 try {
@@ -110,11 +110,10 @@ public class Pose extends SubsystemBase {
                     Pose3d targetPose = atfl.getTagPose(fiducialid).get();
                     Logger.getInstance().recordOutput("targetPose", targetPose);
                     Transform3d camToTarget = target.getBestCameraToTarget();
-                    Pose3d camPose = targetPose.transformBy(camToTarget.inverse());
+                    Pose3d camPose = targetPose.transformBy(camToTarget);
                     
                     // Make Universal for Multiple Cameras
                     Pose3d visionMeasurement = camPose.transformBy(VisionConstants.cameraOnRobot);
-                    
                     SmartDashboard.putString("visionmeasure", visionMeasurement.toPose2d().toString());
                     Logger.getInstance().recordOutput("visionmeasure", visionMeasurement.toPose2d().toString());
                     SmartDashboard.putNumber("ResultTimeStamp", resultsTimestamp);
@@ -122,6 +121,8 @@ public class Pose extends SubsystemBase {
                     poseEstimator.addVisionMeasurement(visionMeasurement.toPose2d(),
                     Timer.getFPGATimestamp(),
                     visionMeasurementStdDevs);
+                    
+                    
                     
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
