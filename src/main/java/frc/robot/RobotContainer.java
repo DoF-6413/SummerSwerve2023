@@ -101,7 +101,6 @@ public class RobotContainer {
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("4 Second Auto", new QuickAuto(drive, gyro, 4));
     autoChooser.addOption("3 Second Balance", new QuickAuto(drive, gyro, 3));
-    // autoChooser.addDefaultOption("FullAuto", new AutoDriver(drive, gyro, pose, Trajectories.test, true));
     autoChooser.addDefaultOption("path1", new FollowTrajectory(drive, pose, path1, true));
 
     // Configure the button bindings
