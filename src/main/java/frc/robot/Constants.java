@@ -60,13 +60,38 @@ public final class Constants {
   // TODO:Change non real values to real one's(I use "placeholders")
   public static class DrivetrainConstants {
 
-    public enum DriveMotor {
+    public static enum AbsoluteEncoder{
+      FrontLeft(8),
+      frontRight(11),
+      BackLeft(5),
+      BackRigth(2);
+
+      public final int EncoderID;
+      AbsoluteEncoder(int ID){
+       EncoderID = ID;
+      }
+    }
+
+    public static enum AbsoluteEncoderOffset{
+      FrontLeft(-87.6269),
+      frontRight( -89.7363),
+      BackLeft(-356.0449),
+      BackRigth(-177.6269);
+     
+      public final double offset;
+      AbsoluteEncoderOffset(double value){
+        offset = value;
+      }
+    }
+      public enum DriveMotor {
       frontLeft(10),
       frontRight(13), 
       backLeft(7), 
       backRight(4); 
 
       public final int CAN_ID;
+
+      
 
       DriveMotor(int value) {
         CAN_ID = value;
@@ -117,6 +142,7 @@ public final class Constants {
     private static final boolean isBrakemode = false;
 
     public static boolean ischaracterizing = false;
+     
 
   }
   // drive constanst
@@ -125,11 +151,18 @@ public final class Constants {
   public static class VisionConstants {
     //TODO: Update Transform to Correct Values and Make Universal for Multiple Cameras
     public static final Transform3d cameraOnRobot = new Transform3d( 
-      new Translation3d(0.06, 0.18,-1.1176),
+      new Translation3d(-0.25, 11.75,10.25),
       new Rotation3d(0,0,2.95));
+
       
   }
   // how many swerve modules we have
   private double characterizationVolts = 0.0;
+
+  public static class fieldconstants {
+
+    public static final double fildlength = 16.4592;
+    public static final double fildwidth = 8.2296;
+  }
 
 }
