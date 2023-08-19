@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.Mode;
 import frc.robot.Constants.VisionConstants;
+import frc.robot.Constants.fieldconstants;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.gyro.Gyro;
 import frc.robot.subsystems.gyro.GyroIOSim;
@@ -104,8 +105,8 @@ public class Pose extends SubsystemBase {
                 AprilTagFieldLayout atfl;
                 try {
                     atfl = new AprilTagFieldLayout(AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField().getTags(),
-                    16.4592,
-                    8.2296);
+                    fieldconstants.fildlength,
+                    fieldconstants.fildwidth);
                     Pose3d targetPose = atfl.getTagPose(fiducialid).get();
                     Logger.getInstance().recordOutput("targetPose", targetPose);
                     Transform3d camToTarget = target.getBestCameraToTarget();
