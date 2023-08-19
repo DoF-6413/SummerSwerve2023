@@ -19,7 +19,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DefaultDriveCommand;
 // import frc.robot.commands.FollowTrajectory;
 import frc.robot.commands.QuickAuto;
-import frc.robot.commands.jhoncena;
+import frc.robot.commands.RunTrajectory;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
@@ -54,7 +54,7 @@ public class RobotContainer {
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(OperatorConstants.DriveController);
-  PathPlannerTrajectory path1 = PathPlanner.loadPath("path1", new PathConstraints(.5, .5));
+  PathPlannerTrajectory path1 = PathPlanner.loadPath("path1", new PathConstraints(1, 1));
   //Todo finish loading path and calling follow trajectory 
 
   // Dashboard inputs
@@ -101,7 +101,7 @@ public class RobotContainer {
     autoChooser.addOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("4 Second Auto", new QuickAuto(drive, gyro, 4));
     autoChooser.addOption("3 Second Balance", new QuickAuto(drive, gyro, 3));
-    autoChooser.addDefaultOption("path1", new jhoncena(drive, pose, path1, true));
+    autoChooser.addDefaultOption("path1", new RunTrajectory(drive, pose, path1, true));
 
     // Configure the button bindings
     configureButtonBindings();
