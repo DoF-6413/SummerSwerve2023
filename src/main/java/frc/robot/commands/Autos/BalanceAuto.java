@@ -22,14 +22,14 @@ public class BalanceAuto extends CommandBase {
   public Timer m_timer;
   double m_time; 
 
-  private Command driveCommand;
+  // private Command driveCommand;
 
     /** Creates a new BalanceAuto. */
   public BalanceAuto(Drive drive, Gyro gyro, double time) {
     driveTrainSubsystem = drive;
     gyroSubsystem = gyro;
     m_time = time;
-    driveCommand = new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem, ()->0, ()->0, ()->0);
+    // driveCommand = new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem, ()->0, ()->0, ()->0);
   }
 
     @Override
@@ -37,6 +37,7 @@ public class BalanceAuto extends CommandBase {
       m_timer = new Timer();
       m_timer.start();
       gyroSubsystem.updateHeading();
+      driveTrainSubsystem.removeDefaultCommand();
       // new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem, ()->0.5, ()-> 0, ()-> 0).schedule();
   }
 
@@ -46,12 +47,15 @@ public class BalanceAuto extends CommandBase {
     public void execute() {
       if(gyroSubsystem.getRoll().getRadians() > 0.1){
         driveTrainSubsystem.setRaw(0.2, 0.0, 0.0);
+        // new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem,()-> 0.2, ()-> 0.0, ()-> 0.0).schedule();;
       } 
       else if (gyroSubsystem.getRoll().getRadians() < -0.1) {
         driveTrainSubsystem.setRaw(-0.2, 0.0, 0.0);  
+        // new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem,()-> -0.2, ()-> 0.0, ()-> 0.0).schedule();;
       } 
       else {
         driveTrainSubsystem.setRaw(0.0, 0.0, 0.0);    
+        // new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem,()-> 0.0, ()-> 0.0, ()-> 0.0).schedule();;
       }
       
       /**
@@ -60,10 +64,11 @@ public class BalanceAuto extends CommandBase {
       System.out.println("running balance");
     } 
 
-    @Override
+    @Override 
     public void end(boolean interrupted) {
+      // driveTrainSubsystem.setRaw(0, 0, 0);  
+      new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem,()-> 0.0, ()-> 0.0, ()-> 0.0);  
       System.out.println("end running");
-      // driveTrainSubsystem.setRaw(0, 0, 0);    
     }
 
     @Override
