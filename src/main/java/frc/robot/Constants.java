@@ -148,6 +148,23 @@ public final class Constants {
   // drive constanst
   // wheel radius in meters
 
+  public static class IntakeConstants {
+    public enum IntakeMotor {
+      //TODO: get canids
+      Left();
+      Right();
+
+      public final int CAN_ID;
+
+      IntakeMotor(int value) {
+        CAN_ID = value;
+    }
+  }
+  
+  //TODO: get info
+  public final static double gearRatio = 0;
+
+}
   public static class VisionConstants {
     //TODO: Update Transform to Correct Values and Make Universal for Multiple Cameras
     public static final Transform3d cameraOnRobot = new Transform3d( 
