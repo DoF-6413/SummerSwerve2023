@@ -23,6 +23,7 @@ public class DriveAndBalance extends SequentialCommandGroup {
   public DriveAndBalance(Drive drive, Gyro gyro) {
     driveTrainSubsystem = drive;
     gyroSubsystem = gyro;
+    addRequirements(driveTrainSubsystem, gyroSubsystem);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(

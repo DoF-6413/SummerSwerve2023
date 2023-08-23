@@ -25,13 +25,16 @@ public class QuickAuto extends CommandBase {
     gyroSubsystem = gyro;
     drivetrainSubsystem = drive;
     m_time = time;
+    addRequirements(drivetrainSubsystem, gyroSubsystem);
   }
   
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     m_timer = new Timer();
+    m_timer.reset();
     m_timer.start();
+    
     gyroSubsystem.updateHeading();
     // new DefaultDriveCommand(drivetrainSubsystem, gyroSubsystem, ()->0.5, ()-> 0.0, ()-> 0.0).schedule();
   }
@@ -40,17 +43,17 @@ public class QuickAuto extends CommandBase {
   @Override
   public void execute() {
     System.out.println("running");
-    new DefaultDriveCommand(drivetrainSubsystem, gyroSubsystem, ()->0.5, ()-> 0.0, ()-> 0.0);
-    // drivetrainSubsystem.setRaw(0.5, 0.0, 0.0);
+    // new DefaultDriveCommand(drivetrainSubsystem, gyroSubsystem, ()->0.5, ()-> 0.0, ()-> 0.0);
+    drivetrainSubsystem.setRaw(0.5, 0.0, 0.0);
    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    new DefaultDriveCommand(drivetrainSubsystem, gyroSubsystem, ()->0.0, ()-> 0.0, ()-> 0.0);
+    // new DefaultDriveCommand(drivetrainSubsystem, gyroSubsystem, ()->0.0, ()-> 0.0, ()-> 0.0);
     System.out.println("end running");
-    // drivetrainSubsystem.setRaw(0.0, 0.0, 0.0);
+    drivetrainSubsystem.setRaw(0.0, 0.0, 0.0);
   }
 
   // Returns true when the command should end.

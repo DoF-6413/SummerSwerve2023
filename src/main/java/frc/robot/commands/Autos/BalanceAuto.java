@@ -29,6 +29,7 @@ public class BalanceAuto extends CommandBase {
     driveTrainSubsystem = drive;
     gyroSubsystem = gyro;
     m_time = time;
+    addRequirements(driveTrainSubsystem, gyroSubsystem);
     // driveCommand = new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem, ()->0, ()->0, ()->0);
   }
 
@@ -36,8 +37,9 @@ public class BalanceAuto extends CommandBase {
     public void initialize() {
       m_timer = new Timer();
       m_timer.start();
+      m_timer.reset();
       gyroSubsystem.updateHeading();
-      driveTrainSubsystem.removeDefaultCommand();
+      // driveTrainSubsystem.removeDefaultCommand();
       // new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem, ()->0.5, ()-> 0, ()-> 0).schedule();
   }
 
@@ -46,11 +48,11 @@ public class BalanceAuto extends CommandBase {
     @Override
     public void execute() {
       if(gyroSubsystem.getRoll().getRadians() > 0.1){
-        driveTrainSubsystem.setRaw(0.2, 0.0, 0.0);
+        driveTrainSubsystem.setRaw(0.25, 0.0, 0.0);
         // new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem,()-> 0.2, ()-> 0.0, ()-> 0.0).schedule();;
       } 
       else if (gyroSubsystem.getRoll().getRadians() < -0.1) {
-        driveTrainSubsystem.setRaw(-0.2, 0.0, 0.0);  
+        driveTrainSubsystem.setRaw(-0.25, 0.0, 0.0);  
         // new DefaultDriveCommand(driveTrainSubsystem, gyroSubsystem,()-> -0.2, ()-> 0.0, ()-> 0.0).schedule();;
       } 
       else {
