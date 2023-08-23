@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /** Add your docs here. */
 public interface VisionIO {
     @AutoLog
-    public static class VisionIOInputs{
+    public static class VisionIOInputs {
         public PhotonPipelineResult photonPipelineResult = new PhotonPipelineResult();
         public boolean hasTargets = false;
         public PhotonTrackedTarget target = null;

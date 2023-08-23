@@ -134,6 +134,7 @@ public class Pose extends SubsystemBase {
 
     public Pose2d getCurrentPose2d() {
         return poseEstimator.getEstimatedPosition();
+        //this
     }
 
     public void resetPose(Pose2d currentPose2d) {
@@ -144,5 +145,9 @@ public class Pose extends SubsystemBase {
         if (Constants.getMode() == Mode.SIM) {
             field2d.setRobotPose(poseEstimator.getEstimatedPosition());
         }
+    }
+
+    public Pose2d getInitialPose() {
+        return null;
     }
 }
