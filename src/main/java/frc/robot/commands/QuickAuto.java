@@ -18,13 +18,15 @@ public class QuickAuto extends CommandBase {
   public final Gyro gyroSubsystem;
   public Timer m_timer; 
   double m_time;
+  double m_speed;
   
   /** Creates a new QuickAuto. */
-  public QuickAuto(Drive drive, Gyro gyro, double time) {
+  public QuickAuto(Drive drive, Gyro gyro, double speed, double time) {
     // Use addRequirements() here to declare subsystem dependencies.
     gyroSubsystem = gyro;
     drivetrainSubsystem = drive;
     m_time = time;
+    m_speed = speed;
     addRequirements(drivetrainSubsystem, gyroSubsystem);
   }
   
@@ -44,7 +46,7 @@ public class QuickAuto extends CommandBase {
   public void execute() {
     System.out.println("running");
     // new DefaultDriveCommand(drivetrainSubsystem, gyroSubsystem, ()->0.5, ()-> 0.0, ()-> 0.0);
-    drivetrainSubsystem.setRaw(0.5, 0.0, 0.0);
+    drivetrainSubsystem.setRaw(m_speed, 0.0, 0.0);
    
   }
 

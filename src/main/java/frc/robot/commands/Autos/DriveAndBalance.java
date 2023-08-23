@@ -27,7 +27,9 @@ public class DriveAndBalance extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new QuickAuto(drive, gyro, 3),
+      new QuickAuto(drive, gyro, 0.5, 0.5),
+      new QuickAuto(drive, gyro, -0.5, 1),
+      new QuickAuto(drive, gyro, 0.5, 3),
       new BalanceAuto(drive, gyro, 11)
     );
   }
