@@ -20,6 +20,11 @@ import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
 import frc.robot.subsystems.gyro.Gyro;
 import frc.robot.subsystems.gyro.GyroIONavX;
+import frc.robot.subsystems.vision.Vision;
+import frc.robot.subsystems.vision.VisionIO;
+import frc.robot.subsystems.vision.VisionIOArduCam;
+import frc.robot.subsystems.vision.VisionIOInputsAutoLogged;
+import frc.robot.subsystems.vision.VisionIO.VisionIOInputs;
 
 /**
  * The VM is configured to automatically run this class, and to call the

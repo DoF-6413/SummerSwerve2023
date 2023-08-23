@@ -6,6 +6,7 @@ package frc.robot.subsystems.pose;
 
 import java.io.IOException;
 
+import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardInput;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -18,7 +19,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
@@ -28,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.Mode;
 import frc.robot.Constants.VisionConstants;
+import frc.robot.Constants.fieldconstants;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.gyro.Gyro;
 import frc.robot.subsystems.gyro.GyroIOSim;
@@ -59,6 +63,7 @@ public class Pose extends SubsystemBase {
     private SwerveDrivePoseEstimator poseEstimator;
     public PhotonPipelineResult photonPipelineResult;
     public double resultsTimestamp;
+    
     private double previousPipelineTimestamp = 0;
 
     public Pose(Drive drive, Gyro gyro, Vision vision, SwerveDriveKinematics kinematics) {
@@ -69,7 +74,7 @@ public class Pose extends SubsystemBase {
         this.vision = vision;
 
         poseEstimator = new SwerveDrivePoseEstimator(kinematics, gyro.getYaw(), this.drive.getSwerveModulePositions(),
-                new Pose2d(5,5,new Rotation2d()));
+                new Pose2d(new Translation2d(),new Rotation2d()));
 
     }
 
@@ -80,43 +85,45 @@ public class Pose extends SubsystemBase {
         //TODO: Make ALL Smartdashboard -> "logged" value
         field2d.setRobotPose(getCurrentPose2d());
         poseEstimator.updateWithTime(Timer.getFPGATimestamp(), gyro.getYaw(), drive.getSwerveModulePositions());
-
-        poseEstimator.updateWithTime(Timer.getFPGATimestamp(),
-                gyro.getYaw(), drive.getSwerveModulePositions());
+        
 
         photonPipelineResult = vision.getResults();
         resultsTimestamp = photonPipelineResult.getTimestampSeconds();
 
         SmartDashboard.putNumber("photonTime", photonPipelineResult.getTimestampSeconds());
-        //this
+        Logger.getInstance().recordOutput("TimeStampSec", photonPipelineResult.getTimestampSeconds());
         SmartDashboard.putNumber("FPGA TIme", Timer.getFPGATimestamp());
-        //logg this on smartdashboard
-
+        Logger.getInstance().recordOutput("FPGA TIme", Timer.getFPGATimestamp());
+        Logger.getInstance().recordOutput("CurrentPose2d",poseEstimator.getEstimatedPosition());
+        Logger.getInstance().recordOutput("hastarget", vision.doesHaveTargets());        
         if (resultsTimestamp != previousPipelineTimestamp && vision.doesHaveTargets()) {
             previousPipelineTimestamp = resultsTimestamp;
             var target = photonPipelineResult.getBestTarget();
             var fiducialid = target.getFiducialId();
-            if (target.getPoseAmbiguity() <= 0.2 && fiducialid >= 0 && fiducialid < 9) {
-
+            if (target.getPoseAmbiguity() >= 0.2 && fiducialid >= 0 && fiducialid < 9) {
+                
                 AprilTagFieldLayout atfl;
                 try {
                     atfl = new AprilTagFieldLayout(AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField().getTags(),
-                            16.4592,
-                            8.2296);
+                    fieldconstants.fildlength,
+                    fieldconstants.fildwidth);
                     Pose3d targetPose = atfl.getTagPose(fiducialid).get();
+                    Logger.getInstance().recordOutput("targetPose", targetPose);
                     Transform3d camToTarget = target.getBestCameraToTarget();
-                    Pose3d camPose = targetPose.transformBy(camToTarget.inverse());
-
+                    Pose3d camPose = targetPose.transformBy(camToTarget);
+                    
                     // Make Universal for Multiple Cameras
                     Pose3d visionMeasurement = camPose.transformBy(VisionConstants.cameraOnRobot);
-
                     SmartDashboard.putString("visionmeasure", visionMeasurement.toPose2d().toString());
-                    //this
-                    SmartDashboard.putNumber("timestamp", resultsTimestamp);
-                    //this
+                    Logger.getInstance().recordOutput("visionmeasure", visionMeasurement.toPose2d().toString());
+                    SmartDashboard.putNumber("ResultTimeStamp", resultsTimestamp);
+                    Logger.getInstance().recordOutput("ResultTimeStamp", resultsTimestamp);
                     poseEstimator.addVisionMeasurement(visionMeasurement.toPose2d(),
-                            Timer.getFPGATimestamp(),
-                            visionMeasurementStdDevs);
+                    Timer.getFPGATimestamp(),
+                    visionMeasurementStdDevs);
+                    
+                    
+                    
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

@@ -33,7 +33,7 @@ public interface VisionIO {
     
     }
 
-    public default void updateInputs(VisionIOInputsAutoLogged inputs){
+    public default void updateInputs(VisionIOInputs inputs){
 
     }
 
