@@ -26,6 +26,7 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.QuickAuto;
 import frc.robot.commands.Autos.BalanceAuto;
 import frc.robot.commands.Autos.DriveAndBalance;
+import frc.robot.commands.Autos.ScoreDriveCommunityBalance;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
@@ -107,9 +108,11 @@ public class RobotContainer {
         
       }
       
-      m_Chooser.addOption("FullAuto", new AutoDriver(drive, gyro, pose, Trajectories.test, true));
+      // m_Chooser.addOption("FullAuto", new AutoDriver(drive, gyro, pose, Trajectories.test, true));
+      m_Chooser.addOption("Score Drive out of Community then Balance", new ScoreDriveCommunityBalance(drive, gyro));
+      m_Chooser.addOption("Score and Balance", new DriveAndBalance(drive, gyro));
       // Set up auto routines
-      autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
+      // autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
       // autoChooser.addOption("FullAuto", new AutoDriver(drive, gyro, pose, Trajectories.test, true));
       // SmartDashboard.putData(m_Chooser);
       Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
@@ -117,7 +120,7 @@ public class RobotContainer {
       
       
      
-        
+      SmartDashboard.putData("m_chooser", m_Chooser);
         // Configure the button bindings
         configureButtonBindings();
   }
@@ -148,7 +151,10 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     //  return autoChooser.get();
     //  return new QuickAuto(drive, gyro, 4);
-    return new DriveAndBalance(drive, gyro);
+    // return new DriveAndBalance(drive, gyro);
+    // return new ScoreDriveCommunityBalance(drive, gyro);
+    return m_Chooser.getSelected();
+    
     
   }
 }
