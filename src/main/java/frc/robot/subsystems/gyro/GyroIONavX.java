@@ -16,7 +16,7 @@ public class GyroIONavX implements GyroIO {
 
     public GyroIONavX() {
         gyro = new AHRS(SPI.Port.kMXP, (byte) 200);
-        gyro.setAngleAdjustment(180);
+        // gyro.setAngleAdjustment(180);
         gyro.calibrate();
         gyro.zeroYaw();
         gyro.reset();

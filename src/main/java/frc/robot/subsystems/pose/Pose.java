@@ -84,11 +84,14 @@ public class Pose extends SubsystemBase {
         //TODO: Split into different functions/ put into respective subsysems (leave neccessary things here)
         //TODO: Make ALL Smartdashboard -> "logged" value
         field2d.setRobotPose(getCurrentPose2d());
+
+        Logger.getInstance().recordOutput("Field Robot", field2d.getRobotPose());
         poseEstimator.updateWithTime(Timer.getFPGATimestamp(), gyro.getYaw(), drive.getSwerveModulePositions());
         
 
         photonPipelineResult = vision.getResults();
         resultsTimestamp = photonPipelineResult.getTimestampSeconds();
+
 
         SmartDashboard.putNumber("photonTime", photonPipelineResult.getTimestampSeconds());
         Logger.getInstance().recordOutput("TimeStampSec", photonPipelineResult.getTimestampSeconds());
@@ -121,6 +124,8 @@ public class Pose extends SubsystemBase {
                     poseEstimator.addVisionMeasurement(visionMeasurement.toPose2d(),
                     Timer.getFPGATimestamp(),
                     visionMeasurementStdDevs);
+
+                    Logger.getInstance().recordOutput("Rotation2d", poseEstimator.getEstimatedPosition().getRotation().toString());
                     
                     
                     

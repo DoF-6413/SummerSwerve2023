@@ -54,7 +54,7 @@ public class RobotContainer {
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(OperatorConstants.DriveController);
-  PathPlannerTrajectory path1 = PathPlanner.loadPath("path1", new PathConstraints(5, 2));
+  PathPlannerTrajectory path1 = PathPlanner.loadPath("path1", new PathConstraints(.5, .5));
   //Todo finish loading path and calling follow trajectory 
 
   // Dashboard inputs
