@@ -151,8 +151,7 @@ public final class Constants {
   public static class IntakeConstants {
     public enum IntakeMotor {
       //TODO: get canids
-      Left();
-      Right();
+      Left(100);
 
       public final int CAN_ID;
 
@@ -163,8 +162,11 @@ public final class Constants {
   
   //TODO: get info
   public final static double gearRatio = 0;
-
+  public final static double falconTicks = 2048;
+  public final static boolean leftMotorInverted = true;
+  public final static boolean rightMotorInverted = false;
 }
+
   public static class VisionConstants {
     //TODO: Update Transform to Correct Values and Make Universal for Multiple Cameras
     public static final Transform3d cameraOnRobot = new Transform3d( 
