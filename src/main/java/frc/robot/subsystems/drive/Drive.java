@@ -86,7 +86,6 @@ public class Drive extends SubsystemBase {
     }
     
 
-    // Logger.getInstance().processInputs("Drive", inputs);
     swerveKinematics = new SwerveDriveKinematics(getModuleTranslations());
     maxAngularSpeed = DrivetrainConstants.maxLinearSpeed
         / Arrays.stream(getModuleTranslations())
@@ -131,6 +130,8 @@ public class Drive extends SubsystemBase {
       // Log setpoint states
       Logger.getInstance().recordOutput("SwerveStates/Setpoints", setpointStates);
       Logger.getInstance().recordOutput("SwerveStates/SetpointsOptimized", optimizedStates);
+      //TODO:find diference  between logger and the IO's
+
 
           // Log measured states
     SwerveModuleState[] measuredStates = new SwerveModuleState[4];
@@ -154,9 +155,7 @@ public class Drive extends SubsystemBase {
       twist = new Twist2d(twist.dx, twist.dy, gyroYaw.minus(lastGyroYaw).getRadians());
     }
     lastGyroYaw = gyroYaw;
-    // poseEstimator.addDriveData(Timer.getFPGATimestamp(), twist);
-    // Logger.getInstance().recordOutput("Odometry/Robot", getPose());
-
+ 
     // Update field velocity
     ChassisSpeeds chassisSpeeds = swerveKinematics.toChassisSpeeds(measuredStates);
     Translation2d linearFieldVelocity =
@@ -172,11 +171,20 @@ public class Drive extends SubsystemBase {
     
   }
 
-  // TODO:continue the periodic
 
   public void runVelocity(ChassisSpeeds speeds) {
     DrivetrainConstants.ischaracterizing = false;
     setpoint = speeds;
+  }
+
+  public void setRaw(double x, double y, double rot) {
+    runVelocity(
+      ChassisSpeeds.fromFieldRelativeSpeeds(
+      x, 
+      y,
+      rot, 
+        gyro.getYaw())
+    );
   }
 
   /** Stops the drive. */
