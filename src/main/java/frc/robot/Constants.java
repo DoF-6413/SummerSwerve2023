@@ -169,4 +169,9 @@ public final class Constants {
     public static final double fildwidth = 8.2296;
   }
 
+  public static class EndEffectorConstants {
+    public static final int endEffectorCANID = 0;
+    public static final double gearRatio = 1/5;
+  }
+
 }
