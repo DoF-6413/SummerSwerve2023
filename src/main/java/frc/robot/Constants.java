@@ -151,7 +151,8 @@ public final class Constants {
   public static class IntakeConstants {
     public enum IntakeMotor {
       //TODO: get canids
-      Left(100);
+      Left(0),
+      Right(0);
 
       public final int CAN_ID;
 

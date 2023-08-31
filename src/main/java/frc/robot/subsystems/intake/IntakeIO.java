@@ -16,8 +16,8 @@ public interface IntakeIO{
         public double intakePositionRad = 0.0;
         public double intakeVelocityRadPerSec = 0.0;
         public double intakeAppliedVolts = 0.0;
-        public double[] elevatorCurrentAmps = new double[] {};
-        public double[] elevatorTempCelcius = new double[] {};
+        public double[] intakeCurrentAmps = new double[] {};
+        public double[] intakeTempCelcius = new double[] {};
         @Override
         public void toLog(LogTable table) {
             // TODO Auto-generated method stub
