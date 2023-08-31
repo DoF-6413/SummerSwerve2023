@@ -247,4 +247,7 @@ public static class ElevatorConstants{
     public static final double endeffectorAppliedVolts = 12.0; 
   }
 
+  public static class WristConstants{
+    public static  final int wristMotorPort = 0; // TODO: Update Port
+  }
 }
