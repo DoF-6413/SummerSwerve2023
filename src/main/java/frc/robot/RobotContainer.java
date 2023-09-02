@@ -74,7 +74,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   
-  public SendableChooser<Command> m_Chooser = new SendableChooser<>();
+ 
   public RobotContainer() {
     switch (Constants.getMode()) {
       // Real robot, instantiate hardware IO implementations
@@ -143,9 +143,9 @@ public class RobotContainer {
    */
 
   public Command getAutonomousCommand() {
-    //  return autoChooser.get();
+     return autoChooser.get();
     //  return new QuickAuto(drive, gyro, 4);
-    return new DriveAndBalance(drive, gyro);
-    
+    // return new DriveAndBalance(drive, gyro);
+  
   }
 }
