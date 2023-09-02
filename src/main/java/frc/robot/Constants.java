@@ -83,7 +83,10 @@ public final class Constants {
         offset = value;
       }
     }
-      public enum DriveMotor {
+
+    public static final double driveAfterEncoderReduction = (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0);
+
+    public enum DriveMotor {
       frontLeft(10),
       frontRight(13), 
       backLeft(7), 
@@ -136,13 +139,14 @@ public final class Constants {
     public static final double ledsFallenAngleDegrees = 60.0;
 
     public static final double maxLinearSpeed = 4.5; //meters/sec 
-    public static final double trackWidthX = 21.5; //21 from center of wheel to center of other wheel but 22 from encoder to encoder 
-    public static final double trackWidthY = 21.5; //21 from center of wheel to center of other wheel but 22 from encoder to encoder
+
+    public static final double trackWidthX = Units.inchesToMeters(21.5); //21 from center of wheel to center of other wheel but 22 from encoder to encoder 
+    public static final double trackWidthY = Units.inchesToMeters(21.5); //21 from center of wheel to center of other wheel but 22 from encoder to encoder
 
     private static final boolean isBrakemode = false;
 
     public static boolean ischaracterizing = false;
-     
+
 
   }
   // drive constanst

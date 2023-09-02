@@ -35,7 +35,6 @@ public class ModuleIOSparkMax implements moduleIO {
   private final RelativeEncoder turnRelativeEncoder;
   private final CANCoder turnAbsoluteEncoder;
 
-  private final double driveAfterEncoderReduction = (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0);
   private final double turnAfterEncoderReduction = 150.0 / 7.0;
 
   private final boolean isTurnMotorInverted = true;
@@ -115,10 +114,10 @@ public class ModuleIOSparkMax implements moduleIO {
   @Override
   public void updateInputs(ModuleIOInputs inputs) {
     inputs.drivePositionRad = 
-        Units.rotationsToRadians(driveEncoder.getPosition()) / driveAfterEncoderReduction;
+        Units.rotationsToRadians(driveEncoder.getPosition()) / DrivetrainConstants.driveAfterEncoderReduction;
     inputs.driveVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(driveEncoder.getVelocity())
-            / driveAfterEncoderReduction;
+            / DrivetrainConstants.driveAfterEncoderReduction;
     inputs.driveAppliedVolts = driveSparkMax.getAppliedOutput() * driveSparkMax.getBusVoltage();
     inputs.driveCurrentAmps = new double[] { driveSparkMax.getOutputCurrent() };
     inputs.driveTempCelcius = new double[] { driveSparkMax.getMotorTemperature() };
