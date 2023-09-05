@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.gyro;
 
+import org.littletonrobotics.junction.inputs.LoggableInputs;
+
 import edu.wpi.first.hal.SimDevice;
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.hal.SimDevice.Direction;
@@ -27,6 +29,7 @@ public class GyroIOSim implements GyroIO{
         simGyro = SimDevice.create("AHRS", SPI.Port.kMXP.value);
     if (simGyro != null){
         simAngle = simGyro.createDouble("Angle", Direction.kOutput, 0.0);
+       
         simRate = simGyro.createDouble("Rate", Direction.kOutput,0.0);
         simPitch = simGyro.createDouble("Pitch", Direction.kOutput,0.0); 
         simRoll = simGyro.createDouble("Roll", Direction.kOutput, 0.0);
@@ -46,6 +49,8 @@ public class GyroIOSim implements GyroIO{
         inputs.pitchVelocityRadPerSec = simDiplacementY.get();
         inputs.yawVelocityRadPerSec = simDisplacementX.get();
         inputs.rollVelocityRadPerSec = simDisplacementZ.get();
+       // todo: fix this heading until we add an appropriate heading that takes into account the postion derived from the swerveModuleStates, we can not run the simulation becuase there is no actual gyro in simulation
+        inputs.heading = 0.0;
     }
 
     
