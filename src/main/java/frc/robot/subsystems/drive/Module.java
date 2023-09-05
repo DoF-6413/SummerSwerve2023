@@ -30,14 +30,14 @@ public class Module {
     this.index = index;
 
     turnFeedback.enableContinuousInput(-Math.PI, Math.PI);
+    driveFeedback.setPID((DrivetrainConstants.driveKp), (0.0), (DrivetrainConstants.driveKd));
+    turnFeedback.setPID((DrivetrainConstants.turnKp), (0.0), (DrivetrainConstants.turnKd));
+    driveFeedforward = new SimpleMotorFeedforward(DrivetrainConstants.driveKs, DrivetrainConstants.driveKv);
   }
 
   public void periodic() {
     io.updateInputs(inputs);
     Logger.getInstance().processInputs("Drive/Module" + Integer.toString(index), inputs);
-    driveFeedback.setPID((DrivetrainConstants.driveKp), (0.0), (DrivetrainConstants.driveKd));
-    turnFeedback.setPID((DrivetrainConstants.turnKp), (0.0), (DrivetrainConstants.turnKd));
-    driveFeedforward = new SimpleMotorFeedforward(DrivetrainConstants.driveKs, DrivetrainConstants.driveKv);
   }
   
 
@@ -45,6 +45,7 @@ public class Module {
     // Optimize state based on current angle
     var optimizedState = SwerveModuleState.optimize(state, getAngle());
 
+    
     // Run turn controller
     io.setTurnVoltage(
         turnFeedback.calculate(getAngle().getRadians(), optimizedState.angle.getRadians()));
@@ -53,11 +54,15 @@ public class Module {
     optimizedState.speedMetersPerSecond *= Math.cos(turnFeedback.getPositionError());
 
     // Run drive controller
-    double velocityRadPerSec = optimizedState.speedMetersPerSecond / DrivetrainConstants.WHEEL_RADIUS_METERS;
-    io.setDriveVoltage(
+    double velocityRadPerSec = optimizedState.speedMetersPerSecond / DrivetrainConstants.WHEEL_RADIUS_METERS ;
+
+    io.setDriveVoltage( 
         driveFeedforward.calculate(velocityRadPerSec)
             + driveFeedback.calculate(inputs.driveVelocityRadPerSec, velocityRadPerSec));
 
+            SmartDashboard.putNumber("Drive Feedforward for Module" + Integer.toString(index), driveFeedforward.calculate(velocityRadPerSec));
+
+            SmartDashboard.putNumber("Drive Feedback for Module" + Integer.toString(index), driveFeedback.calculate(inputs.driveVelocityRadPerSec, velocityRadPerSec));
     return optimizedState;
   }
 
