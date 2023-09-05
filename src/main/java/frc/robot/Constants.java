@@ -119,10 +119,10 @@ public final class Constants {
     public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.5);
 
     // PID Tuning for Drive Motors on Swerve Drive
-    public static final double driveKp = 0.0;
-    public static final double driveKd = 0.0;
-    public static final double driveKs = 0.2;
-    public static final double driveKv = 0.2;
+    public static final double driveKp = 0;
+    public static final double driveKd = 0;
+    public static final double driveKs = 0.4;
+    public static final double driveKv = 0.4;
 
     // PID Tuning for Turn Motors on Swerve Drive
     public static final double turnKp = 7.0;

@@ -50,12 +50,6 @@ public class Drive extends SubsystemBase {
 
   private Timer lastMovementTimer = new Timer();
 
-  // private PoseEstimator poseEstimator = new
-  // PoseEstimator(VecBuilder.fill(0.003, 0.003, 0.002));
-  private double[] lastModulePositionsMeters = new double[] { 0.0, 0.0, 0.0, 0.0 };
-  private Rotation2d lastGyroYaw = new Rotation2d();
-  private Twist2d fieldVelocity = new Twist2d();
-
   /** Creates a new Drive. */
   public Drive(moduleIO flModuleIO, moduleIO frModuleIO, moduleIO blModuleIO, moduleIO brModuleIO, Gyro gyro) {
 
@@ -77,14 +71,17 @@ public class Drive extends SubsystemBase {
   @Override
   public void periodic() {
 
-    // for (var module : modules) {
-    //   module.periodic();
-    // }
-
     for(int i = 0; i < 4; i++){
       modules[i].periodic();
     }
     
+    // Run modules
+    if (DriverStation.isDisabled()) {
+      // Stop moving while disabled
+      for (var module : modules) {
+        module.stop();
+      }
+    }
 
     swerveKinematics = new SwerveDriveKinematics(getModuleTranslations());
     maxAngularSpeed = DrivetrainConstants.maxLinearSpeed
@@ -93,44 +90,26 @@ public class Drive extends SubsystemBase {
             .max(Double::compare)
             .get();
 
-  // Run modules
-  if (DriverStation.isDisabled()) {
-    // Stop moving while disabled
-    for (var module : modules) {
-      module.stop();
-    }
-  }
 
     //Clears the setpoint logs 
     Logger.getInstance().recordOutput("SwerveStates/Setpoints", new double[] {});
     Logger.getInstance().recordOutput("SwerveStates/SetpointsOptimized", new double[] {});
    
-          // Calculate module setpoints
-          var setpointTwist =
-          new Pose2d()
-              .log(
-                  new Pose2d(
-                      setpoint.vxMetersPerSecond * Constants.loopPeriodSecs,
-                      setpoint.vyMetersPerSecond * Constants.loopPeriodSecs,
-                      new Rotation2d(setpoint.omegaRadiansPerSecond * Constants.loopPeriodSecs)));
-      var adjustedSpeeds =
-          new ChassisSpeeds(
-              setpointTwist.dx / Constants.loopPeriodSecs,
-              setpointTwist.dy / Constants.loopPeriodSecs,
-              setpointTwist.dtheta / Constants.loopPeriodSecs);
-      SwerveModuleState[] setpointStates = swerveKinematics.toSwerveModuleStates(adjustedSpeeds);
+        
+              
+      SwerveModuleState[] setpointStates = swerveKinematics.toSwerveModuleStates(setpoint);
       SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, DrivetrainConstants.maxLinearSpeed);
 
-      // Send setpoints to modules
+      // // Send setpoints to modules
       SwerveModuleState[] optimizedStates = new SwerveModuleState[4];
       for (int i = 0; i < 4; i++) {
         optimizedStates[i] = modules[i].runSetpoint(setpointStates[i]);
       }
 
-      // Log setpoint states
+      // // Log setpoint states
       Logger.getInstance().recordOutput("SwerveStates/Setpoints", setpointStates);
+
       Logger.getInstance().recordOutput("SwerveStates/SetpointsOptimized", optimizedStates);
-      //TODO:find diference  between logger and the IO's
 
 
           // Log measured states
@@ -138,37 +117,10 @@ public class Drive extends SubsystemBase {
     for (int i = 0; i < 4; i++) {
       measuredStates[i] = modules[i].getState();
     }
-    Logger.getInstance().recordOutput("SwerveStates/Measured", measuredStates);
-    // Update odometry
-    SwerveModulePosition[] wheelDeltas = new SwerveModulePosition[4];
-    for (int i = 0; i < 4; i++) {
-      wheelDeltas[i] =
-          new SwerveModulePosition(
-              (modules[i].getPositionMeters() - lastModulePositionsMeters[i]),
-              modules[i].getAngle());
-      lastModulePositionsMeters[i] = modules[i].getPositionMeters();
-    }
 
-    var twist = swerveKinematics.toTwist2d(wheelDeltas);
-    var gyroYaw = new Rotation2d(gyro.getYaw().getRadians());
-    if (gyro.isConnected()) {
-      twist = new Twist2d(twist.dx, twist.dy, gyroYaw.minus(lastGyroYaw).getRadians());
-    }
-    lastGyroYaw = gyroYaw;
+    Logger.getInstance().recordOutput("SwerveStates/Measured", measuredStates);
+
  
-    // Update field velocity
-    ChassisSpeeds chassisSpeeds = swerveKinematics.toChassisSpeeds(measuredStates);
-    Translation2d linearFieldVelocity =
-        new Translation2d(chassisSpeeds.vxMetersPerSecond, chassisSpeeds.vyMetersPerSecond)
-            .rotateBy(gyro.getYaw());  // TODO: change this to pose estimator get rotation 
-    fieldVelocity =
-        new Twist2d(
-            linearFieldVelocity.getX(),
-            linearFieldVelocity.getY(),
-            gyro.isConnected()
-                ? gyro.getYawVelocity()
-                : chassisSpeeds.omegaRadiansPerSecond);
-    
   }
 
 
@@ -211,9 +163,6 @@ public class Drive extends SubsystemBase {
     return maxAngularSpeed;
   }
 
-  public Twist2d getFieldVelocity() {
-    return fieldVelocity;
-  }
 
   /** Returns an array of module translations. */
   public Translation2d[] getModuleTranslations() {
