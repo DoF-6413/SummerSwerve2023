@@ -45,6 +45,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.drive.moduleIO;
+import frc.robot.Trajectories;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -73,7 +74,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   
-  public SendableChooser<Command> m_Chooser = new SendableChooser<>();
+ 
   public RobotContainer() {
     switch (Constants.getMode()) {
       // Real robot, instantiate hardware IO implementations
@@ -142,9 +143,9 @@ public class RobotContainer {
    */
 
   public Command getAutonomousCommand() {
-    //  return autoChooser.get();
+     return autoChooser.get();
     //  return new QuickAuto(drive, gyro, 4);
-    return new DriveAndBalance(drive, gyro);
-    
+    // return new DriveAndBalance(drive, gyro);
+  
   }
 }
