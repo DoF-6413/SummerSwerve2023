@@ -8,6 +8,9 @@ import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
@@ -16,11 +19,22 @@ import frc.robot.Constants.ElevatorConstants;
 public class Elevator extends SubsystemBase{
     public static ElevatorIO elevatorIO;
     public static ElevatorIOInputsAutoLogged elevatorInputs = new ElevatorIOInputsAutoLogged();
+    public ProfiledPIDController elevatorPIDController;
 
     public Elevator(ElevatorIO io) {
         System.out.println("[Init] Creating Elevator ");
         elevatorIO = io;
-        
+        elevatorPIDController = 
+        new ProfiledPIDController(
+            ElevatorConstants.elevatorkP, 
+            ElevatorConstants.elevatorkI, 
+            ElevatorConstants.elevatorkD, 
+            new TrapezoidProfile.Constraints(
+                ElevatorConstants.maxVelocity, 
+                ElevatorConstants.maxAcceleration)
+        );
+
+
       }
 
       public void periodic() {
@@ -58,6 +72,8 @@ public class Elevator extends SubsystemBase{
     }    
 
     public void setElevatorPercentSpeed(double percent){
-        elevatorIO.setPercentSpeed(percent);
+        elevatorIO.setVoltageSpeed(percent * 12);
     }
+
+    
 }

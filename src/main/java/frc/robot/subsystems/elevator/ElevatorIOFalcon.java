@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,14 +19,14 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class ElevatorIOFalcon implements ElevatorIO {
   /** Creates a new ElevatorIOFalcon. */
-private final TalonFX leftElevatorMotor;
-private final TalonFX rightElevatorMotor;
+private final WPI_TalonFX leftElevatorMotor;
+private final WPI_TalonFX rightElevatorMotor;
 private final DigitalInput leftLimitSwitch;
 private final DigitalInput rightLimitSwitch;
 
   public ElevatorIOFalcon() {
-    leftElevatorMotor = new TalonFX(ElevatorMotor.Left.CAN_ID);
-    rightElevatorMotor = new TalonFX(ElevatorMotor.Right.CAN_ID);
+    leftElevatorMotor = new WPI_TalonFX(ElevatorMotor.Left.CAN_ID);
+    rightElevatorMotor = new WPI_TalonFX(ElevatorMotor.Right.CAN_ID);
     leftElevatorMotor.setNeutralMode(NeutralMode.Brake);
     rightElevatorMotor.setNeutralMode(NeutralMode.Brake);
     leftElevatorMotor.setInverted(ElevatorConstants.leftMotorInverted);
@@ -54,7 +55,8 @@ private final DigitalInput rightLimitSwitch;
     
   }
 
-  public void setPercentSpeed(double percent) {
-    leftElevatorMotor.set(ControlMode.PercentOutput, percent);
+  @Override
+  public void setVoltageSpeed(double volts) {
+    leftElevatorMotor.setVoltage(volts);
   }
 }

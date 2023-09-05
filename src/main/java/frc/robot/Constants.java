@@ -186,6 +186,7 @@ public static class ElevatorConstants{
   public final static double falconTicks = 2048;
   public final static boolean leftMotorInverted = true;
   public final static boolean rightMotorInverted = false;
+
   //Elevetor Current Limit
   public static final boolean kIsElevatorCurrentLimitEnabled = true;
   public static final double kElevatorContinuousCurrent = 40;
@@ -198,8 +199,23 @@ public static class ElevatorConstants{
   public static final double elevatorFullExtensionInches = 72;
   public static final double elevatorStartingConfigHeightInches = 22.729;
   public static final double elevatorFullExtensionHeightInches = 48.498;
+
   //TODO update to include end effector & actual mass
   public static final double carriageMassPounds = 6.5;
   public static final boolean simulateGravity = true;
+
+  //TODO: Update PID, Feedforward, and Trapazoidal Constraint Values
+    //PID Values
+  public static final double elevatorkP = 0;
+  public static final double elevatorkI= 0;
+  public static final double elevatorkD= 0;
+    //Constraints
+  public static final double maxVelocity= 0;
+  public static final double maxAcceleration= 0;
+    //FeedForward
+  public static final double elevatorkS= 0;
+  public static final double elevatorkV= 0;
+  public static final double elevatorkA= 0;
+
   }
 }

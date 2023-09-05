@@ -12,6 +12,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.ElevatorConstants.ElevatorMotor;
 
 /** Add your docs here. */
 public class ElevatorIOSim implements ElevatorIO {
@@ -40,7 +41,8 @@ public class ElevatorIOSim implements ElevatorIO {
         inputs.elevatorTempCelcius = new double[] {};
     }
 
-    public void setPercentSpeed(double percent) {
-        elevatorMotor.setInputVoltage(percent * 12);
-    }
+    @Override
+    public void setVoltageSpeed(double volts) {
+        elevatorMotor.setInputVoltage(volts);
+      }
 }

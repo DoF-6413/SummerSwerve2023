@@ -36,6 +36,5 @@ public interface ElevatorIO {
 
 public default void updateInputs(ElevatorIOInputs inputs) {}
 
-public default void setPercentSpeed(double voltage) {}
-
+public default void setVoltageSpeed(double volts) {}
 }
