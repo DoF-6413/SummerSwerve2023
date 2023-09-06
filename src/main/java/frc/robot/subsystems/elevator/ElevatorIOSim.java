@@ -25,8 +25,9 @@ public class ElevatorIOSim implements ElevatorIO {
         Units.inchesToMeters(ElevatorConstants.elevatorFullExtensionHeightInches),
         ElevatorConstants.simulateGravity
     );
-   private double elevatorAppliedVolts = 0.0;
+    private double elevatorAppliedVolts = 0.0;
     public ElevatorIOSim() {
+        System.out.println("[Init] Creating ElevatorIOSim");
 
     }
     

@@ -42,6 +42,8 @@ private final DigitalInput rightLimitSwitch;
     
     leftLimitSwitch = new DigitalInput(0);
     rightLimitSwitch = new DigitalInput(1);
+
+    System.out.println("[Init] Creating ElevatorIOFalcon");
   }
 
   public void updateInputs(ElevatorIOInputs inputs) {

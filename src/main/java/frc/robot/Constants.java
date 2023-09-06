@@ -204,7 +204,7 @@ public static class ElevatorConstants{
   public static final double carriageMassPounds = 6.5;
   public static final boolean simulateGravity = true;
 
-  //TODO: Update PID, Feedforward, and Trapazoidal Constraint Values
+  //TODO: Update PID, Feedforward, Tolerance, and Trapazoidal Constraint Values
     //PID Values
   public static final double elevatorkP = 0;
   public static final double elevatorkI= 0;
@@ -216,6 +216,10 @@ public static class ElevatorConstants{
   public static final double elevatorkS= 0;
   public static final double elevatorkV= 0;
   public static final double elevatorkA= 0;
+    //Tolerance
+  public static final double positionTolerance = 0;
+  public static final double velocityTolerance = 0;
+
 
   }
 }

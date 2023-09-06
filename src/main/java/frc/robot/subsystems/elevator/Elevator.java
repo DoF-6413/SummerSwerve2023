@@ -21,6 +21,7 @@ public class Elevator extends SubsystemBase{
     public static ElevatorIOInputsAutoLogged elevatorInputs = new ElevatorIOInputsAutoLogged();
     public ProfiledPIDController elevatorPIDController;
 
+
     public Elevator(ElevatorIO io) {
         System.out.println("[Init] Creating Elevator ");
         elevatorIO = io;
@@ -34,7 +35,7 @@ public class Elevator extends SubsystemBase{
                 ElevatorConstants.maxAcceleration)
         );
 
-
+        elevatorPIDController.setTolerance(ElevatorConstants.positionTolerance, ElevatorConstants.velocityTolerance);
       }
 
       public void periodic() {
@@ -71,8 +72,21 @@ public class Elevator extends SubsystemBase{
         return Units.metersToFeet(getElevatorHeightMeters());
     }    
 
+    public void setElevatorVoltage(double volts){
+        elevatorIO.setVoltageSpeed(volts);
+    }
+
     public void setElevatorPercentSpeed(double percent){
-        elevatorIO.setVoltageSpeed(percent * 12);
+        setElevatorVoltage(percent * 12);
+    }
+
+    public void setGoalMeters(double goal){
+        elevatorPIDController.setGoal(goal);
+    }
+
+    public void setElevatorPositionMeters(double goal){
+        elevatorPIDController.setGoal(goal);
+        setElevatorVoltage(elevatorPIDController.calculate(getElevatorPositionMeters(), elevatorPIDController.getGoal()));
     }
 
     
