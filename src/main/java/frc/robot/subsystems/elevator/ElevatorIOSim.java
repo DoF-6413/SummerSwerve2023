@@ -25,7 +25,6 @@ public class ElevatorIOSim implements ElevatorIO {
         Units.inchesToMeters(ElevatorConstants.elevatorFullExtensionHeightInches),
         ElevatorConstants.simulateGravity
     );
-    private double elevatorAppliedVolts = 0.0;
     public ElevatorIOSim() {
         System.out.println("[Init] Creating ElevatorIOSim");
 
@@ -33,9 +32,9 @@ public class ElevatorIOSim implements ElevatorIO {
     
     public void updateInputs(ElevatorIOInputs inputs) {
         inputs.elevatorPositionRad =
-            Units.rotationsToRadians(elevatorMotor.getVelocityMetersPerSecond() / ElevatorConstants.gearRatio);
+            Units.rotationsToRadians(elevatorMotor.getPositionMeters() / ElevatorConstants.gearRatio);
         inputs.elevatorVelocityRadPerSec = 
-            Units.rotationsPerMinuteToRadiansPerSecond(elevatorAppliedVolts) / ElevatorConstants.gearRatio;
+            Units.rotationsPerMinuteToRadiansPerSecond(elevatorMotor.getVelocityMetersPerSecond() / ElevatorConstants.gearRatio);
         inputs.limitSwitchPressed = false;
         inputs.elevatorAppliedVolts = 0.0;
         inputs.elevatorCurrentAmps = new double[] {elevatorMotor.getCurrentDrawAmps()};
@@ -45,5 +44,6 @@ public class ElevatorIOSim implements ElevatorIO {
     @Override
     public void setVoltageSpeed(double volts) {
         elevatorMotor.setInputVoltage(volts);
+        System.out.println("running");
       }
 }

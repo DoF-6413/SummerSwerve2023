@@ -41,6 +41,9 @@ public class Elevator extends SubsystemBase{
       public void periodic() {
         elevatorIO.updateInputs(elevatorInputs);
         Logger.getInstance().processInputs("Elevator", elevatorInputs);
+        Logger.getInstance().recordOutput("Elevator/PositionMeters", getElevatorPositionMeters());
+        Logger.getInstance().recordOutput("Elevator/Voltage", getElevatorVoltage());
+        Logger.getInstance().recordOutput("Elevator/PositionGoal", elevatorPIDController.getGoal().position);
     }
 
     public boolean isLimitSwitchPressed(){
@@ -74,6 +77,10 @@ public class Elevator extends SubsystemBase{
 
     public void setElevatorVoltage(double volts){
         elevatorIO.setVoltageSpeed(volts);
+    }
+
+    public double getElevatorVoltage(){
+        return elevatorInputs.elevatorAppliedVolts;
     }
 
     public void setElevatorPercentSpeed(double percent){
