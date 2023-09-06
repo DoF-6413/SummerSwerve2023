@@ -4,5 +4,11 @@
 
 package frc.robot.subsystems.endeffector;
 
+import edu.wpi.first.wpilibj.simulation.FlywheelSim;
+import frc.robot.Constants.EndEffectorConstants;
+
 /** Add your docs here. */
-public class EndEffectorIOSim {}
+public class EndEffectorIOSim implements EndEffectorIO{
+    private final EndEffectorSim endEffectorMotor = new FlywheelSim(DCMotor.getNEO(1), EndEffectorConstants.gearRatio,0.025);
+    
+}

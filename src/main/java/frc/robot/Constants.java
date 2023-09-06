@@ -170,8 +170,21 @@ public final class Constants {
   }
 
   public static class EndEffectorConstants {
-    public static final int endEffectorCANID = 0;
+    public static final int endEffectorCANID = 0; //TODO: Update Later
+    public static final int endEffectorConversionFactor = 0; //TODO: Update Later
     public static final double gearRatio = 1/5;
+    public static final int neoTicks = 42;
+    // Endeffector Current Limit
+    public static final boolean kIsEndEffectorCurrentLimitEnabled = true;
+    public static final double kEndEffectorContinuousCurrent = 0; //TODO: Update Later
+    public static final double kEndEffectorPeakCurrent = 0; //TODO: Update Later
+    public static final double kEndEffectorMaxTimeAtPeak = 0; //TODO: Update Later
+    // PID Values
+    public static final double endEffectorkP = 0;
+    public static final double endEffectorkI = 0;
+    public static final double endEffectorkD = 0;
+
+    public static final double endeffectorAppliedVolts = 12; //TODO: Update Later
   }
 
 }

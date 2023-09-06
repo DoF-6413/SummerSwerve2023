@@ -16,12 +16,12 @@ public static class EndEffectorIOInputs {
     public double endeffectorAppliedVolts = 0.0;
     public double[] endeffectorCurrentAmps = new double[] {};
     public double[] endeffectorTempCelcius = new double[] {};
-
-    
 }
 
 public default void updateInputs(EndEffectorIOInputs inputs) {}
 
 public default void setVoltage(double voltage){}
+
+public default void setPercentSpeed(double percent){}
 
 }
