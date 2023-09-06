@@ -249,5 +249,7 @@ public static class ElevatorConstants{
 
   public static class WristConstants{
     public static  final int wristMotorPort = 0; // TODO: Update Port
+
+  public static final double shaftDiameterInches = 0;
   }
 }

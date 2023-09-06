@@ -11,10 +11,9 @@ public class WristIOBosch implements WristIO {
     private final AnalogInput wristMotor; 
     public WristIOBosch(){
        wristMotor = new AnalogInput(0);
-
     }
-    public void spinWrist(){
-        wristMotor.
-    }
+    @Override
+    public void setVoltageSpeed(double volts) {
+      wristMotor.set    }
 }
 
