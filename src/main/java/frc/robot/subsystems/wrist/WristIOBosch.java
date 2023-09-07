@@ -4,16 +4,26 @@
 
 package frc.robot.subsystems.wrist;
 
+import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.PWM;
 
 /** Add your docs here. */
 public class WristIOBosch implements WristIO {
-    private final AnalogInput wristMotor; 
+   
+    private final PWM wristPwm;
+   
     public WristIOBosch(){
-       wristMotor = new AnalogInput(0);
+       wristPwm = new PWM(2);
     }
-    @Override
-    public void setVoltageSpeed(double volts) {
-      wristMotor.set    }
+
+
+    public void setWristSpeed(double speed) {
+//the speed should be a number between -1.0 to 1.0
+wristPwm.setSpeed(speed);
+
+       }
 }
 

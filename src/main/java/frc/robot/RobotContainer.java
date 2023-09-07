@@ -38,6 +38,10 @@ import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOArduCam;
 import frc.robot.subsystems.vision.VisionIOSim;
+import frc.robot.subsystems.wrist.Wrist;
+import frc.robot.subsystems.wrist.WristIO;
+import frc.robot.subsystems.wrist.WristIOBosch;
+import frc.robot.subsystems.wrist.WristIOSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -70,6 +74,8 @@ public class RobotContainer {
   private final Elevator elevator;
   private final EndEffector endEffector;
 
+  private final Wrist wrist;
+  
   // Controller
   private final CommandXboxController driveController = new CommandXboxController(OperatorConstants.driveController);
   private final CommandXboxController auxController = new CommandXboxController(OperatorConstants.auxController);
@@ -93,6 +99,7 @@ public class RobotContainer {
         pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
         elevator = new Elevator(new ElevatorIOFalcon());
       endEffector = new EndEffector(new EndEffectorIOSparkMax());
+      wrist = new Wrist(new WristIOBosch());
       break;
       
       // Sim robot, instantiate physics sim IO implementations
@@ -104,6 +111,8 @@ public class RobotContainer {
         pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
         elevator = new Elevator(new ElevatorIOSim());
         endEffector = new EndEffector(new EndEffectorIOSim());
+        wrist = new Wrist(new WristIOSim());
+        // flywheel = new Flywheel(new FlywheelIOSim());
         break;
         
         // Replayed robot, disable IO implementations
@@ -115,8 +124,8 @@ public class RobotContainer {
         pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
         elevator = new Elevator(new ElevatorIO(){});
         endEffector = new EndEffector(new EndEffectorIO(){});
+        wrist = new Wrist(new WristIO(){});
         break;
-        
       }
       
       
