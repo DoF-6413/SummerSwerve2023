@@ -184,6 +184,16 @@ public final class Constants {
     public static final double endEffectorkI = 0;
     public static final double endEffectorkD = 0;
 
+    public static final double maxVelocity = 0.0; //TODO: Update
+    public static final double maxAcceleration = 0.0; //TODO: Update
+
+    public static final double endEffectorkS = 0.0; //TODO: update
+    public static final double endEffectorkV = 0.0; //TODO: update
+    public static final double endEffectorkA = 0.0; //TODO: update
+
+    public static final double positionTolerance = 0.0;
+    public static final double velocityTolerance = 0.0;
+
     public static final double endeffectorAppliedVolts = 12; //TODO: Update Later
   }
 

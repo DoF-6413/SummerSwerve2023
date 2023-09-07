@@ -7,6 +7,8 @@ package frc.robot.subsystems.endeffector;
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.EndEffectorConstants;
 import frc.robot.subsystems.endeffector.EndEffectorIO.EndEffectorIOInputs;
@@ -20,22 +22,38 @@ public class EndEffector extends SubsystemBase {
 
 public EndEffector(EndEffectorIO io) {
     System.out.println("[Init] Creating EndEffector");
-    //     endEffectorIO = io;
-    //     endEffectorPIDController =
-    //     new ProfiledPIDController(
-    //         EndEffectorCons endEffectorkP,
-    //         0, 
-    //         0, 
-    //         null)
+        endEffectorIO = io;
+        endEffectorPIDController =
+        new ProfiledPIDController(
+            EndEffectorConstants.endEffectorkP,
+            EndEffectorConstants.endEffectorkI, 
+            EndEffectorConstants.endEffectorkD, 
+            new TrapezoidProfile.Constraints(
+                EndEffectorConstants.maxVelocity, 
+                EndEffectorConstants.maxAcceleration)
+        );
+
+        endEffectorPIDController.setTolerance(EndEffectorConstants.positionTolerance, EndEffectorConstants.velocityTolerance);
     }
     
     public void periodic() {
         endEffectorIO.updateInputs(endEffectorInputs);
         Logger.getInstance().processInputs("EndEffector", endEffectorInputs);
+        Logger.getInstance().recordOutput("Elevator/PositionMeters", getEndEffectorPositionMeters());
+        Logger.getInstance().recordOutput("Elevator/Voltage", getEndEffectorVoltage());
+        Logger.getInstance().recordOutput("Elevator/PositionGoal", endEffectorPIDController.getGoal().position);
     }
 
-    public double getPositionMeters(){
-        return endEffectorInputs.endeffectorPositionRad;
+    public double getEndEffectorPositionMeters(){
+        return endEffectorInputs.endEffectorPositionRad;
+    }
+
+    public double getEndEffectorVelocityMetersPerSec() {
+        return endEffectorInputs.endEffectorPositionRad * Math.PI * Units.inchesToMeters(EndEffectorConstants.velocityTolerance);
+    }
+
+    public double getEndEffectorVoltage() {
+        return endEffectorInputs.endEffectorAppliedVolts;
     }
 
     public void setVoltage(double volts){

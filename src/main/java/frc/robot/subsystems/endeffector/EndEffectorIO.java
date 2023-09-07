@@ -5,17 +5,29 @@
 package frc.robot.subsystems.endeffector;
 
 import org.littletonrobotics.junction.AutoLog;
+import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 public interface EndEffectorIO{
 /** Add your docs here. */
 @AutoLog
-public static class EndEffectorIOInputs {
-    public double endeffectorPositionRad = 0.0;
-    public double endeffectorVelocityRadPerSec = 0.0;
-    public double endeffectorAppliedVolts = 0.0;
-    public double[] endeffectorCurrentAmps = new double[] {};
-    public double[] endeffectorTempCelcius = new double[] {};
+public static class EndEffectorIOInputs implements LoggableInputs{
+    public double endEffectorPositionRad = 0.0;
+    public double endEffectorVelocityRadPerSec = 0.0;
+    public double endEffectorAppliedVolts = 0.0;
+    public double[] endEffectorCurrentAmps = new double[] {};
+    public double[] endEffectorTempCelcius = new double[] {};
+
+    @Override
+    public void toLog(LogTable table) {
+        //TODO Auto-generated method stub
+    }
+
+    @Override
+    public void fromLog(LogTable table) {
+        // TODO Auto-generated method stub
+        
+    }
 }
 
 public default void updateInputs(EndEffectorIOInputs inputs) {}
