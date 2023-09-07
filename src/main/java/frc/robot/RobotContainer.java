@@ -43,6 +43,10 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.drive.moduleIO;
+import frc.robot.subsystems.endeffector.EndEffector;
+import frc.robot.subsystems.endeffector.EndEffectorIO;
+import frc.robot.subsystems.endeffector.EndEffectorIOSim;
+import frc.robot.subsystems.endeffector.EndEffectorIOSparkMax;
 import frc.robot.commands.AutoDriver;
 import frc.robot.Trajectories;
 
@@ -60,7 +64,8 @@ public class RobotContainer {
   private final Gyro gyro;
   private final Vision vision;
   private final Pose pose;
-  
+  private final EndEffector endEffector;
+
   // Controller
   private final CommandXboxController controller = new CommandXboxController(OperatorConstants.DriveController);
   
@@ -81,6 +86,7 @@ public class RobotContainer {
       drive = new Drive(new ModuleIOSparkMax(0), new ModuleIOSparkMax(1), new ModuleIOSparkMax(2), new ModuleIOSparkMax(3), gyro);
       vision = new Vision(new VisionIOArduCam());
       pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
+      endEffector = new EndEffector(new EndEffectorIOSparkMax());
       break;
       
       // Sim robot, instantiate physics sim IO implementations
@@ -91,6 +97,7 @@ public class RobotContainer {
       drive = new Drive(new ModuleIOSim(), new ModuleIOSim(), new ModuleIOSim(), new ModuleIOSim(), gyro);
         vision = new Vision(new VisionIOSim());
         pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
+        endEffector = new EndEffector(new EndEffectorIOSim());
 
         // flywheel = new Flywheel(new FlywheelIOSim());
         break;
@@ -103,6 +110,7 @@ public class RobotContainer {
         drive = new Drive(new moduleIO() {}, new moduleIO() {}, new moduleIO() {}, new moduleIO() {}, gyro);
         vision = new Vision(new VisionIO() {});
         pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
+        endEffector = new EndEffector(new EndEffectorIOSparkMax());
         break;
         
       }

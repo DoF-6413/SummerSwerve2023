@@ -11,7 +11,7 @@ import frc.robot.Constants.EndEffectorConstants;
 
 /** Add your docs here. */
 public class EndEffectorIOSim implements EndEffectorIO{
-    private FlywheelSim endEffectorMotor = new FlywheelSim(DCMotor.getNEO(1), EndEffectorConstants.gearRatio,0.025);
+    private FlywheelSim endEffectorMotor = new FlywheelSim(DCMotor.getNEO(1), EndEffectorConstants.gearRatio,0.0);
 
     public EndEffectorIOSim() {
         System.out.println("[Init] Creating EndEffectorIOSim");
