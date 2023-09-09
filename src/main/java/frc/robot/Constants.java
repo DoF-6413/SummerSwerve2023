@@ -257,5 +257,10 @@ public static class ElevatorConstants{
   public static class WristNeo550Constants{
     public static final double WristAppliedVolts = 12;
     public static final double gearRatio = 1/174.9; //Pinion rotation to armature rotations
+    public static final double WristkP = 0;
+    public static final double WristkI = 0;
+    public static final double WristkD = 0;
+    public static final double maxVelocity = 0;
+    public static final double maxAcceleration = 0;
   }
 }

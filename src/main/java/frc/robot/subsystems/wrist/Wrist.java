@@ -7,8 +7,10 @@ package frc.robot.subsystems.wrist;
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.WristNeo550Constants;
 
 /** Add your docs here. */
 public class Wrist extends SubsystemBase {
@@ -22,6 +24,15 @@ public class Wrist extends SubsystemBase {
 
         System.out.println("[Init] creating wrist");
         wristIO = io;
+        wristPIDController =
+        new ProfiledPIDController(
+            WristNeo550Constants.WristkP,
+            WristNeo550Constants.WristkI, 
+            WristNeo550Constants.WristkD, 
+            new TrapezoidProfile.Constraints(
+               WristNeo550Constants.maxVelocity, 
+               WristNeo550Constants.maxAcceleration)
+        );
     }
 
  public void periodic(){
