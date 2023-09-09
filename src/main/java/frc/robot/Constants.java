@@ -171,7 +171,7 @@ public final class Constants {
   }
 public static class ElevatorConstants{
   public enum ElevatorMotor {
-      Left(10),
+      Left(14),
       Right(13); 
     
       public final int CAN_ID;
