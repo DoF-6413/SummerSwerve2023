@@ -248,8 +248,10 @@ public static class ElevatorConstants{
   }
 
   public static class WristConstants{
-    public static  final int wristMotorPort = 0; // TODO: Update Port
+    public static  final int wristPWMPort = 2; // TODO: Update Port
+    public static  final int wristAnalogInput = 0; // TODO: Update Port
 
   public static final double shaftDiameterInches = 0;
+  public static final double gearRatio = 1/174.9; //Pinion rotation to armature rotations
   }
 }

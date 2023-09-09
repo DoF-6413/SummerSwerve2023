@@ -157,6 +157,7 @@ public class RobotContainer {
     elevator.setDefaultCommand(
       new InstantCommand(()-> elevator.setElevatorPercentSpeed(-auxController.getLeftY()), elevator));
     
+    endEffector.setDefaultCommand(new InstantCommand(()-> endEffector.setPercentSpeed(-auxController.getLeftY()), endEffector));
   }
 
     

@@ -10,7 +10,6 @@ import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 /** Add your docs here. */
 public interface WristIO {
-
     @AutoLog
     public static class WristIOInputs  {
 
@@ -22,11 +21,12 @@ public interface WristIO {
         
     }
 
-    
-
    
     public default void updateInputs(WristIOInputs inputs){
     }
 
-    public default void setVoltageSpeed(double volts) {}
+    // public default void setVoltageSpeed(double volts) {}
+
+    public default void setWristSpeed(double speed) {
+    }
 }

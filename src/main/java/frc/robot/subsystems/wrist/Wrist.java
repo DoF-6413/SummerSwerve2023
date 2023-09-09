@@ -27,13 +27,13 @@ public class Wrist extends SubsystemBase {
 
  public void periodic(){
     wristIO.updateInputs(WristInputs);
-    Logger.getInstance().processInputs("Elevator", WristInputs);
+    Logger.getInstance().processInputs("Wrist", WristInputs);
  }
  public double getWristPositionMeters(){
-    return WristInputs.turnPositionRad * Math.PI * Units.inchesToMeters(WristConstants.shaftDiameterInches);
+    return WristInputs.turnPositionRad * 2*Math.PI; //* Units.inchesToMeters(WristConstants.shaftDiameterInches);
  } 
  public void setWristPercentSpeed(double percent){
-        wristIO.setVoltageSpeed(percent * 12);
+        wristIO.setWristSpeed(percent);
 
 
 }
