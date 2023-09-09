@@ -41,6 +41,7 @@ import frc.robot.subsystems.vision.VisionIOSim;
 import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.subsystems.wrist.WristIO;
 import frc.robot.subsystems.wrist.WristIOBosch;
+import frc.robot.subsystems.wrist.WristIONeo550;
 import frc.robot.subsystems.wrist.WristIOSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;

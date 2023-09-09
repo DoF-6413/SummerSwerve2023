@@ -24,9 +24,9 @@ public class WristIOBosch implements WristIO {
         wristAI = new AnalogInput(WristConstants.wristAnalogInput);
     }
 
-    public void setWristSpeed(double speed) {
+    public void setWristSpeed(int speed) {
         // the speed should be a number between -1.0 to 1.0
-        wristPwm.setSpeed(speed);
+        wristPwm.setRaw(speed);
 
     }
 

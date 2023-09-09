@@ -17,6 +17,7 @@ public interface WristIO {
     public double turnPositionRad = 0.0;
     public double turnVelocityRadPerSec = 0.0;
     public double turnCurrentAmps = 0.0;
+    public double WristTempCelcius = 0.0;
 
         
     }
@@ -27,6 +28,6 @@ public interface WristIO {
 
     // public default void setVoltageSpeed(double volts) {}
 
-    public default void setWristSpeed(double speed) {
+    public default void setWristSpeed(int speed) {
     }
 }
