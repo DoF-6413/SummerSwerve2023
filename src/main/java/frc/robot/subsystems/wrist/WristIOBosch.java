@@ -11,7 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PWM;
-import frc.robot.Constants.WristConstants;
+import frc.robot.Constants.WristboschConstants;
 
 /** Add your docs here. */
 public class WristIOBosch implements WristIO {
@@ -20,8 +20,8 @@ public class WristIOBosch implements WristIO {
     private final AnalogInput wristAI;
 
     public WristIOBosch() {
-        wristPwm = new PWM(WristConstants.wristPWMPort);
-        wristAI = new AnalogInput(WristConstants.wristAnalogInput);
+        wristPwm = new PWM(WristboschConstants.wristPWMPort);
+        wristAI = new AnalogInput(WristboschConstants.wristAnalogInput);
     }
 
     public void setWristSpeed(int speed) {
@@ -32,7 +32,7 @@ public class WristIOBosch implements WristIO {
 
     public void updateInputs(WristIOInputs inputs){
          inputs.turnAppliedVolts = wristAI.getVoltage();
-         inputs.turnPositionRad = Units.rotationsToRadians(wristAI.getAccumulatorCount()) / WristConstants.gearRatio;
+         inputs.turnPositionRad = Units.rotationsToRadians(wristAI.getAccumulatorCount()) / WristboschConstants.gearRatio;
     }
 
 }

@@ -9,7 +9,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.util.Units;
-import frc.robot.Constants.WristConstants;
+import frc.robot.Constants.WristNeo550Constants;
 
 /** Add your docs here. */
 public class WristIONeo550 implements WristIO{
@@ -30,9 +30,9 @@ public void setWristSpeed(int speed) {
 
 public void updateInputs(WristIOInputs inputs){
     inputs.turnAppliedVolts = WristMotor.getBusVoltage();
-    inputs.turnPositionRad = Units.rotationsToRadians(wristEncoder.getPosition()) / WristConstants.gearRatio;
+    inputs.turnPositionRad = Units.rotationsToRadians(wristEncoder.getPosition()) / WristNeo550Constants.gearRatio;
     inputs.WristTempCelcius = WristMotor.getMotorTemperature();
-    inputs.turnVelocityRadPerSec =  Units.rotationsPerMinuteToRadiansPerSecond(wristEncoder.getVelocity()) / WristConstants.gearRatio;
+    inputs.turnVelocityRadPerSec =  Units.rotationsPerMinuteToRadiansPerSecond(wristEncoder.getVelocity()) / WristNeo550Constants.gearRatio;
 }
 
 

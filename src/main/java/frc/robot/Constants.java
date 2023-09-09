@@ -247,11 +247,15 @@ public static class ElevatorConstants{
     public static final double endeffectorAppliedVolts = 12.0; 
   }
 
-  public static class WristConstants{
+  public static class WristboschConstants{
     public static  final int wristPWMPort = 2; // TODO: Update Port
     public static  final int wristAnalogInput = 0; // TODO: Update Port
 
-  public static final double shaftDiameterInches = 0;
-  public static final double gearRatio = 1/174.9; //Pinion rotation to armature rotations
+    public static final double shaftDiameterInches = 0;
+    public static final double gearRatio = 1/174.9; //Pinion rotation to armature rotations
+  }
+  public static class WristNeo550Constants{
+    public static final double WristAppliedVolts = 12;
+    public static final double gearRatio = 1/174.9; //Pinion rotation to armature rotations
   }
 }
