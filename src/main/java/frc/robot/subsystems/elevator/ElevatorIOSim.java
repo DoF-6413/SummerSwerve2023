@@ -4,5 +4,46 @@
 
 package frc.robot.subsystems.elevator;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.simulation.ElevatorSim;
+import edu.wpi.first.wpilibj.simulation.FlywheelSim;
+import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.ElevatorConstants.ElevatorMotor;
+
 /** Add your docs here. */
-public class ElevatorIOSim {}
+public class ElevatorIOSim implements ElevatorIO {
+    private final ElevatorSim elevatorMotor = new ElevatorSim(
+        DCMotor.getFalcon500(2),
+        ElevatorConstants.gearRatio,
+        Units.lbsToKilograms(ElevatorConstants.carriageMassPounds),
+        Units.inchesToMeters(ElevatorConstants.shaftDiameterInches / 2),
+        Units.inchesToMeters(ElevatorConstants.elevatorStartingConfigHeightInches),
+        Units.inchesToMeters(ElevatorConstants.elevatorFullExtensionHeightInches),
+        ElevatorConstants.simulateGravity
+    );
+    public ElevatorIOSim() {
+        System.out.println("[Init] Creating ElevatorIOSim");
+
+    }
+    
+    public void updateInputs(ElevatorIOInputs inputs) {
+        inputs.elevatorPositionRad =
+            Units.rotationsToRadians(elevatorMotor.getPositionMeters() / ElevatorConstants.gearRatio);
+        inputs.elevatorVelocityRadPerSec = 
+            Units.rotationsPerMinuteToRadiansPerSecond(elevatorMotor.getVelocityMetersPerSecond() / ElevatorConstants.gearRatio);
+        inputs.limitSwitchPressed = false;
+        inputs.elevatorAppliedVolts = 0.0;
+        inputs.elevatorCurrentAmps = new double[] {elevatorMotor.getCurrentDrawAmps()};
+        inputs.elevatorTempCelcius = new double[] {};
+    }
+
+    @Override
+    public void setVoltageSpeed(double volts) {
+        elevatorMotor.setInputVoltage(volts);
+        System.out.println("running");
+      }
+}

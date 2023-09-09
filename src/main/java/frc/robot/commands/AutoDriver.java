@@ -66,10 +66,10 @@ public class AutoDriver extends CommandBase {
   public void initialize() {
     // Assuming this method is part of a drivetrain subsystem that provides the necessary methods
 
-         // Reset odometry for the first path you run during auto
-        //  if(isFirstPath){
-        //      pose.reset(pathGroup.getInitialHolonomicPose());
-        //  }
+        //  Reset odometry for the first path you run during auto
+         if(isFirstPath){
+             pose.resetPose(pathGroup.getInitialHolonomicPose());
+         }
        new PPSwerveControllerCommand(
            pathGroup, 
            pose::getCurrentPose2d, // Pose supplier
@@ -81,13 +81,14 @@ public class AutoDriver extends CommandBase {
            true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
            drivetrainSubsystem, gyroSubsystem // Requires this drive subsystem
        );
+        
   }
   
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     //Takes autoBuilder in the class and runs with the pathGroup
-    System.out.println("AutoDriver Running gg");
+    System.out.println("AutoDriver Running GG");
     autoBuilder.fullAuto(pathGroup);
     }
   
