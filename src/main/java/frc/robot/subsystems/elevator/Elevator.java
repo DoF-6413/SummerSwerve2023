@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 
 /** Add your docs here. */
-public class Elevator extends SubsystemBase{
+public class Elevator {
     public static ElevatorIO elevatorIO;
     public static ElevatorIOInputsAutoLogged elevatorInputs = new ElevatorIOInputsAutoLogged();
     public ProfiledPIDController elevatorPIDController;
@@ -33,10 +33,11 @@ public class Elevator extends SubsystemBase{
             new TrapezoidProfile.Constraints(
                 ElevatorConstants.maxVelocity, 
                 ElevatorConstants.maxAcceleration)
-        );
-
-        elevatorPIDController.setTolerance(ElevatorConstants.positionTolerance, ElevatorConstants.velocityTolerance);
-      }
+                );
+                
+                elevatorPIDController.setTolerance(ElevatorConstants.positionTolerance, ElevatorConstants.velocityTolerance);
+            
+            }
 
       public void periodic() {
         elevatorIO.updateInputs(elevatorInputs);
