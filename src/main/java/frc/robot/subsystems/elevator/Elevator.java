@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 
 /** Add your docs here. */
-public class Elevator {
+public class Elevator extends SubsystemBase{
     public static ElevatorIO elevatorIO;
     public static ElevatorIOInputsAutoLogged elevatorInputs = new ElevatorIOInputsAutoLogged();
     public ProfiledPIDController elevatorPIDController;

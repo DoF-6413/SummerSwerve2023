@@ -45,6 +45,7 @@ public class ElevatorIOSim implements ElevatorIO {
         inputs.elevatorAppliedVolts = 0.0;
         inputs.elevatorCurrentAmps = new double[] {elevatorMotor.getCurrentDrawAmps()};
         inputs.elevatorTempCelcius = new double[] {};
+
     }
 
     @Override

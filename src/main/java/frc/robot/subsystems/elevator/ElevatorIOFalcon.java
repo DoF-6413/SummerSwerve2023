@@ -16,6 +16,7 @@ import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.ElevatorConstants.ElevatorMotor;
 import frc.robot.subsystems.elevator.ElevatorIO.ElevatorIOInputs;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ElevatorIOFalcon implements ElevatorIO {
   /** Creates a new ElevatorIOFalcon. */
@@ -54,6 +55,9 @@ private final DigitalInput rightLimitSwitch;
     inputs.elevatorAppliedVolts = leftElevatorMotor.getMotorOutputVoltage() * leftElevatorMotor.getBusVoltage();
     inputs.elevatorCurrentAmps = new double[] {leftElevatorMotor.getStatorCurrent()};
     inputs.elevatorTempCelcius = new double[] {leftElevatorMotor.getTemperature()};
+    SmartDashboard.putNumber("LeftElevator Motor", leftElevatorMotor.getStatorCurrent());
+    
+    SmartDashboard.putNumber("RightElevator Motor", rightElevatorMotor.getStatorCurrent());
     
   }
 
