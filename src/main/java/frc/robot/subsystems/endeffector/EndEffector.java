@@ -9,6 +9,8 @@ import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.EndEffectorConstants;
 import frc.robot.subsystems.endeffector.EndEffectorIO.EndEffectorIOInputs;
@@ -18,8 +20,9 @@ public class EndEffector extends SubsystemBase {
     public static EndEffectorIO endEffectorIO;
     public static EndEffectorIOInputsAutoLogged endEffectorInputs = new EndEffectorIOInputsAutoLogged();
     public ProfiledPIDController endEffectorPIDController;
-       
-
+    public final Mechanism2d endEffector2d = new Mechanism2d(0.2,0.2);
+    public final MechanismRoot2d endEffectorMechanismRoot2d = endEffector2d.getRoot("endEffectorRoot",1,1);
+    
 public EndEffector(EndEffectorIO io) {
     System.out.println("[Init] Creating EndEffector");
         endEffectorIO = io;
@@ -34,6 +37,7 @@ public EndEffector(EndEffectorIO io) {
         );
 
         endEffectorPIDController.setTolerance(EndEffectorConstants.positionTolerance, EndEffectorConstants.velocityTolerance);
+      Logger.getInstance().recordOutput("endEffector2d", endEffector2d); 
     }
     
     public void periodic() {
@@ -42,6 +46,7 @@ public EndEffector(EndEffectorIO io) {
         Logger.getInstance().recordOutput("Elevator/PositionMeters", getEndEffectorPositionMeters());
         Logger.getInstance().recordOutput("Elevator/Voltage", getEndEffectorVoltage());
         Logger.getInstance().recordOutput("Elevator/PositionGoal", endEffectorPIDController.getGoal().position);
+        endEffector2d.
     }
 
     public double getEndEffectorPositionMeters(){
