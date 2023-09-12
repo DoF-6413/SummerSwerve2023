@@ -11,7 +11,7 @@ import frc.robot.Constants.EndEffectorConstants;
 
 /** Add your docs here. */
 public class EndEffectorIOSim implements EndEffectorIO{
-    private FlywheelSim endEffectorMotor = new FlywheelSim(DCMotor.getNEO(1), EndEffectorConstants.gearRatio,0.0);
+    private FlywheelSim endEffectorMotor = new FlywheelSim(DCMotor.getNEO(1), EndEffectorConstants.gearRatio,1);
 
     public EndEffectorIOSim() {
         System.out.println("[Init] Creating EndEffectorIOSim");
@@ -23,7 +23,7 @@ public class EndEffectorIOSim implements EndEffectorIO{
         
         inputs.endEffectorPositionRad += endEffectorMotor.getAngularVelocityRadPerSec() * Constants.loopPeriodSecs;
         inputs.endEffectorVelocityRadPerSec = endEffectorMotor.getAngularVelocityRadPerSec();
-        inputs.endEffectorAppliedVolts = 0.0;
+        inputs.endEffectorAppliedVolts = 0;
         inputs.endEffectorCurrentAmps = new double[] {Math.abs(endEffectorMotor.getCurrentDrawAmps())};
         inputs.endEffectorTempCelcius = new double[] {};
     }

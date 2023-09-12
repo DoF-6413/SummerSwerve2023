@@ -144,6 +144,8 @@ public class RobotContainer {
      controller.a().onTrue(new InstantCommand(()-> gyro.updateHeading(), gyro));
 
      controller.b().onTrue(new BalanceAuto(drive, gyro, 5));
+
+     controller.x().onTrue(new InstantCommand(()-> endEffector.setPercentSpeed(1)));
   }
 
     
