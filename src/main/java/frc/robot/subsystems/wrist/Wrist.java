@@ -42,7 +42,7 @@ public class Wrist extends SubsystemBase {
  public double getWristPositionMeters(){
     return WristInputs.turnPositionRad * 2*Math.PI; //* Units.inchesToMeters(WristConstants.shaftDiameterInches);
  } 
- public void setWristPercentSpeed(int percent){
+ public void setWristPercentSpeed(Double percent){
         wristIO.setWristSpeed(percent);
 
 

@@ -23,7 +23,7 @@ public WristIONeo550(){
 WristMotor = new CANSparkMax(2,MotorType.kBrushless);
 wristEncoder = WristMotor.getEncoder();
 }  
-public void setWristSpeed(int speed) {
+public void setWristSpeed(Double speed) {
     WristMotor.setVoltage(speed);
 
 }

@@ -28,6 +28,6 @@ public interface WristIO {
 
     // public default void setVoltageSpeed(double volts) {}
 
-    public default void setWristSpeed(int speed) {
+    public default void setWristSpeed(Double speed) {
     }
 }
