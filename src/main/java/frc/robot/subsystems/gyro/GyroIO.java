@@ -12,6 +12,7 @@ import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 public interface GyroIO {
+  
   @AutoLog
   public static class GyroIOInputs implements LoggableInputs {
     public boolean connected = false;
