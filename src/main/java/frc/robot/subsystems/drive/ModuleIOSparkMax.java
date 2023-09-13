@@ -22,6 +22,8 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.DrivetrainConstants;
+import frc.robot.Constants.DrivetrainConstants.AbsoluteEncoderOffset;
+import frc.robot.Constants.DrivetrainConstants.AbsoluteEncoder;
 import frc.robot.Constants.DrivetrainConstants.DriveMotor;
 import frc.robot.Constants.DrivetrainConstants.TurnMotor;
 
@@ -33,7 +35,6 @@ public class ModuleIOSparkMax implements moduleIO {
   private final RelativeEncoder turnRelativeEncoder;
   private final CANCoder turnAbsoluteEncoder;
 
-  private final double driveAfterEncoderReduction = (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0);
   private final double turnAfterEncoderReduction = 150.0 / 7.0;
 
   private final boolean isTurnMotorInverted = true;
@@ -46,26 +47,27 @@ public class ModuleIOSparkMax implements moduleIO {
       case 0:
         driveSparkMax = new CANSparkMax(DriveMotor.frontLeft.CAN_ID, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(TurnMotor.frontLeft.CAN_ID, MotorType.kBrushless);
-        turnAbsoluteEncoder = new CANCoder(8);//TODO: UPDATE CAN IDS
-        absoluteEncoderOffset = -267.6269 + 180;
+        turnAbsoluteEncoder = new CANCoder(AbsoluteEncoder.FrontLeft.EncoderID);
+        absoluteEncoderOffset = AbsoluteEncoderOffset.FrontLeft.offset;
         break;
       case 1:
         driveSparkMax = new CANSparkMax(DriveMotor.frontRight.CAN_ID, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(TurnMotor.frontRight.CAN_ID, MotorType.kBrushless);
-        turnAbsoluteEncoder = new CANCoder(11);//TODO: UPDATE CAN IDS
-        absoluteEncoderOffset = -269.7363 + 180;
+        turnAbsoluteEncoder = new CANCoder(AbsoluteEncoder.frontRight.EncoderID);
+        absoluteEncoderOffset = AbsoluteEncoderOffset.frontRight.offset;
+
         break;
       case 2:
         driveSparkMax = new CANSparkMax(DriveMotor.backLeft.CAN_ID, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(TurnMotor.backLeft.CAN_ID, MotorType.kBrushless);
-        turnAbsoluteEncoder = new CANCoder(5);//TODO: UPDATE CAN IDS
-        absoluteEncoderOffset = -356.0449;
+        turnAbsoluteEncoder = new CANCoder(AbsoluteEncoder.BackLeft.EncoderID);
+        absoluteEncoderOffset = AbsoluteEncoderOffset.BackLeft.offset;
         break;
       case 3:
         driveSparkMax = new CANSparkMax(DriveMotor.backRight.CAN_ID, MotorType.kBrushless);
         turnSparkMax = new CANSparkMax(TurnMotor.backRight.CAN_ID, MotorType.kBrushless);
-        turnAbsoluteEncoder = new CANCoder(2);//TODO: UPDATE CAN IDS
-        absoluteEncoderOffset = -177.6269;
+        turnAbsoluteEncoder = new CANCoder(AbsoluteEncoder.BackRigth.EncoderID);
+        absoluteEncoderOffset = AbsoluteEncoderOffset.BackRigth.offset;
         break;
       default:
         throw new RuntimeException("Invalid module index for ModuleIOSparkMax");
@@ -112,10 +114,10 @@ public class ModuleIOSparkMax implements moduleIO {
   @Override
   public void updateInputs(ModuleIOInputs inputs) {
     inputs.drivePositionRad = 
-        Units.rotationsToRadians(driveEncoder.getPosition()) / driveAfterEncoderReduction;
+        Units.rotationsToRadians(driveEncoder.getPosition()) / DrivetrainConstants.driveAfterEncoderReduction;
     inputs.driveVelocityRadPerSec =
         Units.rotationsPerMinuteToRadiansPerSecond(driveEncoder.getVelocity())
-            / driveAfterEncoderReduction;
+            / DrivetrainConstants.driveAfterEncoderReduction;
     inputs.driveAppliedVolts = driveSparkMax.getAppliedOutput() * driveSparkMax.getBusVoltage();
     inputs.driveCurrentAmps = new double[] { driveSparkMax.getOutputCurrent() };
     inputs.driveTempCelcius = new double[] { driveSparkMax.getMotorTemperature() };

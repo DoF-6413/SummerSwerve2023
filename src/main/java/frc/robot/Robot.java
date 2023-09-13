@@ -14,7 +14,19 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.Mode;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.drive.ModuleIOSparkMax;
+import frc.robot.subsystems.gyro.Gyro;
+import frc.robot.subsystems.gyro.GyroIONavX;
+import frc.robot.subsystems.vision.Vision;
+import frc.robot.subsystems.vision.VisionIO;
+import frc.robot.subsystems.vision.VisionIOArduCam;
+import frc.robot.subsystems.vision.VisionIOInputsAutoLogged;
+import frc.robot.subsystems.vision.VisionIO.VisionIOInputs;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,7 +38,10 @@ import frc.robot.Constants.Mode;
 public class Robot extends LoggedRobot {
   private RobotContainer robotContainer = new RobotContainer();
   private Command m_AutoCommand;
-
+  private Drive drive;
+  // private final Flywheel flywheel;
+  private Gyro gyro;
+  
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -72,36 +87,36 @@ public class Robot extends LoggedRobot {
     setUseTiming(Constants.getMode() == Mode.REAL|| Constants.getMode() == Mode.SIM);
     logger.start();
     
-
-  
-  
+        
+    
   }
-
+  
   /** This function is called periodically during all modes. */
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
   }
-
+  
   /** This function is called once when autonomous is enabled. */
   @Override
   public void autonomousInit() {
   m_AutoCommand = robotContainer.getAutonomousCommand();
-    if (m_AutoCommand != null) {
-      m_AutoCommand.schedule();
-    }
+  if (m_AutoCommand != null) {
+    m_AutoCommand.schedule();
   }
-  @Override
-  public void autonomousPeriodic() {
-  }
+}
+@Override
+public void autonomousPeriodic() {
+}
 
-  /** This function is called once when teleop is enabled. */
-  @Override
+/** This function is called once when teleop is enabled. */
+@Override
   public void teleopInit() {
+    
     if (m_AutoCommand != null) {
     m_AutoCommand.cancel();
     }
-  }
+    }
 
   /** This function is called periodically during operator control. */
   @Override

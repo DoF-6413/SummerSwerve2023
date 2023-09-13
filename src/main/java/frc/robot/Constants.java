@@ -61,6 +61,32 @@ public final class Constants {
   // TODO:Change non real values to real one's(I use "placeholders")
   public static class DrivetrainConstants {
 
+    public static enum AbsoluteEncoder{
+      FrontLeft(8),
+      frontRight(11),
+      BackLeft(5),
+      BackRigth(2);
+
+      public final int EncoderID;
+      AbsoluteEncoder(int ID){
+       EncoderID = ID;
+      }
+    }
+
+    public static enum AbsoluteEncoderOffset{
+      FrontLeft(-87.6269),
+      frontRight( -89.7363),
+      BackLeft(-356.0449),
+      BackRigth(-177.6269);
+     
+      public final double offset;
+      AbsoluteEncoderOffset(double value){
+        offset = value;
+      }
+    }
+
+    public static final double driveAfterEncoderReduction = (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0);
+
     public enum DriveMotor {
       frontLeft(10),
       frontRight(13),
@@ -68,6 +94,8 @@ public final class Constants {
       backRight(4);
 
       public final int CAN_ID;
+
+      
 
       DriveMotor(int value) {
         CAN_ID = value;
@@ -92,10 +120,10 @@ public final class Constants {
     public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.5);
 
     // PID Tuning for Drive Motors on Swerve Drive
-    public static final double driveKp = 0.0;
-    public static final double driveKd = 0.0;
-    public static final double driveKs = 0.2;
-    public static final double driveKv = 0.2;
+    public static final double driveKp = 0;
+    public static final double driveKd = 0;
+    public static final double driveKs = 0.4;
+    public static final double driveKv = 0.4;
 
     // PID Tuning for Turn Motors on Swerve Drive
     public static final double turnKp = 7.0;
@@ -110,15 +138,15 @@ public final class Constants {
     // Threshold to detect falls
     public static final double ledsFallenAngleDegrees = 60.0;
 
-    public static final double maxLinearSpeed = 4.5; // meters/sec
-    public static final double trackWidthX = 21.5; // 21 from center of wheel to center of other wheel but 22 from
-                                                   // encoder to encoder
-    public static final double trackWidthY = 21.5; // 21 from center of wheel to center of other wheel but 22 from
-                                                   // encoder to encoder
+    public static final double maxLinearSpeed = 4.5; //meters/sec 
+
+    public static final double trackWidthX = Units.inchesToMeters(21.5); //21 from center of wheel to center of other wheel but 22 from encoder to encoder 
+    public static final double trackWidthY = Units.inchesToMeters(21.5); //21 from center of wheel to center of other wheel but 22 from encoder to encoder
 
     private static final boolean isBrakemode = false;
 
     public static boolean ischaracterizing = false;
+
 
   }
   // drive constanst
@@ -136,10 +164,15 @@ public final class Constants {
   // how many swerve modules we have
   private double characterizationVolts = 0.0;
 
+  public static class fieldconstants {
+
+    public static final double fildlength = 16.4592;
+    public static final double fildwidth = 8.2296;
+  }
 public static class ElevatorConstants{
   public enum ElevatorMotor {
-      Left(10),
-      Right(13); 
+      Left(14),
+      Right(15); 
     
       public final int CAN_ID;
 
@@ -165,8 +198,27 @@ public static class ElevatorConstants{
   public static final double elevatorFullExtensionInches = 72;
   public static final double elevatorStartingConfigHeightInches = 22.729;
   public static final double elevatorFullExtensionHeightInches = 48.498;
+
   //TODO update to include end effector & actual mass
   public static final double carriageMassPounds = 6.5;
   public static final boolean simulateGravity = true;
+
+  //TODO: Update PID, Feedforward, Tolerance, and Trapazoidal Constraint Values
+    //PID Values
+  public static final double elevatorkP = 0;
+  public static final double elevatorkI= 0;
+  public static final double elevatorkD= 0;
+    //Constraints
+  public static final double maxVelocity= 0;
+  public static final double maxAcceleration= 0;
+    //FeedForward
+  public static final double elevatorkS= 0;
+  public static final double elevatorkV= 0;
+  public static final double elevatorkA= 0;
+    //Tolerance
+  public static final double positionTolerance = 0;
+  public static final double velocityTolerance = 0;
+
+
   }
 }

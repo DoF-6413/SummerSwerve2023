@@ -5,6 +5,7 @@
 package frc.robot.subsystems.vision;
 
 import org.littletonrobotics.junction.AutoLog;
+import org.littletonrobotics.junction.AutoLog;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -16,8 +17,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** Add your docs here. */
 public interface VisionIO {
+    
     @AutoLog
-    public static class VisionIOInputs{
+    public static class VisionIOInputs {
         public PhotonPipelineResult photonPipelineResult = new PhotonPipelineResult();
         public boolean hasTargets = false;
         public PhotonTrackedTarget target = null;
@@ -33,7 +35,7 @@ public interface VisionIO {
     
     }
 
-    public default void updateInputs(VisionIOInputsAutoLogged inputs){
+    public default void updateInputs(VisionIOInputs inputs){
 
     }
 

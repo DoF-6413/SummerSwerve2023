@@ -11,9 +11,12 @@ import org.photonvision.PhotonCamera;
 public class VisionIOArduCam implements VisionIO{
     private static PhotonCamera camera = new PhotonCamera("FrontCamera");
 
+
     public VisionIOArduCam(){
+        
     }
 
+    @Override
     public void updateInputs(VisionIOInputs inputs){
         inputs.photonPipelineResult = camera.getLatestResult();
         inputs.hasTargets = inputs.photonPipelineResult.hasTargets();
