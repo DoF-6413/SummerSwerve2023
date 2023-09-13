@@ -23,6 +23,7 @@ public class Elevator extends SubsystemBase{
     public static ElevatorIO elevatorIO;
     public static ElevatorIOInputsAutoLogged elevatorInputs = new ElevatorIOInputsAutoLogged();
     public ProfiledPIDController elevatorPIDController;
+    
 
     public Elevator(ElevatorIO io) {
         System.out.println("[Init] Creating Elevator ");
