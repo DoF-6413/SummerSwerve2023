@@ -35,7 +35,7 @@ public class ElevatorIOSim implements ElevatorIO {
         elevatorMotor.update(Constants.loopPeriodSecs);
     }
     
-    
+ //loggingcode("mechanismName", new Pose2d())
     public void updateInputs(ElevatorIOInputs inputs) {
         inputs.elevatorPositionRad =
         Units.rotationsToRadians(elevatorMotor.getPositionMeters() / ElevatorConstants.gearRatio);
