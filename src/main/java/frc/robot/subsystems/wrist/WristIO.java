@@ -9,6 +9,7 @@ import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 /** Add your docs here. */
+
 public interface WristIO {
     @AutoLog
     public static class WristIOInputs  {

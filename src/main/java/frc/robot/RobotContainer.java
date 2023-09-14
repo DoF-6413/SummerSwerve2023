@@ -81,7 +81,6 @@ public class RobotContainer {
   private final Wrist wrist;
   
   private final Elevator elevator;
-
   // Controller
   private final CommandXboxController driveController = new CommandXboxController(OperatorConstants.driveController);
   private final CommandXboxController auxController = new CommandXboxController(OperatorConstants.auxController);
