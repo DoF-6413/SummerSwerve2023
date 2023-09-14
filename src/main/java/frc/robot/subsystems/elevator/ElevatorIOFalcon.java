@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,17 +16,18 @@ import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.ElevatorConstants.ElevatorMotor;
 import frc.robot.subsystems.elevator.ElevatorIO.ElevatorIOInputs;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ElevatorIOFalcon implements ElevatorIO {
   /** Creates a new ElevatorIOFalcon. */
-private final TalonFX leftElevatorMotor;
-private final TalonFX rightElevatorMotor;
+private final WPI_TalonFX leftElevatorMotor;
+private final WPI_TalonFX rightElevatorMotor;
 private final DigitalInput leftLimitSwitch;
 private final DigitalInput rightLimitSwitch;
 
   public ElevatorIOFalcon() {
-    leftElevatorMotor = new TalonFX(ElevatorMotor.Left.CAN_ID);
-    rightElevatorMotor = new TalonFX(ElevatorMotor.Right.CAN_ID);
+    leftElevatorMotor = new WPI_TalonFX(ElevatorMotor.Left.CAN_ID);
+    rightElevatorMotor = new WPI_TalonFX(ElevatorMotor.Right.CAN_ID);
     leftElevatorMotor.setNeutralMode(NeutralMode.Brake);
     rightElevatorMotor.setNeutralMode(NeutralMode.Brake);
     leftElevatorMotor.setInverted(ElevatorConstants.leftMotorInverted);
@@ -41,6 +43,8 @@ private final DigitalInput rightLimitSwitch;
     
     leftLimitSwitch = new DigitalInput(0);
     rightLimitSwitch = new DigitalInput(1);
+
+    System.out.println("[Init] Creating ElevatorIOFalcon");
   }
 
   public void updateInputs(ElevatorIOInputs inputs) {
@@ -51,10 +55,14 @@ private final DigitalInput rightLimitSwitch;
     inputs.elevatorAppliedVolts = leftElevatorMotor.getMotorOutputVoltage() * leftElevatorMotor.getBusVoltage();
     inputs.elevatorCurrentAmps = new double[] {leftElevatorMotor.getStatorCurrent()};
     inputs.elevatorTempCelcius = new double[] {leftElevatorMotor.getTemperature()};
+    SmartDashboard.putNumber("LeftElevator Motor", leftElevatorMotor.getStatorCurrent());
+    
+    SmartDashboard.putNumber("RightElevator Motor", rightElevatorMotor.getStatorCurrent());
     
   }
 
-  public void setPercentSpeed(double percent) {
-    leftElevatorMotor.set(ControlMode.PercentOutput, percent);
+  @Override
+  public void setVoltageSpeed(double volts) {
+    leftElevatorMotor.setVoltage(volts);
   }
 }
