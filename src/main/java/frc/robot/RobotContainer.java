@@ -47,6 +47,10 @@ import frc.robot.subsystems.endeffector.EndEffector;
 import frc.robot.subsystems.endeffector.EndEffectorIO;
 import frc.robot.subsystems.endeffector.EndEffectorIOSim;
 import frc.robot.subsystems.endeffector.EndEffectorIOSparkMax;
+import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.subsystems.elevator.ElevatorIO;
+import frc.robot.subsystems.elevator.ElevatorIOFalcon;
+import frc.robot.subsystems.elevator.ElevatorIOSim;
 import frc.robot.commands.AutoDriver;
 import frc.robot.Trajectories;
 
@@ -64,10 +68,12 @@ public class RobotContainer {
   private final Vision vision;
   private final Pose pose;
   private final EndEffector endEffector;
+  private final Elevator elevator;
 
   // Controller
-  private final CommandXboxController controller = new CommandXboxController(OperatorConstants.DriveController);
-  
+  private final CommandXboxController driveController = new CommandXboxController(OperatorConstants.driveController);
+  private final CommandXboxController auxController = new CommandXboxController(OperatorConstants.auxController);
+
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
   
@@ -86,8 +92,9 @@ public class RobotContainer {
       vision = new Vision(new VisionIOArduCam());
       pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
       endEffector = new EndEffector(new EndEffectorIOSparkMax());
-      break;
-      
+        elevator = new Elevator(new ElevatorIOFalcon());
+        break;
+
       // Sim robot, instantiate physics sim IO implementations
       case SIM:
       System.out.println("Robot Current Mode; SIM");
@@ -96,16 +103,20 @@ public class RobotContainer {
         vision = new Vision(new VisionIOSim());
         pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
         endEffector = new EndEffector(new EndEffectorIOSim());
+        elevator = new Elevator(new ElevatorIOSim());
+
         break;
-        
-        // Replayed robot, disable IO implementations
-        default:
-        System.out.println("Robot Current Mode; default");
-        gyro = new Gyro(new GyroIO(){});
+
+      // Replayed robot, disable IO implementations
+      default:
+      System.out.println("Robot Current Mode; default");
+      // flywheel = new Flywheel(new FlywheelIO() {});
+        gyro = new Gyro(new GyroIO() {});
         drive = new Drive(new moduleIO() {}, new moduleIO() {}, new moduleIO() {}, new moduleIO() {}, gyro);
         vision = new Vision(new VisionIO() {});
         pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
-        endEffector = new EndEffector(new EndEffectorIOSparkMax());
+        endEffector = new EndEffector(new EndEffectorIO(){});
+        elevator = new Elevator(new ElevatorIO() {});
         break;
         
       }
@@ -132,11 +143,14 @@ public class RobotContainer {
   private void configureButtonBindings() {
     drive.setDefaultCommand(
       new DefaultDriveCommand(
-        drive, gyro,()-> -controller.getLeftY(), ()-> -controller.getLeftX(), ()-> controller.getRightX() ));
-      
-     controller.a().onTrue(new InstantCommand(()-> gyro.updateHeading(), gyro));
+        drive, gyro,()-> -driveController.getLeftY(), ()-> -driveController.getLeftX(), ()-> driveController.getRightX() ));
 
-    endEffector.setDefaultCommand(new InstantCommand(()-> endEffector.setPercentSpeed(controller.getLeftY()), endEffector));
+    endEffector.setDefaultCommand(new InstantCommand(()-> endEffector.setPercentSpeed(driveController.getLeftY()), endEffector));
+        driveController.a().onTrue(new InstantCommand(()-> gyro.updateHeading(), gyro));
+    
+    elevator.setDefaultCommand(
+      new InstantCommand(()-> elevator.setElevatorPercentSpeed(-auxController.getLeftY()), elevator));
+    
   }
 
     
