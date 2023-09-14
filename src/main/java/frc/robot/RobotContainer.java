@@ -56,6 +56,10 @@ import frc.robot.subsystems.endeffector.EndEffector;
 import frc.robot.subsystems.endeffector.EndEffectorIO;
 import frc.robot.subsystems.endeffector.EndEffectorIOSim;
 import frc.robot.subsystems.endeffector.EndEffectorIOSparkMax;
+import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.subsystems.elevator.ElevatorIO;
+import frc.robot.subsystems.elevator.ElevatorIOFalcon;
+import frc.robot.subsystems.elevator.ElevatorIOSim;
 import frc.robot.commands.AutoDriver;
 import frc.robot.Trajectories;
 
@@ -72,11 +76,12 @@ public class RobotContainer {
   private final Gyro gyro;
   private final Vision vision;
   private final Pose pose;
-  private final Elevator elevator;
   private final EndEffector endEffector;
 
   private final Wrist wrist;
   
+  private final Elevator elevator;
+
   // Controller
   private final CommandXboxController driveController = new CommandXboxController(OperatorConstants.driveController);
   private final CommandXboxController auxController = new CommandXboxController(OperatorConstants.auxController);
@@ -101,8 +106,8 @@ public class RobotContainer {
         elevator = new Elevator(new ElevatorIOFalcon());
       endEffector = new EndEffector(new EndEffectorIOSparkMax());
       wrist = new Wrist(new WristIOBosch());
-      break;
-      
+        break;
+
       // Sim robot, instantiate physics sim IO implementations
       case SIM:
       System.out.println("Robot Current Mode; SIM");
@@ -113,7 +118,6 @@ public class RobotContainer {
         elevator = new Elevator(new ElevatorIOSim());
         endEffector = new EndEffector(new EndEffectorIOSim());
         wrist = new Wrist(new WristIOSim());
-        // flywheel = new Flywheel(new FlywheelIOSim());
         break;
         
         // Replayed robot, disable IO implementations
