@@ -26,6 +26,7 @@ public class EndEffectorIOSparkMax implements EndEffectorIO{
         inputs.endEffectorPositionRad = Units.rotationsToRadians(endEffectorEncoder.getPosition()) / EndEffectorConstants.gearRatio;
         inputs.endEffectorVelocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(endEffectorEncoder.getVelocity()) / EndEffectorConstants.gearRatio;
         inputs.endEffectorAppliedVolts = endEffectorMotor.getAppliedOutput() * endEffectorMotor.getBusVoltage();
+        inputs.endEffectorCurrentAmps = new double[] {endEffectorMotor.getOutputCurrent()};
     }
 
     public void setVoltage(double voltage){

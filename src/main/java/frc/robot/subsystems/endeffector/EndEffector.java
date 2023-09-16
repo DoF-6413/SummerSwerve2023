@@ -46,7 +46,6 @@ public EndEffector(EndEffectorIO io) {
         Logger.getInstance().recordOutput("Elevator/PositionMeters", getEndEffectorPositionMeters());
         Logger.getInstance().recordOutput("Elevator/Voltage", getEndEffectorVoltage());
         Logger.getInstance().recordOutput("Elevator/PositionGoal", endEffectorPIDController.getGoal().position);
-        endEffector2d.
     }
 
     public double getEndEffectorPositionMeters(){
@@ -66,7 +65,8 @@ public EndEffector(EndEffectorIO io) {
     }
 
     public void setPercentSpeed(double percent){
-        endEffectorIO.setPercentSpeed(percent);
+        endEffectorIO.setVoltage(percent * 12);
+        System.out.println("HI");
     }
 }
 
