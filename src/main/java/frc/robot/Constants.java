@@ -172,7 +172,7 @@ public final class Constants {
   public static class EndEffectorConstants {
     public static final int endEffectorCANID = 0; //TODO: Update Later
     public static final int endEffectorConversionFactor = 0; //TODO: Update Later
-    public static final double gearRatio = 0.2;
+    public static final double gearRatio = 4;
     public static final int neoTicks = 42;
     // Endeffector Current Limit
     public static final boolean kIsEndEffectorCurrentLimitEnabled = true;
