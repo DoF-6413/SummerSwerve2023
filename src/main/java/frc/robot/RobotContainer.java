@@ -33,6 +33,7 @@ import frc.robot.subsystems.gyro.Gyro;
 import frc.robot.subsystems.gyro.GyroIO;
 import frc.robot.subsystems.gyro.GyroIONavX;
 import frc.robot.subsystems.gyro.GyroIOSim;
+import frc.robot.subsystems.pose.Mechanisms2d;
 import frc.robot.subsystems.pose.Pose;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
@@ -77,10 +78,9 @@ public class RobotContainer {
   private final Vision vision;
   private final Pose pose;
   private final EndEffector endEffector;
-
-  private final Wrist wrist;
-  
   private final Elevator elevator;
+  private final Wrist wrist;
+  private final Mechanisms2d mechanisms;
   // Controller
   private final CommandXboxController driveController = new CommandXboxController(OperatorConstants.driveController);
   private final CommandXboxController auxController = new CommandXboxController(OperatorConstants.auxController);
@@ -105,6 +105,7 @@ public class RobotContainer {
         elevator = new Elevator(new ElevatorIOFalcon());
       endEffector = new EndEffector(new EndEffectorIOSparkMax());
       wrist = new Wrist(new WristIOBosch());
+        mechanisms = new Mechanisms2d(elevator, wrist);
         break;
 
       // Sim robot, instantiate physics sim IO implementations
@@ -117,6 +118,7 @@ public class RobotContainer {
         elevator = new Elevator(new ElevatorIOSim());
         endEffector = new EndEffector(new EndEffectorIOSim());
         wrist = new Wrist(new WristIOSim());
+        mechanisms = new Mechanisms2d(elevator, wrist);
         break;
         
         // Replayed robot, disable IO implementations
@@ -129,6 +131,7 @@ public class RobotContainer {
         elevator = new Elevator(new ElevatorIO(){});
         endEffector = new EndEffector(new EndEffectorIO(){});
         wrist = new Wrist(new WristIO(){});
+        mechanisms = new Mechanisms2d(elevator, wrist);
         break;
       }
       
@@ -162,6 +165,7 @@ public class RobotContainer {
       new InstantCommand(()-> elevator.setElevatorPercentSpeed(-auxController.getLeftY()), elevator));
     
     endEffector.setDefaultCommand(new InstantCommand(()-> endEffector.setPercentSpeed(-auxController.getLeftY()), endEffector));
+      wrist.setDefaultCommand(new InstantCommand(()-> wrist.setWristPercentSpeed(-auxController.getRightY()), wrist));
   }
 
     
