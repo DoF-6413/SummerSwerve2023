@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.wrist.Wrist;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 
 public class Mechanisms2d extends SubsystemBase {
 
@@ -26,17 +27,23 @@ public class Mechanisms2d extends SubsystemBase {
   public Mechanisms2d(Elevator elevatorSub, Wrist wristSub) {
     this.elevatorSub = elevatorSub;
     this.wristSub = wristSub;
-    swerveMech = new Mechanism2d(10, 10); // TODO: Update Values
+    swerveMech = new Mechanism2d(3,3); // TODO: Update Values
     root = swerveMech.getRoot("MechanismRoot", 1, 1);
+
+
+
     elevatorMech = root.append(
         new MechanismLigament2d(
             "ElevatorRoot",
             Units.inchesToMeters(ElevatorConstants.elevatorStartingConfigLengthInches),
-            ElevatorConstants.elevatorAngleDegrees));
+            ElevatorConstants.elevatorAngleDegrees,10,new Color8Bit(0,255,0)));
+
+
+
     wristMech = elevatorMech.append(
         new MechanismLigament2d(
             "WristRoot",
-            3,
+            0.4,
             0));
     SmartDashboard.putData("Swerve Mech", swerveMech);
     
@@ -45,8 +52,18 @@ public class Mechanisms2d extends SubsystemBase {
   
   @Override
   public void periodic() {
-    elevatorMech.setLength(Units.inchesToMeters(ElevatorConstants.elevatorStartingConfigLengthInches)
-    + elevatorSub.getElevatorPositionMeters());
+    // set the 
+    elevatorMech.
+
+    
+    setLength(
+
+
+    Units.inchesToMeters(ElevatorConstants.elevatorStartingConfigLengthInches) //the minimun length of the elevator 
+    + 
+    elevatorSub.getElevatorPositionMeters()); //position of the elevator
+// 
+    
     wristMech.setAngle(wristSub.getWristPositionMeters());
     Logger.getInstance().recordOutput("SwerveMech", swerveMech);
   }

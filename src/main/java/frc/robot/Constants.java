@@ -292,9 +292,9 @@ public static class ElevatorConstants{
   public static final double shaftDiameterInches = 1.6;
   public static final double elevatorAngleDegrees = 35;
   public static final double elevatorStartingConfigLengthInches = 24.236;
-  public static final double elevatorFullExtensionInches = 72;
-  public static final double elevatorStartingConfigHeightInches = 22.729;
-  public static final double elevatorFullExtensionHeightInches = 48.498;
+  public static final double elevatorFullExtensionInches = 61;
+  public static final double elevatorStartingConfigHeightInches = 22;
+  public static final double elevatorFullExtensionHeightInches = 43;
 
   //TODO update to include end effector & actual mass
   public static final double carriageMassPounds = 6.5;
