@@ -11,23 +11,13 @@ import org.littletonrobotics.junction.inputs.LoggableInputs;
 public interface EndEffectorIO{
 /** Add your docs here. */
 @AutoLog
-public static class EndEffectorIOInputs implements LoggableInputs{
+public static class EndEffectorIOInputs{
     public double endEffectorPositionRad = 0.0;
     public double endEffectorVelocityRadPerSec = 0.0;
     public double endEffectorAppliedVolts = 0.0;
     public double[] endEffectorCurrentAmps = new double[] {};
     public double[] endEffectorTempCelcius = new double[] {};
 
-    @Override
-    public void toLog(LogTable table) {
-        //TODO Auto-generated method stub
-    }
-
-    @Override
-    public void fromLog(LogTable table) {
-        // TODO Auto-generated method stub
-        
-    }
 }
 
 public default void updateInputs(EndEffectorIOInputs inputs) {}
