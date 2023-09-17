@@ -110,11 +110,9 @@ public class RobotContainer {
         
       }
       
-      // m_Chooser.addOption("FullAuto", new AutoDriver(drive, gyro, pose, Trajectories.test, true));
+      
       // Set up auto routines
       autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
-      // autoChooser.addOption("FullAuto", new AutoDriver(drive, gyro, pose, Trajectories.test, true));
-      // SmartDashboard.putData(m_Chooser);
       Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
       
       
