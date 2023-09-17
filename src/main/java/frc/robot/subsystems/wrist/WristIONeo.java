@@ -21,9 +21,10 @@ private final RelativeEncoder wristEncoder;
 public WristIONeo(){
 
 
-WristMotor = new CANSparkMax(9,MotorType.kBrushless);
+WristMotor = new CANSparkMax(16,MotorType.kBrushless);
 wristEncoder = WristMotor.getEncoder();
 WristMotor.setIdleMode(IdleMode.kBrake);
+WristMotor.setSmartCurrentLimit(60);
 }  
 public void setWristSpeed(Double speed) {
     WristMotor.setVoltage(speed);
@@ -35,6 +36,7 @@ public void updateInputs(WristIOInputs inputs){
     inputs.turnPositionRad = Units.rotationsToRadians(wristEncoder.getPosition()) / WristNeoConstants.gearRatio;
     inputs.WristTempCelcius = WristMotor.getMotorTemperature();
     inputs.turnVelocityRadPerSec =  Units.rotationsPerMinuteToRadiansPerSecond(wristEncoder.getVelocity()) / WristNeoConstants.gearRatio;
+    inputs.turnCurrentAmps = WristMotor.getOutputCurrent();
 }
 
 

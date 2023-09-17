@@ -159,10 +159,10 @@ public class RobotContainer {
       new DefaultDriveCommand(
         drive, gyro,()-> -driveController.getLeftY(), ()-> -driveController.getLeftX(), ()-> driveController.getRightX() ));
       
-    //     driveController.a().onTrue(new InstantCommand(()-> gyro.updateHeading(), gyro));
+        driveController.a().onTrue(new InstantCommand(()-> gyro.updateHeading(), gyro));
     
-    // elevator.setDefaultCommand(
-    //   new InstantCommand(()-> elevator.setElevatorPercentSpeed(-auxController.getLeftY()), elevator));
+    elevator.setDefaultCommand(
+      new InstantCommand(()-> elevator.setElevatorPercentSpeed(-auxController.getLeftY()), elevator));
     
     endEffector.setDefaultCommand(new InstantCommand(()-> endEffector.setPercentSpeed(-auxController.getLeftY()), endEffector));
       wrist.setDefaultCommand(new InstantCommand(()-> wrist.setWristPercentSpeed(-auxController.getRightY()), wrist));
