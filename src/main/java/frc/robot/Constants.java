@@ -254,7 +254,7 @@ public static class ElevatorConstants{
     public static final double shaftDiameterInches = 0;
     public static final double gearRatio = 1/174.9; //Pinion rotation to armature rotations
   }
-  public static class WristNeo550Constants{
+  public static class WristNeoConstants{
     public static final double WristAppliedVolts = 12;
     public static final double gearRatio = 1/174.9; //Pinion rotation to armature rotations
     public static final double WristkP = 0;

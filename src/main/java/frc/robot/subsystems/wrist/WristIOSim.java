@@ -9,10 +9,10 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.Constants;
 
-import frc.robot.Constants.WristNeo550Constants;
+import frc.robot.Constants.WristNeoConstants;
 
 public class WristIOSim implements WristIO {
-    private FlywheelSim WristMotor = new FlywheelSim(DCMotor.getNeo550(1),WristNeo550Constants.gearRatio,1);
+    private FlywheelSim WristMotor = new FlywheelSim(DCMotor.getNEO(1),WristNeoConstants.gearRatio,1);
 
     public WristIOSim(){
          System.out.println("[Init] Creating WristIOSim");
@@ -31,6 +31,6 @@ public class WristIOSim implements WristIO {
     
 
     public void setWristSpeed(Double speed) {
-        WristMotor.setInputVoltage(speed * WristNeo550Constants.WristAppliedVolts);
+        WristMotor.setInputVoltage(speed * WristNeoConstants.WristAppliedVolts);
     }
 }

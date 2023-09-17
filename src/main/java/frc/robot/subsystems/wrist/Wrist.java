@@ -10,7 +10,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.WristNeo550Constants;
+import frc.robot.Constants.WristNeoConstants;
 
 /** Add your docs here. */
 public class Wrist extends SubsystemBase {
@@ -26,12 +26,12 @@ public class Wrist extends SubsystemBase {
         wristIO = io;
         wristPIDController =
         new ProfiledPIDController(
-            WristNeo550Constants.WristkP,
-            WristNeo550Constants.WristkI, 
-            WristNeo550Constants.WristkD, 
+            WristNeoConstants.WristkP,
+            WristNeoConstants.WristkI, 
+            WristNeoConstants.WristkD, 
             new TrapezoidProfile.Constraints(
-               WristNeo550Constants.maxVelocity, 
-               WristNeo550Constants.maxAcceleration)
+               WristNeoConstants.maxVelocity, 
+               WristNeoConstants.maxAcceleration)
         );
     }
 
@@ -42,8 +42,13 @@ public class Wrist extends SubsystemBase {
  public double getWristPositionMeters(){
     return WristInputs.turnPositionRad * 2*Math.PI; //* Units.inchesToMeters(WristConstants.shaftDiameterInches);
  } 
- public void setWristPercentSpeed(Double percent){
-        wristIO.setWristSpeed(percent);
+ public void setWristSpeed(Double voltage){
+        wristIO.setWristSpeed(voltage);
+
+
+}
+public void setWristPercentSpeed(Double percent){
+   wristIO.setWristSpeed(percent * 12);
 
 
 }
