@@ -20,8 +20,6 @@ public class EndEffector extends SubsystemBase {
     public static EndEffectorIO endEffectorIO;
     public static EndEffectorIOInputsAutoLogged endEffectorInputs = new EndEffectorIOInputsAutoLogged();
     public ProfiledPIDController endEffectorPIDController;
-    public final Mechanism2d endEffector2d = new Mechanism2d(0.2,0.2);
-    public final MechanismRoot2d endEffectorMechanismRoot2d = endEffector2d.getRoot("endEffectorRoot",1,1);
     
 public EndEffector(EndEffectorIO io) {
     System.out.println("[Init] Creating EndEffector");
@@ -37,7 +35,6 @@ public EndEffector(EndEffectorIO io) {
         );
 
         endEffectorPIDController.setTolerance(EndEffectorConstants.positionTolerance, EndEffectorConstants.velocityTolerance);
-      Logger.getInstance().recordOutput("endEffector2d", endEffector2d); 
     }
     
     public void periodic() {
