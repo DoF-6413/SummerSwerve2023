@@ -63,17 +63,5 @@ public EndEffector(EndEffectorIO io) {
 
     public void setPercentSpeed(double percent){
         endEffectorIO.setVoltage(percent * 12);
-        System.out.println("HI");
     }
 }
-
-
-
-
-
-
-
-
-
-
-
