@@ -171,18 +171,18 @@ public final class Constants {
 
   public static class EndEffectorConstants {
     public static final int endEffectorCANID = 17; 
-    public static final int endEffectorConversionFactor = 0; //TODO: Update Later
+    public static final double endEffectorConversionFactor = 0.0; //TODO: Update Later or Delete, might not need
     public static final double gearRatio = 4;
     public static final int neoTicks = 42;
     // Endeffector Current Limit
     public static final boolean kIsEndEffectorCurrentLimitEnabled = true;
-    public static final double kEndEffectorContinuousCurrent = 0; //TODO: Update Later
-    public static final double kEndEffectorPeakCurrent = 0; //TODO: Update Later
-    public static final double kEndEffectorMaxTimeAtPeak = 0; //TODO: Update Later
+    public static final double kEndEffectorContinuousCurrent = 0.0; //TODO: Update Later
+    public static final double kEndEffectorPeakCurrent = 0.0; //TODO: Update Later
+    public static final double kEndEffectorMaxTimeAtPeak = 0.0; //TODO: Update Later
     // PID Values
-    public static final double endEffectorkP = 0; //TODO: Update Later
-    public static final double endEffectorkI = 0; //TODO: Update Later
-    public static final double endEffectorkD = 0; //TODO: Update Later 
+    public static final double endEffectorkP = 0.0; //TODO: Update Later
+    public static final double endEffectorkI = 0.0; //TODO: Update Later
+    public static final double endEffectorkD = 0.0; //TODO: Update Later 
 
     public static final double maxVelocity = 0.0; //TODO: Update
     public static final double maxAcceleration = 0.0; //TODO: Update
@@ -194,7 +194,7 @@ public final class Constants {
     public static final double positionTolerance = 0.0; //TODO: update
     public static final double velocityTolerance = 0.0; //TODO: update
 
-    public static final double endeffectorAppliedVolts = 12; 
+    public static final double endeffectorAppliedVolts = 12.0; 
   }
 
 }
