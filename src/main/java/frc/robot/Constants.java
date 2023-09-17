@@ -119,8 +119,8 @@ public final class Constants {
     public static final double WHEEL_RADIUS_METERS = Units.inchesToMeters(1.5);
 
     // PID Tuning for Drive Motors on Swerve Drive
-    public static final double driveKp = 0;
-    public static final double driveKd = 0;
+    public static final double driveKp = 0.0;
+    public static final double driveKd = 0.0;
     public static final double driveKs = 0.4;
     public static final double driveKv = 0.4;
 
@@ -167,6 +167,34 @@ public final class Constants {
 
     public static final double fildlength = 16.4592;
     public static final double fildwidth = 8.2296;
+  }
+
+  public static class EndEffectorConstants {
+    public static final int endEffectorCANID = 17; 
+    public static final double endEffectorConversionFactor = 0.0; //TODO: Update Later or Delete, might not need
+    public static final double gearRatio = 4;
+    public static final int neoTicks = 42;
+    // Endeffector Current Limit
+    public static final boolean kIsEndEffectorCurrentLimitEnabled = true;
+    public static final double kEndEffectorContinuousCurrent = 0.0; //TODO: Update Later
+    public static final double kEndEffectorPeakCurrent = 0.0; //TODO: Update Later
+    public static final double kEndEffectorMaxTimeAtPeak = 0.0; //TODO: Update Later
+    // PID Values
+    public static final double endEffectorkP = 0.0; //TODO: Update Later
+    public static final double endEffectorkI = 0.0; //TODO: Update Later
+    public static final double endEffectorkD = 0.0; //TODO: Update Later 
+
+    public static final double maxVelocity = 0.0; //TODO: Update
+    public static final double maxAcceleration = 0.0; //TODO: Update
+
+    public static final double endEffectorkS = 0.0; //TODO: update
+    public static final double endEffectorkV = 0.0; //TODO: update
+    public static final double endEffectorkA = 0.0; //TODO: update
+
+    public static final double positionTolerance = 0.0; //TODO: update
+    public static final double velocityTolerance = 0.0; //TODO: update
+
+    public static final double endeffectorAppliedVolts = 12.0; 
   }
 
 }
