@@ -94,12 +94,9 @@ public final class Constants {
 
       public final int CAN_ID;
 
-      
-
       DriveMotor(int value) {
         CAN_ID = value;
       }
-
     }
 
     public enum TurnMotor {

@@ -67,10 +67,11 @@ public class RobotContainer {
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(OperatorConstants.DriveController);
+  public final GenericHID buttonBoard = new GenericHID(OperatorConstants.kJoystickPort);
   
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
-  
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -113,12 +114,7 @@ public class RobotContainer {
       
       // Set up auto routines
       autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
-      Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
-      
-      
-      
-     
-        
+      Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());  
         // Configure the button bindings
         configureButtonBindings();
   }
@@ -135,18 +131,19 @@ public class RobotContainer {
         drive, gyro,()-> -controller.getLeftY(), ()-> -controller.getLeftX(), ()-> controller.getRightX() ));
       
      controller.a().onTrue(new InstantCommand(()-> gyro.updateHeading(), gyro));
-
-    endEffector.setDefaultCommand(new InstantCommand(()-> endEffector.setPercentSpeed(controller.getLeftY()), endEffector));
-  }
-
+     controller.y().onTrue(new TrajectoryRunner(drive, pose, autoNavChooser.choosenTrajectory(), false));
+     
+     endEffector.setDefaultCommand(new InstantCommand(()-> endEffector.setPercentSpeed(controller.getLeftY()), endEffector));
+     new Joystick(buttonBoard, 1).onTrue(new InstantCommand(()-> autoNavChooser.setCol(0)));    
+    }
     
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-
-  public Command getAutonomousCommand() {
-    return new DriveAndBalance(drive, gyro);    
-  }
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     */
+    
+    public Command getAutonomousCommand() {
+      return new DriveAndBalance(drive, gyro);    
+    }
 }

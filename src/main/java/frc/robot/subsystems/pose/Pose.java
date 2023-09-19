@@ -74,8 +74,7 @@ public class Pose extends SubsystemBase {
         this.vision = vision;
 
         poseEstimator = new SwerveDrivePoseEstimator(kinematics, gyro.getYaw(), this.drive.getSwerveModulePositions(),
-                new Pose2d(new Translation2d(),new Rotation2d()));
-
+            new Pose2d(new Translation2d(),new Rotation2d()));
     }
 
     @Override
@@ -86,7 +85,6 @@ public class Pose extends SubsystemBase {
         field2d.setRobotPose(getCurrentPose2d());
         poseEstimator.updateWithTime(Timer.getFPGATimestamp(), gyro.getYaw(), drive.getSwerveModulePositions());
         
-
         photonPipelineResult = vision.getResults();
         resultsTimestamp = photonPipelineResult.getTimestampSeconds();
 
