@@ -262,6 +262,8 @@ public static class ElevatorConstants{
     public static final double WristkD = 0;
     public static final double maxVelocity = 0;
     public static final double maxAcceleration = 0;
+    public static final double initialangle = 97;
+    public static final double finalangle = 6;
   }
 
 
