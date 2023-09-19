@@ -16,6 +16,7 @@ public class WristIOSim implements WristIO {
 
     public WristIOSim(){
          System.out.println("[Init] Creating WristIOSim");
+         
     }
 
     @Override
@@ -32,5 +33,7 @@ public class WristIOSim implements WristIO {
 
     public void setWristSpeed(Double speed) {
         WristMotor.setInputVoltage(speed * WristNeoConstants.WristAppliedVolts);
+        
+        WristMotor.update(Constants.loopPeriodSecs);
     }
 }

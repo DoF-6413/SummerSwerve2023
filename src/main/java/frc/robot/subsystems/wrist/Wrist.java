@@ -47,6 +47,10 @@ public class Wrist extends SubsystemBase {
 
 
 }
+
+public double getWristPositionDegrees(){
+   return Units.radiansToDegrees(WristInputs.turnPositionRad);
+}
 public void setWristPercentSpeed(Double percent){
    wristIO.setWristSpeed(percent * 12);
 

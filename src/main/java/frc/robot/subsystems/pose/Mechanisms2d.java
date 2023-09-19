@@ -64,7 +64,7 @@ public class Mechanisms2d extends SubsystemBase {
     elevatorSub.getElevatorPositionMeters()); //position of the elevator
 // 
     
-    wristMech.setAngle(wristSub.getWristPositionMeters());
+    wristMech.setAngle(wristSub.getWristPositionDegrees());
     Logger.getInstance().recordOutput("SwerveMech", swerveMech);
   }
 }
