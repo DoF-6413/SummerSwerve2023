@@ -33,11 +33,17 @@ import frc.robot.subsystems.gyro.Gyro;
 import frc.robot.subsystems.gyro.GyroIO;
 import frc.robot.subsystems.gyro.GyroIONavX;
 import frc.robot.subsystems.gyro.GyroIOSim;
+import frc.robot.subsystems.pose.Mechanisms2d;
 import frc.robot.subsystems.pose.Pose;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOArduCam;
 import frc.robot.subsystems.vision.VisionIOSim;
+import frc.robot.subsystems.wrist.Wrist;
+import frc.robot.subsystems.wrist.WristIO;
+import frc.robot.subsystems.wrist.WristIOBosch;
+import frc.robot.subsystems.wrist.WristIONeo;
+import frc.robot.subsystems.wrist.WristIOSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -47,6 +53,18 @@ import frc.robot.subsystems.endeffector.EndEffector;
 import frc.robot.subsystems.endeffector.EndEffectorIO;
 import frc.robot.subsystems.endeffector.EndEffectorIOSim;
 import frc.robot.subsystems.endeffector.EndEffectorIOSparkMax;
+import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.subsystems.elevator.ElevatorIO;
+import frc.robot.subsystems.elevator.ElevatorIOFalcon;
+import frc.robot.subsystems.elevator.ElevatorIOSim;
+import frc.robot.subsystems.endeffector.EndEffector;
+import frc.robot.subsystems.endeffector.EndEffectorIO;
+import frc.robot.subsystems.endeffector.EndEffectorIOSim;
+import frc.robot.subsystems.endeffector.EndEffectorIOSparkMax;
+import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.subsystems.elevator.ElevatorIO;
+import frc.robot.subsystems.elevator.ElevatorIOFalcon;
+import frc.robot.subsystems.elevator.ElevatorIOSim;
 import frc.robot.commands.AutoDriver;
 import frc.robot.Trajectories;
 
@@ -64,10 +82,13 @@ public class RobotContainer {
   private final Vision vision;
   private final Pose pose;
   private final EndEffector endEffector;
-
+  private final Elevator elevator;
+  private final Wrist wrist;
+  private final Mechanisms2d mechanisms;
   // Controller
-  private final CommandXboxController controller = new CommandXboxController(OperatorConstants.DriveController);
-  
+  private final CommandXboxController driveController = new CommandXboxController(OperatorConstants.driveController);
+  private final CommandXboxController auxController = new CommandXboxController(OperatorConstants.auxController);
+
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
   
@@ -86,8 +107,11 @@ public class RobotContainer {
       vision = new Vision(new VisionIOArduCam());
       pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
       endEffector = new EndEffector(new EndEffectorIOSparkMax());
-      break;
-      
+        elevator = new Elevator(new ElevatorIOFalcon());
+      wrist = new Wrist(new WristIOBosch());
+        mechanisms = new Mechanisms2d(elevator, wrist);
+        break;
+
       // Sim robot, instantiate physics sim IO implementations
       case SIM:
       System.out.println("Robot Current Mode; SIM");
@@ -95,7 +119,10 @@ public class RobotContainer {
       drive = new Drive(new ModuleIOSim(), new ModuleIOSim(), new ModuleIOSim(), new ModuleIOSim(), gyro);
         vision = new Vision(new VisionIOSim());
         pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
+        elevator = new Elevator(new ElevatorIOSim());
         endEffector = new EndEffector(new EndEffectorIOSim());
+        wrist = new Wrist(new WristIOSim());
+        mechanisms = new Mechanisms2d(elevator, wrist);
         break;
         
         // Replayed robot, disable IO implementations
@@ -105,9 +132,11 @@ public class RobotContainer {
         drive = new Drive(new moduleIO() {}, new moduleIO() {}, new moduleIO() {}, new moduleIO() {}, gyro);
         vision = new Vision(new VisionIO() {});
         pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
-        endEffector = new EndEffector(new EndEffectorIOSparkMax());
+        elevator = new Elevator(new ElevatorIO(){});
+        endEffector = new EndEffector(new EndEffectorIO(){});
+        wrist = new Wrist(new WristIO(){});
+        mechanisms = new Mechanisms2d(elevator, wrist);
         break;
-        
       }
       
       
@@ -132,11 +161,19 @@ public class RobotContainer {
   private void configureButtonBindings() {
     drive.setDefaultCommand(
       new DefaultDriveCommand(
-        drive, gyro,()-> -controller.getLeftY(), ()-> -controller.getLeftX(), ()-> controller.getRightX() ));
-      
-     controller.a().onTrue(new InstantCommand(()-> gyro.updateHeading(), gyro));
+        drive, gyro,()-> -driveController.getLeftY(), ()-> -driveController.getLeftX(), ()-> driveController.getRightX() ));
 
-    endEffector.setDefaultCommand(new InstantCommand(()-> endEffector.setPercentSpeed(controller.getLeftY()), endEffector));
+    endEffector.setDefaultCommand(new InstantCommand(()-> endEffector.setPercentSpeed(driveController.getLeftY()), endEffector));
+        driveController.a().onTrue(new InstantCommand(()-> gyro.updateHeading(), gyro));
+    
+      elevator.setDefaultCommand(
+        new InstantCommand(()-> elevator.setElevatorPercentSpeed(-auxController.getLeftY()), elevator));
+    
+    endEffector.setDefaultCommand(new InstantCommand(()-> endEffector.setPercentSpeed(-auxController.getLeftY()), endEffector));
+      wrist.setDefaultCommand(new InstantCommand(()-> wrist.setWristPercentSpeed(-auxController.getRightY()), wrist));
+
+      auxController.leftTrigger().onTrue(new InstantCommand(()-> endEffector.setPercentSpeed(0.7), endEffector)).onFalse(new InstantCommand(()-> endEffector.setPercentSpeed(0), endEffector));
+      auxController.rightTrigger().onTrue(new InstantCommand(()-> endEffector.setPercentSpeed(-0.7), endEffector)).onFalse(new InstantCommand(()-> endEffector.setPercentSpeed(0), endEffector));
   }
 
     
