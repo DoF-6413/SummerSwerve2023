@@ -11,6 +11,7 @@ import org.littletonrobotics.junction.inputs.LoggableInputs;
 /** Add your docs here. */
 public interface ElevatorIO {
 
+    
     @AutoLog
     public static class ElevatorIOInputs implements LoggableInputs {
         public double elevatorPositionRad = 0.0;

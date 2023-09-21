@@ -51,5 +51,6 @@ public class ElevatorIOSim implements ElevatorIO {
     @Override
     public void setVoltageSpeed(double volts) {
         elevatorMotor.setInputVoltage(volts);
+        elevatorMotor.update(Constants.loopPeriodSecs);
       }
 }

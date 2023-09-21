@@ -57,7 +57,8 @@ public class Elevator extends SubsystemBase{
     /** extension of elevator (hypotenuse)
      */
     public double getElevatorPositionMeters(){
-        return elevatorInputs.elevatorPositionRad * Math.PI * Units.inchesToMeters(ElevatorConstants.shaftDiameterInches);
+        //pose of the  elevator 
+        return elevatorInputs.elevatorPositionRad;
     } 
     /** height of end of elevator off the ground
      */

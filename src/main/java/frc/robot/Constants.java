@@ -245,6 +245,105 @@ public static class ElevatorConstants{
     //Tolerance
   public static final double positionTolerance = 0;
   public static final double velocityTolerance = 0;
+}
+  public static class EndEffectorConstants {
+    public static final int endEffectorCANID = 17; 
+    public static final double endEffectorConversionFactor = 0.0; //TODO: Update Later or Delete, might not need
+    public static final double gearRatio = 4;
+    public static final int neoTicks = 42;
+    // Endeffector Current Limit
+    public static final boolean kIsEndEffectorCurrentLimitEnabled = true;
+    public static final double kEndEffectorContinuousCurrent = 0.0; //TODO: Update Later
+    public static final double kEndEffectorPeakCurrent = 0.0; //TODO: Update Later
+    public static final double kEndEffectorMaxTimeAtPeak = 0.0; //TODO: Update Later
+    // PID Values
+    public static final double endEffectorkP = 0.0; //TODO: Update Later
+    public static final double endEffectorkI = 0.0; //TODO: Update Later
+    public static final double endEffectorkD = 0.0; //TODO: Update Later 
+
+    public static final double maxVelocity = 0.0; //TODO: Update
+    public static final double maxAcceleration = 0.0; //TODO: Update
+
+    public static final double endEffectorkS = 0.0; //TODO: update
+    public static final double endEffectorkV = 0.0; //TODO: update
+    public static final double endEffectorkA = 0.0; //TODO: update
+
+    public static final double positionTolerance = 0.0; //TODO: update
+    public static final double velocityTolerance = 0.0; //TODO: update
+
+    public static final double endeffectorAppliedVolts = 12.0; 
+  }
+
+  public static class WristboschConstants{
+    public static  final int wristPWMPort = 2; // TODO: Update Port
+    public static  final int wristAnalogInput = 0; // TODO: Update Port
+
+    public static final double shaftDiameterInches = 0;
+    public static final double gearRatio = 1/174.9; //Pinion rotation to armature rotations
+  }
+  public static class WristNeoConstants{
+    public static final double WristAppliedVolts = 12;
+    public static final double gearRatio = 1/174.9; //Pinion rotation to armature rotations
+    public static final double WristkP = 0;
+    public static final double WristkI = 0;
+    public static final double WristkD = 0;
+    public static final double maxVelocity = 0;
+    public static final double maxAcceleration = 0;
+    public static final double initialangle = 97;
+    public static final double finalangle = 6;
+  }
+
+
+public static class ElevatorConstants{
+  public enum ElevatorMotor {
+      Left(14),
+      Right(15); 
+    
+      public final int CAN_ID;
+
+
+      ElevatorMotor(int value) {
+        CAN_ID = value;
+      }
+  }
+
+  public final static double elevatorConversionFactor = 0.0;
+  public final static double gearRatio = 7;
+  public final static double falconTicks = 2048;
+  public final static boolean leftMotorInverted = true;
+  public final static boolean rightMotorInverted = false;
+  //Elevetor Current Limit
+  public static final boolean kIsElevatorCurrentLimitEnabled = true;
+  public static final double kElevatorContinuousCurrent = 40;
+  public static final double kElevatorPeakCurrent = 60;
+  public static final double kElevatorMaxTimeAtPeak = 5.0;
+
+  public static final double shaftDiameterInches = 1.6;
+  public static final double elevatorAngleDegrees = 35;
+  public static final double elevatorStartingConfigLengthInches = 24.236;
+  public static final double elevatorFullExtensionInches = 61;
+  public static final double elevatorStartingConfigHeightInches = 22;
+  public static final double elevatorFullExtensionHeightInches = 43;
+
+  //TODO update to include end effector & actual mass
+  public static final double carriageMassPounds = 6.5;
+  public static final boolean simulateGravity = true;
+
+  //TODO: Update PID, Feedforward, Tolerance, and Trapazoidal Constraint Values
+    //PID Values
+  public static final double elevatorkP = 0;
+  public static final double elevatorkI= 0;
+  public static final double elevatorkD= 0;
+    //Constraints
+  public static final double maxVelocity= 0;
+  public static final double maxAcceleration= 0;
+    //FeedForward
+  public static final double elevatorkS= 0;
+  public static final double elevatorkV= 0;
+  public static final double elevatorkA= 0;
+    //Tolerance
+  public static final double positionTolerance = 0;
+  public static final double velocityTolerance = 0;
 
 
   }
