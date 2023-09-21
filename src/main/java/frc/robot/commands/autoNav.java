@@ -24,6 +24,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.pose.Pose;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
 public class autoNav extends CommandBase {
   public final Drive driveTrainSubusystem;
@@ -34,10 +35,10 @@ public class autoNav extends CommandBase {
   
   public autoNav(Drive drive, Pose pose, Pose2d startPose, Pose2d destinationPose){
     driveTrainSubusystem = drive;
-  poseSubsystem = pose;
-  startPose2d = startPose;
-  destinationPose2d = destinationPose;
-  addRequirements(driveTrainSubusystem, poseSubsystem);
+    poseSubsystem = pose;
+    startPose2d = startPose;
+    destinationPose2d = destinationPose;
+    addRequirements(driveTrainSubusystem, poseSubsystem);
 }
 // When the command is initially scheduled we create a trajectory.
 @Override
@@ -50,18 +51,36 @@ public void initialize() {
   TrajectoryConfig config = limit of velocity and acceleration,
   */
   poseSubsystem.getCurrentPose2d(); 
-  
+
+  // Trajectory generateTrajectory(
+  //   Pose2d startPose = poseSubsystem.getCurrentPose2d(), 
+  //   List<Translation2d> interiorWaypoints,
+  //   destinationPose2d = new Pose2d(),
+  //   new TrajectoryConfig(0, 0)
+  //   );  
+
+    final Trajectory runnableTrajectory = TrajectoryGenerator.generateTrajectory(
+      startPose2d, 
+      null, 
+      destinationPose2d, 
+      new TrajectoryConfig(0, 0)
+    );
+      
 } 
 
 // Called every time the scheduler runs while the command is scheduled.
 @Override
 public void execute() {
-    Trajectory generateTrajectory(
-      Pose2d startPose = poseSubsystem.getCurrentPose2d(), 
-      List<Translation2d> interiorWaypoints,
-      destinationPose
-      new TrajectoryConfig(0, 0));
-    //use swervecontrollercommand to run runnableTrajectory    
+    //use swervecontrollercommand to run runnableTrajectory
+    // SwerveControllerCommand​(Trajectory runnableTrajectory,
+    // Supplier<Pose2d> pose,
+    // SwerveDriveKinematics kinematics,
+    // PIDController xController,
+    // PIDController yController,
+    // ProfiledPIDController thetaController,
+    // Supplier<Rotation2d> desiredRotation,
+    // Consumer<SwerveModuleState[]> outputModuleStates,
+    // Subsystem... requirements)
   }
 
   // Called once the command ends or is interrupted.
