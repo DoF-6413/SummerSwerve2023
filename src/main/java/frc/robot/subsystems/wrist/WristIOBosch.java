@@ -7,6 +7,8 @@ package frc.robot.subsystems.wrist;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -16,23 +18,20 @@ import frc.robot.Constants.WristboschConstants;
 /** Add your docs here. */
 public class WristIOBosch implements WristIO {
 
-    private final PWM wristPwm;
-    private final AnalogInput wristAI;
+    private final CANSparkMax wristBosch;
 
     public WristIOBosch() {
-        wristPwm = new PWM(WristboschConstants.wristPWMPort);
-        wristAI = new AnalogInput(WristboschConstants.wristAnalogInput);
+        wristBosch = new CANSparkMax(WristboschConstants.boschCanID, MotorType.kBrushed);
     }
 
     public void setWristSpeed(int speed) {
         // the speed should be a number between -1.0 to 1.0
-        wristPwm.setRaw(speed);
-
+        wristBosch.setVoltage(speed);
     }
 
     public void updateInputs(WristIOInputs inputs){
-         inputs.turnAppliedVolts = wristAI.getVoltage();
-         inputs.turnPositionRad = Units.rotationsToRadians(wristAI.getAccumulatorCount()) / WristboschConstants.gearRatio;
+        //  inputs.turnAppliedVolts = wristAI.getVoltage();
+        //  inputs.turnPositionRad = Units.rotationsToRadians(wristAI.getAccumulatorCount()) / WristboschConstants.gearRatio;
     }
 
 }

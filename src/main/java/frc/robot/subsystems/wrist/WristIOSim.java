@@ -12,7 +12,16 @@ import frc.robot.Constants;
 import frc.robot.Constants.WristNeoConstants;
 
 public class WristIOSim implements WristIO {
-    private SingleJointedArmSim WristMotor = new SingleJointedArmSim(DCMotor.getNEO(1),WristNeoConstants.gearRatio, 1,0.2, 0.5, 1, true);//TODO: update this values 
+    private SingleJointedArmSim WristMotor = 
+    new SingleJointedArmSim(
+        DCMotor.getNEO(1),
+        WristNeoConstants.gearRatio, 
+        1,
+        0.2, 
+        0.5, 
+        1, 
+        true);//TODO: update this values
+
 //DCMotor.getNEO(1),WristNeoConstants.gearRatio,1
     public WristIOSim(){
          System.out.println("[Init] Creating WristIOSim");
