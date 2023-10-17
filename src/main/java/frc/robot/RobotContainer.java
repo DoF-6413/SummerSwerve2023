@@ -67,7 +67,7 @@ import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.elevator.ElevatorIO;
 import frc.robot.subsystems.elevator.ElevatorIOFalcon;
 import frc.robot.subsystems.elevator.ElevatorIOSim;
-import frc.robot.commands.AutoDriver;
+// import frc.robot.commands.AutoDriver;
 import frc.robot.Trajectories;
 
 /**

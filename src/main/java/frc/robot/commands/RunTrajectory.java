@@ -38,9 +38,9 @@ public class RunTrajectory extends SequentialCommandGroup {
       new PPSwerveControllerCommand(
         traj, 
         pose::getCurrentPose2d, 
-        new PIDController(0.5, 0.0, 0.0), 
-        new PIDController(0.0, 0.0, 0.0), 
-        new PIDController(0.0, 0.0, 0.0), 
+        new PIDController(7.0, 25.6, 0.8), // PID for the x value
+        new PIDController(0.0, 0.0, 0.0),  // PID for the y value
+        new PIDController(0.0, 0.0, 0.0),  // PID for the rotation value
         drive::runVelocity,  
         true,
         drive,

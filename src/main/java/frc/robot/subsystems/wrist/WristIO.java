@@ -12,7 +12,7 @@ import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 public interface WristIO {
     @AutoLog
-    public static class WristIOInputs  {
+    public static class WristIOInputs {
 
     public double turnAppliedVolts = 0.0;
     public double turnPositionRad = 0.0;
