@@ -74,21 +74,25 @@ public class Pose extends SubsystemBase {
         this.vision = vision;
 
         poseEstimator = new SwerveDrivePoseEstimator(kinematics, gyro.getYaw(), this.drive.getSwerveModulePositions(),
-                new Pose2d(new Translation2d(),new Rotation2d()));
+                new Pose2d(new Translation2d(),new Rotation2d()), stateStdDevs, visionMeasurementStdDevs);
 
     }
 
     @Override
     public void periodic() {
 
-        //TODO: Split into different functions/ put into respective subsysems (leave neccessary things here)
-        //TODO: Make ALL Smartdashboard -> "logged" value
+        if (field2d != null) {
+            this.setPose2d();
+        }
+
         field2d.setRobotPose(getCurrentPose2d());
         poseEstimator.updateWithTime(Timer.getFPGATimestamp(), gyro.getYaw(), drive.getSwerveModulePositions());
         
-
-        photonPipelineResult = vision.getResults();
-        resultsTimestamp = photonPipelineResult.getTimestampSeconds();
+    // added if statement to prevent crash in case no targets are seen
+        if( vision.doesHaveTargets() != false) {
+            photonPipelineResult = vision.getResults();
+            resultsTimestamp = photonPipelineResult.getTimestampSeconds();
+        }
 
         SmartDashboard.putNumber("photonTime", photonPipelineResult.getTimestampSeconds());
         Logger.getInstance().recordOutput("TimeStampSec", photonPipelineResult.getTimestampSeconds());
@@ -100,7 +104,8 @@ public class Pose extends SubsystemBase {
             previousPipelineTimestamp = resultsTimestamp;
             var target = photonPipelineResult.getBestTarget();
             var fiducialid = target.getFiducialId();
-            if (target.getPoseAmbiguity() >= 0.2 && fiducialid >= 0 && fiducialid < 9) {
+            
+            if (target.getPoseAmbiguity() <= 0.2 && fiducialid >= 0 && fiducialid < 9) {
                 
                 AprilTagFieldLayout atfl;
                 try {
