@@ -94,6 +94,7 @@ public class RobotContainer {
   
   //Todo finish loading path and calling follow trajectory 
   PathPlannerTrajectory path1 = PathPlanner.loadPath("path1", new PathConstraints(.5, .5));
+  PathPlannerTrajectory fullauto = PathPlanner.loadPath("fullauto", new PathConstraints(0.5, 0.5));
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser = new LoggedDashboardChooser<>("Auto Choices");
@@ -150,6 +151,7 @@ public class RobotContainer {
     autoChooser.addOption("4 Second Auto", new QuickAuto(drive, gyro, 0.5,4));
     autoChooser.addOption("3 Second Balance", new QuickAuto(drive, gyro, 0.5,3));
     autoChooser.addDefaultOption("path1", new RunTrajectory(drive, pose, path1, true));
+    autoChooser.addDefaultOption("FullAuto", new RunTrajectory(drive, pose, fullauto, true));
     Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
 
 

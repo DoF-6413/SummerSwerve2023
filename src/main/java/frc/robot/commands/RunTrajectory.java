@@ -39,7 +39,7 @@ public class RunTrajectory extends SequentialCommandGroup {
         traj, 
         pose::getCurrentPose2d, 
         new PIDController(7.0, 25.6, 0.8), // PID for the x value
-        new PIDController(0.0, 0.0, 0.0),  // PID for the y value
+        new PIDController(12.8,6.4, 0.15),  // PID for the y value
         new PIDController(0.0, 0.0, 0.0),  // PID for the rotation value
         drive::runVelocity,  
         true,
