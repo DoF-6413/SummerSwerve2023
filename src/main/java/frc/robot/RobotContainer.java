@@ -142,7 +142,7 @@ public class RobotContainer {
       
       // Set up auto routines
       autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
-      autoChooser.addDefaultOption("DriveForward 4 seconds", new QuickAuto(drive, gyro, 0.2, 7));
+      autoChooser.addOption("DriveForward 4 seconds", new QuickAuto(drive, gyro, 0.2, 7));
       Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
       
       
@@ -167,7 +167,7 @@ public class RobotContainer {
         driveController.a().onTrue(new InstantCommand(()-> gyro.updateHeading(), gyro));
     
         elevator.setDefaultCommand(
-          new InstantCommand(()-> elevator.setElevatorPercentSpeed(-auxController.getLeftY()), elevator));
+          new InstantCommand(()-> elevator.setElevatorPercentSpeed(-auxController.getLeftY() * 0.33), elevator));
         
         wrist.setDefaultCommand(
           new InstantCommand(()-> wrist.setWristSpeed(-auxController.getRightY()), wrist));

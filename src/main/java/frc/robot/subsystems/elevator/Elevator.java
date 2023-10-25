@@ -46,6 +46,8 @@ public class Elevator extends SubsystemBase{
         elevatorIO.updateInputs(elevatorInputs);
         Logger.getInstance().processInputs("Elevator", elevatorInputs);
         Logger.getInstance().recordOutput("Elevator/PositionMeters", getElevatorPositionMeters());
+        Logger.getInstance().recordOutput("Elevator/PositionFeet", getElevatorPositionFeet());
+        Logger.getInstance().recordOutput("Elevator/HeightMeters", getElevatorHeightMeters());
         Logger.getInstance().recordOutput("Elevator/Voltage", getElevatorVoltage());
         Logger.getInstance().recordOutput("Elevator/PositionGoal", elevatorPIDController.getGoal().position);
 
