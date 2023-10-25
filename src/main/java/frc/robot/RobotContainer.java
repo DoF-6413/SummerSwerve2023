@@ -26,6 +26,7 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.QuickAuto;
 import frc.robot.commands.Autos.BalanceAuto;
 import frc.robot.commands.Autos.DriveAndBalance;
+import frc.robot.commands.TeleopAutos.MoveElevatorPosition;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
@@ -174,6 +175,9 @@ public class RobotContainer {
 
       auxController.leftTrigger().onTrue(new InstantCommand(()-> endEffector.setPercentSpeed(0.7), endEffector)).onFalse(new InstantCommand(()-> endEffector.setPercentSpeed(0), endEffector));
       auxController.rightTrigger().onTrue(new InstantCommand(()-> endEffector.setPercentSpeed(-0.7), endEffector)).onFalse(new InstantCommand(()-> endEffector.setPercentSpeed(0), endEffector));
+
+      //test for human player station position 
+      auxController.a().onTrue(new MoveElevatorPosition(0, 0, elevator)).onFalse(new MoveElevatorPosition(0, 0, elevator));
   }
 
     
