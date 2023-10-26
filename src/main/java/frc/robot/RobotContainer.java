@@ -24,8 +24,10 @@ import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.QuickAuto;
+import frc.robot.commands.Autos.ScoreLowAndMobility;
 import frc.robot.commands.Autos.BalanceAuto;
 import frc.robot.commands.Autos.DriveAndBalance;
+import frc.robot.commands.Autos.ScoreLowAndMobility;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
@@ -142,7 +144,8 @@ public class RobotContainer {
       
       // Set up auto routines
       autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
-      autoChooser.addOption("DriveForward 4 seconds", new QuickAuto(drive, gyro, 0.2, 7));
+      autoChooser.addOption("Mobility", new QuickAuto(drive, gyro, 0.2, 7));
+      autoChooser.addOption("LowAndMobility", new ScoreLowAndMobility());
       Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
       
       
