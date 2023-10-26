@@ -145,7 +145,7 @@ public class RobotContainer {
       // Set up auto routines
       autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
       autoChooser.addOption("Mobility", new QuickAuto(drive, gyro, 0.2, 7));
-      autoChooser.addOption("LowAndMobility", new ScoreLowAndMobility());
+      autoChooser.addOption("LowAndMobility", new ScoreLowAndMobility(drive, gyro));
       Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
       
       
@@ -170,7 +170,7 @@ public class RobotContainer {
         driveController.a().onTrue(new InstantCommand(()-> gyro.updateHeading(), gyro));
     
         elevator.setDefaultCommand(
-          new InstantCommand(()-> elevator.setElevatorPercentSpeed(-auxController.getLeftY() * 0.33), elevator));
+          new InstantCommand(()-> elevator.setElevatorPercentSpeed(-auxController.getLeftY() * 0.2), elevator));
         
         wrist.setDefaultCommand(
           new InstantCommand(()-> wrist.setWristSpeed(-auxController.getRightY()), wrist));
