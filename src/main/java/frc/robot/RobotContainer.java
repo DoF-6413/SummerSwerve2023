@@ -143,9 +143,10 @@ public class RobotContainer {
       
       
       // Set up auto routines
+      autoChooser.addDefaultOption("LowAndMobility", new ScoreLowAndMobility(drive, gyro));
       autoChooser.addOption("Do Nothing", new InstantCommand());
       autoChooser.addOption("Mobility", new QuickAuto(drive, gyro, 0.35, 7));
-      autoChooser.addDefaultOption("LowAndMobility", new ScoreLowAndMobility(drive, gyro));
+      autoChooser.addOption("LowMobileBalance", new DriveAndBalance(drive, gyro));
       Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
       
       
@@ -193,7 +194,6 @@ public class RobotContainer {
    */
 
   public Command getAutonomousCommand() {
-    // return new DriveAndBalance(drive, gyro);    
     return autoChooser.get();
   }
 }
