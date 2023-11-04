@@ -5,6 +5,7 @@
 package frc.robot.subsystems.endeffector;
 
 import com.ctre.phoenix.motorcontrol.MotorCommutation;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -27,6 +28,7 @@ public class EndEffectorIOSparkMax implements EndEffectorIO{
         inputs.endEffectorVelocityRadPerSec = Units.rotationsPerMinuteToRadiansPerSecond(endEffectorEncoder.getVelocity()) / EndEffectorConstants.gearRatio;
         inputs.endEffectorAppliedVolts = endEffectorMotor.getAppliedOutput() * endEffectorMotor.getBusVoltage();
         inputs.endEffectorCurrentAmps = new double[] {endEffectorMotor.getOutputCurrent()};
+        // endEffectorMotor.setSmartCurrentLimit(0);
     }
 
     public void setVoltage(double voltage){

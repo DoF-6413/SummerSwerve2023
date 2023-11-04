@@ -24,8 +24,10 @@ import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.QuickAuto;
+import frc.robot.commands.Autos.ScoreLowAndMobility;
 import frc.robot.commands.Autos.BalanceAuto;
 import frc.robot.commands.Autos.DriveAndBalance;
+import frc.robot.commands.Autos.ScoreLowAndMobility;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOSparkMax;
@@ -41,7 +43,7 @@ import frc.robot.subsystems.vision.VisionIOArduCam;
 import frc.robot.subsystems.vision.VisionIOSim;
 import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.subsystems.wrist.WristIO;
-import frc.robot.subsystems.wrist.WristIOBosch;
+import frc.robot.subsystems.wrist.WristIOSparkMax;
 import frc.robot.subsystems.wrist.WristIONeo;
 import frc.robot.subsystems.wrist.WristIOSim;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -108,7 +110,7 @@ public class RobotContainer {
       pose = new Pose(drive, gyro, vision, drive.swerveKinematics);
       endEffector = new EndEffector(new EndEffectorIOSparkMax());
         elevator = new Elevator(new ElevatorIOFalcon());
-      wrist = new Wrist(new WristIOBosch());
+      wrist = new Wrist(new WristIOSparkMax());
         mechanisms = new Mechanisms2d(elevator, wrist);
         break;
 
@@ -141,7 +143,10 @@ public class RobotContainer {
       
       
       // Set up auto routines
-      autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
+      autoChooser.addDefaultOption("LowAndMobility", new ScoreLowAndMobility(drive, gyro));
+      autoChooser.addOption("Do Nothing", new InstantCommand());
+      autoChooser.addOption("Mobility", new QuickAuto(drive, gyro, 0.35, 7));
+      autoChooser.addOption("LowMobileBalance", new DriveAndBalance(drive, gyro));
       Shuffleboard.getTab("Auto").add(autoChooser.getSendableChooser());
       
       
@@ -158,22 +163,27 @@ public class RobotContainer {
    * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
+   
   private void configureButtonBindings() {
     drive.setDefaultCommand(
       new DefaultDriveCommand(
         drive, gyro,()-> -driveController.getLeftY(), ()-> -driveController.getLeftX(), ()-> driveController.getRightX() ));
-
-    endEffector.setDefaultCommand(new InstantCommand(()-> endEffector.setPercentSpeed(driveController.getLeftY()), endEffector));
         driveController.a().onTrue(new InstantCommand(()-> gyro.updateHeading(), gyro));
     
-      elevator.setDefaultCommand(
-        new InstantCommand(()-> elevator.setElevatorPercentSpeed(-auxController.getLeftY()), elevator));
-    
-    endEffector.setDefaultCommand(new InstantCommand(()-> endEffector.setPercentSpeed(-auxController.getLeftY()), endEffector));
-      wrist.setDefaultCommand(new InstantCommand(()-> wrist.setWristPercentSpeed(-auxController.getRightY()), wrist));
+        elevator.setDefaultCommand(
+          new InstantCommand(()-> elevator.setElevatorPercentSpeed(-auxController.getLeftY() * 0.2), elevator));
+        
+        wrist.setDefaultCommand(
+          new InstantCommand(()-> wrist.setWristSpeed(-auxController.getRightY()), wrist));
+          
+          auxController.leftTrigger().onTrue(new InstantCommand(()-> endEffector.setPercentSpeed(0.7), endEffector)).onFalse(new InstantCommand(()-> endEffector.setPercentSpeed(0), endEffector));
+          auxController.rightTrigger().onTrue(new InstantCommand(()-> endEffector.setPercentSpeed(-0.7), endEffector)).onFalse(new InstantCommand(()-> endEffector.setPercentSpeed(0), endEffector));
 
-      auxController.leftTrigger().onTrue(new InstantCommand(()-> endEffector.setPercentSpeed(0.7), endEffector)).onFalse(new InstantCommand(()-> endEffector.setPercentSpeed(0), endEffector));
-      auxController.rightTrigger().onTrue(new InstantCommand(()-> endEffector.setPercentSpeed(-0.7), endEffector)).onFalse(new InstantCommand(()-> endEffector.setPercentSpeed(0), endEffector));
+        // endEffector.setDefaultCommand(
+        //   new InstantCommand(()-> endEffector.setPercentSpeed(auxController.getLeftTriggerAxis()), endEffector));
+        // endEffector.setDefaultCommand(
+        //   new InstantCommand(()-> endEffector.setPercentSpeed(-auxController.getRightTriggerAxis()), endEffector));
+
   }
 
     
@@ -184,6 +194,6 @@ public class RobotContainer {
    */
 
   public Command getAutonomousCommand() {
-    return new DriveAndBalance(drive, gyro);    
+    return autoChooser.get();
   }
 }

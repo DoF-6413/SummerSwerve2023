@@ -15,22 +15,21 @@ import frc.robot.subsystems.gyro.Gyro;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 
-public class DriveAndBalance extends SequentialCommandGroup {
+public class ScoreLowAndMobility extends SequentialCommandGroup {
   /** Creates a new DriveAndBalance. */
   public final Drive driveTrainSubsystem;
   public final Gyro gyroSubsystem; 
   // public final Timer m_timer;
-  public DriveAndBalance(Drive drive, Gyro gyro) {
+  public ScoreLowAndMobility(Drive drive, Gyro gyro) {
     driveTrainSubsystem = drive;
     gyroSubsystem = gyro;
     addRequirements(driveTrainSubsystem, gyroSubsystem);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new QuickAuto(drive, gyro, 0.2, 0.5),
-      new QuickAuto(drive, gyro, -0.2, 1),
-      new QuickAuto(drive, gyro, 0.25, 3),
-      new BalanceAuto(drive, gyro, 11)
+      new QuickAuto(drive, gyro, 0.35, 0.5),
+      new QuickAuto(drive, gyro, -0.25, 1),
+      new QuickAuto(drive, gyro, 0.2, 6)
     );
   }
 }
