@@ -75,8 +75,8 @@ public final class Constants {
 
     public static enum AbsoluteEncoderOffset{
       FrontLeft(-87.6269),    //Module 0
-      frontRight( -89.3363),  //Module 1
-      BackLeft(-355.6449),    //Module 2
+      frontRight(-89.7363),  //Module 1
+      BackLeft(-356.0449),    //Module 2
       BackRigth(-177.6269);   //Module 3
      
       public final double offset;
