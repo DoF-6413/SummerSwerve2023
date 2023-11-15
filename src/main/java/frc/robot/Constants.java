@@ -74,10 +74,10 @@ public final class Constants {
     }
 
     public static enum AbsoluteEncoderOffset{
-      FrontLeft(-87.6269),    //Module 0
+      FrontLeft(-87.6269 - Math.toDegrees(0.03)),    //Module 0
       frontRight(-89.7363),  //Module 1
-      BackLeft(-356.0449),    //Module 2
-      BackRigth(-177.6269);   //Module 3
+      BackLeft(-356.0449 - Math.toDegrees(-3.08)),  //Module 2
+      BackRigth(2.3731 - Math.toDegrees(0.02));   //Module 3
      
       public final double offset;
       AbsoluteEncoderOffset(double value){
@@ -245,6 +245,10 @@ public static class ElevatorConstants{
     //Tolerance
   public static final double positionTolerance = 0;
   public static final double velocityTolerance = 0;
+}
+
+public static class GyroConstants {
+  public static final double gyroYawOffsetDeg = 270 - Math.toDegrees(4.67); //
 }
 
   public static class WristboschConstants{

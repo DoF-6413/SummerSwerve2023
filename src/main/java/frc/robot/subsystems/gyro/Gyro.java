@@ -20,8 +20,8 @@ public class Gyro extends SubsystemBase {
 
     public void periodic() {
         gyroIO.updateInputs(gyroInputs);
-        SmartDashboard.putNumber("gyroyaw" ,gyroInputs.yawPositionRad);
-        SmartDashboard.putNumber("gyropitch", gyroInputs.pitchPositionRad);
+        SmartDashboard.putNumber("gyroyawDeg", Math.toDegrees(gyroInputs.yawPositionRad));
+        SmartDashboard.putNumber("gyropitchDeg", Math.toDegrees(gyroInputs.pitchPositionRad));
         Logger.getInstance().processInputs("Gyro", gyroInputs);
     }
 

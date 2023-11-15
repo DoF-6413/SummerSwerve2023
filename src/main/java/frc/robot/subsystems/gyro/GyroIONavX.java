@@ -8,6 +8,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SPI;
+import frc.robot.Constants.GyroConstants;
 
 /** Add your docs here. */
 public class GyroIONavX implements GyroIO {
@@ -28,7 +29,7 @@ public class GyroIONavX implements GyroIO {
     inputs.connected = gyro.isConnected();
     inputs.rollPositionRad = Units.degreesToRadians(gyro.getRoll());
     inputs.pitchPositionRad = Units.degreesToRadians(gyro.getPitch()) ;
-    inputs.yawPositionRad = Units.degreesToRadians(270 - gyro.getYaw());
+    inputs.yawPositionRad = Units.degreesToRadians(-GyroConstants.gyroYawOffsetDeg + gyro.getYaw());
     inputs.anglePositionRad = Units.degreesToRadians(gyro.getAngle());
     inputs.rate = gyro.getRate();
     inputs.pitchVelocityRadPerSec = gyro.getDisplacementY();

@@ -167,7 +167,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     drive.setDefaultCommand(
       new DefaultDriveCommand(
-        drive, gyro,()-> -driveController.getLeftY(), () -> 0, () -> driveController.getRightX()));
+        drive, gyro,()-> driveController.getLeftY(), () -> 0, () -> driveController.getRightX()));
         driveController.a().onTrue(new InstantCommand(()-> gyro.updateHeading(), gyro));
 
         //add button for drive forward (w/o joystick) 

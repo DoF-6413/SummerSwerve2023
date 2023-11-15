@@ -55,7 +55,6 @@ public class ModuleIOSparkMax implements moduleIO {
         turnSparkMax = new CANSparkMax(TurnMotor.frontRight.CAN_ID, MotorType.kBrushless);
         turnAbsoluteEncoder = new CANCoder(AbsoluteEncoder.frontRight.EncoderID);
         absoluteEncoderOffset = AbsoluteEncoderOffset.frontRight.offset;
-
         break;
       case 2:
         driveSparkMax = new CANSparkMax(DriveMotor.backLeft.CAN_ID, MotorType.kBrushless);
@@ -125,7 +124,7 @@ public class ModuleIOSparkMax implements moduleIO {
     inputs.turnAbsolutePositionRad = MathUtil.angleModulus(
         new Rotation2d(
             Math.toRadians(turnAbsoluteEncoder.getAbsolutePosition()
-            - absoluteEncoderOffset))
+            + absoluteEncoderOffset))
             .getRadians());
 
             SmartDashboard.putNumber("absolute encoder" + nancy, Math.toRadians(turnAbsoluteEncoder.getAbsolutePosition()));
